@@ -5,7 +5,8 @@ export interface ISyncableObject {
     metadata: ISyncMetaData;
     deleted: boolean;
     getVersion():number;
-    alignRemoteVersion();
+    setVersion(version: number):number;
+
 
 }
   

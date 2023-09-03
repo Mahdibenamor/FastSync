@@ -1,4 +1,6 @@
+import { Constructable } from "typedi";
+
 export interface ISyncService{
-    getLastSyncVersion(type: string): Promise<number>;
-    incrementSyncVersion(type: string): Promise<number>;
+    getLastSyncVersion<T>(entityType: Constructable<T>): Promise<number>;
+    incrementSyncVersion<T>(entityType: Constructable<T>): Promise<number>;
 }

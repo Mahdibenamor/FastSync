@@ -5,7 +5,6 @@ export class SyncMetaData implements ISyncMetaData{
     public _id: string;
     public type: string;
     public version: number;
-    public remoteVersion: number;
     public changeTime: Date;
     constructor() {}
   }
@@ -20,9 +19,6 @@ export  const SyncMetaDataSchema = new Schema({
         type: String,
     },
     version: {
-        type: Number,
-    },
-    remoteVersion: {
         type: Number,
     },
     changeTime: {

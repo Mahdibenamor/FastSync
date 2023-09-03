@@ -12,9 +12,10 @@ export class SyncableItem implements ISyncableObject {
     return this.metadata.version
   }
 
-  alignRemoteVersion(){
-    this.metadata.remoteVersion = this.metadata.version;
+  setVersion(version: number): number{
+    return this.metadata.version = version;
   }
+  
 }
 
 const SyncableSchema = new Schema({

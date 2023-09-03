@@ -1,4 +1,4 @@
-import Container, { Service } from "typedi";
+import Container, { Constructable, Service } from "typedi";
 import { ISyncService } from "../../absractions/services/ISync_service";
 import { SyncMetaDataRepository } from "../metadata/sync_metadata/sync_metadata_repository";
 import { SyncMetaData } from "../metadata/sync_metadata/sync_metadata";
@@ -7,8 +7,8 @@ import { SyncMetaData } from "../metadata/sync_metadata/sync_metadata";
 export class SyncService implements ISyncService {
     private syncMetaDataRepository: SyncMetaDataRepository = Container.get(SyncMetaDataRepository);
 
-    async getLastSyncVersion(type: string): Promise<number> {
-        let syncMetaDataList = await this.syncMetaDataRepository.query({type :type});
+    async getLastSyncVersion<T>(entityType: Constructable<T>): Promise<number> {
+        let syncMetaDataList = await this.syncMetaDataRepository.query({type :entityType.name});
         if(syncMetaDataList && syncMetaDataList.length != 0){
             return syncMetaDataList[0].version;
         }
@@ -16,13 +16,13 @@ export class SyncService implements ISyncService {
             let syncMetaData = new SyncMetaData();
             syncMetaData.changeTime = new Date(); 
             syncMetaData.version = 0; 
-            syncMetaData.type = type;
+            syncMetaData.type = entityType.name;
             await this.syncMetaDataRepository.add(syncMetaData);
             return 0;
         }
     }
-    async incrementSyncVersion(type: string): Promise<number> {
-        let syncMetaDataList = await this.syncMetaDataRepository.query({type :type});
+    async incrementSyncVersion<T>(entityType: Constructable<T>): Promise<number> {
+        let syncMetaDataList = await this.syncMetaDataRepository.query({type :entityType.name});
         let syncMetaData : SyncMetaData;
         if(syncMetaDataList && syncMetaDataList.length != 0){
             syncMetaData = syncMetaDataList[0];
@@ -30,7 +30,7 @@ export class SyncService implements ISyncService {
         else{
             syncMetaData.changeTime = new Date(); 
             syncMetaData.version = 0; 
-            syncMetaData.type = type;
+            syncMetaData.type = entityType.name;
             await this.syncMetaDataRepository.add(syncMetaData);
         }
         syncMetaData.version ++;

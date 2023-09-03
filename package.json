@@ -1,5 +1,5 @@
 {
-  "name": "oip-express",
+  "name": "FastSync-Server",
   "version": "1.0.0",
   "description": "Express server for communication with services that require credentials/secrets.",
   "main": "index.js",

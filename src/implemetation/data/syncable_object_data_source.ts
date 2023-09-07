@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
-import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
+import { IWithId } from "../../absractions/metadata/Iwith_id";
 
-export class SyncalbeDataSource<T extends ISyncableObject> implements ISyncalbeDataSource<T> {
+export abstract class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDataSource<T> {
   model: mongoose.Model<T & mongoose.Document>;
 
   constructor(schema: mongoose.Schema, collection: string) {

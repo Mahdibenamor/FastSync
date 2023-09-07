@@ -1,5 +1,5 @@
 import { useExpressServer } from "routing-controllers";
-import { SyncController } from "./implemetation/controllers/sync.controller";
+import { SyncController } from "./exemple/sync.controller";
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");

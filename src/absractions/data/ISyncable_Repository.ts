@@ -1,12 +1,7 @@
-export interface ISyncableRepository<T> {
-  add(entity: T): Promise<T>;
-  update(id: string, entity: T): Promise<T | null>;
-  findById(id: string): Promise<T | null>;
-  getAll(): Promise<T[]>;
-  query(filter: (entity: T) => boolean): Promise<T[]>;
-  count(): Promise<number>;
+import { IBaseRepository } from "./base_repository";
+
+export interface ISyncableRepository<T> extends IBaseRepository<T> {
   updateMany(entities: T[]): Promise<T[]>;
   addMany(entities: T[]): Promise<T[]>;
   removeMany(entities: T[]): Promise<T[]>;
-  dispose(): void;
 }

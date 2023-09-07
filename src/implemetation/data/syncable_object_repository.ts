@@ -6,7 +6,6 @@ import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
 
 export abstract class SyncalbeRepository<T extends ISyncableObject> implements ISyncableRepository<T>
 {
-
   private syncService: SyncService = Container.get(SyncService);
   constructor(public dataSource: ISyncalbeDataSource<T>, private type: Constructable<T>) {}
 

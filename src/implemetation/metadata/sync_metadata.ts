@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { ISyncMetaData } from "../../../absractions/metadata/ISync_metadata";
+import { ISyncMetaData } from "../../absractions/metadata/ISync_metadata";
 
 export class SyncMetaData implements ISyncMetaData{
     public _id: string;

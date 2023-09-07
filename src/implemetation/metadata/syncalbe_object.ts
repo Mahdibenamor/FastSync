@@ -1,6 +1,6 @@
 import { Schema, SchemaDefinition, SchemaDefinitionType } from "mongoose";
-import { ISyncableObject } from "../../../absractions/metadata/ISyncable_object";
-import { ISyncMetaData } from "../../../absractions/metadata/ISync_metadata";
+import { ISyncMetaData } from "../../absractions/metadata/ISync_metadata";
+import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
 
 export class SyncableObject implements ISyncableObject {
   public _id: string;
@@ -36,9 +36,4 @@ export function buildSycnableItemSchema(obj: SchemaDefinition<SchemaDefinitionTy
   let schema =  SyncableSchema.clone();
   schema.add(obj)
   return schema;
-}
-
-
-export class SyncMetaData {
-  
 }

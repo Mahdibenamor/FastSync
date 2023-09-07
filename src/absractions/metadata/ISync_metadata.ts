@@ -1,4 +1,6 @@
-export interface ISyncMetaData {
+import { IWithId } from "./Iwith_id";
+
+export interface ISyncMetaData extends IWithId {
     _id: string;
     type: string;
     version: number

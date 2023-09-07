@@ -1,4 +1,4 @@
-import { SyncableObject, buildSycnableItemSchema } from "./metadata/sync_metadata/syncalbe_object";
+import { SyncableObject, buildSycnableItemSchema } from "../implemetation/metadata/syncalbe_object";
 
 export class Item extends SyncableObject {
     public content: string;

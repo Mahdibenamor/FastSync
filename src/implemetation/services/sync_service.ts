@@ -1,7 +1,7 @@
 import Container, { Constructable, Service } from "typedi";
 import { ISyncService } from "../../absractions/services/ISync_service";
 import { SyncMetaDataRepository } from "../metadata/sync_metadata/sync_metadata_repository";
-import { SyncMetaData } from "../metadata/sync_metadata/sync_metadata";
+import { SyncMetaData } from "../metadata/sync_metadata";
 
 @Service()
 export class SyncService implements ISyncService {

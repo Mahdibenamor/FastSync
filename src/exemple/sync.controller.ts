@@ -9,9 +9,9 @@ import {
   Req,
   Res,
 } from "routing-controllers";
-import { BaseController } from "../../core/base_controller";
-import { SyncPayload } from "../../absractions/models/Sync_payload";
-import { SyncableObject } from "../metadata/sync_metadata/syncalbe_object";
+import { BaseController } from "../core/base_controller";
+import { SyncPayload } from "../absractions/models/Sync_payload";
+import { SyncableObject } from "../implemetation/metadata/syncalbe_object";
 
 @JsonController()
 export class SyncController extends BaseController {

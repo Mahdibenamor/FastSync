@@ -9,7 +9,7 @@ export class SyncPayload<T extends ISyncableObject> {
         if (!(type in this.data)) {
             this.data[type] = [];
           }
-          this.data[type].push(...entities);
+        this.data[type].push(...entities);
     }
 
     

@@ -1,5 +1,5 @@
 import { useExpressServer } from "routing-controllers";
-import { NotificationController } from "./Innovation-work-flow/core/item/notification_controller";
+import { SyncController } from "./implemetation/controllers/sync.controller";
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -17,8 +17,7 @@ useExpressServer(app, {
   routePrefix: "/express",
   cors: true,
   controllers: [
-    NotificationController,
-   
+    SyncController,
   ],
   middlewares: [cors()],
 });

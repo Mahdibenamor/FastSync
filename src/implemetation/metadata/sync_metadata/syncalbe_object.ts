@@ -2,7 +2,7 @@ import { Schema, SchemaDefinition, SchemaDefinitionType } from "mongoose";
 import { ISyncableObject } from "../../../absractions/metadata/ISyncable_object";
 import { ISyncMetaData } from "../../../absractions/metadata/ISync_metadata";
 
-export class SyncableItem implements ISyncableObject {
+export class SyncableObject implements ISyncableObject {
   public _id: string;
   public metadata: ISyncMetaData;
   public deleted: boolean;

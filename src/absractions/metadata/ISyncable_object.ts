@@ -6,7 +6,5 @@ export interface ISyncableObject {
     deleted: boolean;
     getVersion():number;
     setVersion(version: number):number;
-
-
 }
   

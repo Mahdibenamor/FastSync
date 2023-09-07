@@ -1,6 +1,6 @@
-import { SyncableItem, buildSycnableItemSchema } from "./metadata/sync_metadata/syncalbe_item";
+import { SyncableObject, buildSycnableItemSchema } from "./metadata/sync_metadata/syncalbe_object";
 
-export class Item extends SyncableItem {
+export class Item extends SyncableObject {
     public content: string;
     constructor() {
       super(); 

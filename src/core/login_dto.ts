@@ -1,5 +1,5 @@
 import { IsEmail } from "class-validator";
-import { createInstance } from "./instance_creator";
+import { createInstance } from "./utils";
 
 export interface Login {
   email: string;

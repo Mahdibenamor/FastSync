@@ -12,11 +12,11 @@ import {
 import { BaseController } from "../core/base_controller";
 import { SyncPayload } from "../absractions/models/Sync_payload";
 import { SyncableObject } from "../implemetation/metadata/syncalbe_object";
+import { SyncManager } from "../implemetation/services/sync_manager";
 
 @JsonController()
 export class SyncController extends BaseController {
-//   private itemService: ItemService =
-//     Container.get(ItemService);
+  private syncManager = Container.get(SyncManager);
 
   constructor() {
     super();
@@ -27,10 +27,13 @@ export class SyncController extends BaseController {
     @Req() req,
     @Res() res,
     @Body() input: SyncPayload<SyncableObject>
-  ): Promise<void> {
-
-
-   
-  }
-
+  ) {
+    try{
+      this.syncManager.processPush(input)
+      return this.success(res, {"result":"push was done with success"});
+    }
+    catch(err){
+      return this.error(res,err);
+    }
+    }
 }

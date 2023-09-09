@@ -1,11 +1,10 @@
-import Container, { Constructable } from "typedi";
 import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
 import { IWithId } from "../../absractions/metadata/Iwith_id";
 import { IBaseRepository } from "../../absractions/data/base_repository";
 
-export abstract class SyncalbeMetaDataRepository<T extends IWithId> implements IBaseRepository<T>
+export class SyncalbeMetaDataRepository<T extends IWithId> implements IBaseRepository<T>
 {
-  constructor(public dataSource: ISyncalbeDataSource<T>, private type: Constructable<T>) {}
+  constructor(public dataSource: ISyncalbeDataSource<T>) {}
 
   async add(entity: T): Promise<T> {
     return await this.dataSource.add(entity);

@@ -1,40 +1,37 @@
-import Container, { Service } from "typedi";
+import { Constructable, Service } from "typedi";
 import { ISyncService } from "../../absractions/services/ISync_service";
-import { SyncMetaDataRepository } from "../metadata/sync_metadata/sync_metadata_repository";
-import { SyncMetaData } from "../metadata/sync_metadata/sync_metadata";
+import { SyncMetaData } from "../metadata/sync_metadata";
+import { SyncalbeMetaDataRepository } from "../data/sync_metadata_repository";
+import { SyncMetaDataDataSource } from "../data/sync_metadata_datasource";
+import { isNullOrUndefined } from "../../core/utils";
 
 @Service()
 export class SyncService implements ISyncService {
-    private syncMetaDataRepository: SyncMetaDataRepository = Container.get(SyncMetaDataRepository);
 
-    async getLastSyncVersion(type: string): Promise<number> {
-        let syncMetaDataList = await this.syncMetaDataRepository.query({type :type});
+    private syncMetaDataRepository = new SyncalbeMetaDataRepository(new SyncMetaDataDataSource())
+
+    public async getLastGlobalSyncVersion<T>(entityType: Constructable<T>): Promise<number> {
+        let syncMetaDataList = await this.syncMetaDataRepository.query({type :entityType.name});
         if(syncMetaDataList && syncMetaDataList.length != 0){
             return syncMetaDataList[0].version;
         }
-        else{
-            let syncMetaData = new SyncMetaData();
-            syncMetaData.changeTime = new Date(); 
-            syncMetaData.version = 0; 
-            syncMetaData.type = type;
-            await this.syncMetaDataRepository.add(syncMetaData);
-            return 0;
-        }
+        return 0;
     }
-    async incrementSyncVersion(type: string): Promise<number> {
-        let syncMetaDataList = await this.syncMetaDataRepository.query({type :type});
+
+    public async incrementGlobalSyncVersion<T>(entityType: Constructable<T>): Promise<number> {
+        let syncMetaDataList = await this.syncMetaDataRepository.query({type :entityType.name});
         let syncMetaData : SyncMetaData;
-        if(syncMetaDataList && syncMetaDataList.length != 0){
-            syncMetaData = syncMetaDataList[0];
-        }
-        else{
-            syncMetaData.changeTime = new Date(); 
-            syncMetaData.version = 0; 
-            syncMetaData.type = type;
-            await this.syncMetaDataRepository.add(syncMetaData);
-        }
+        syncMetaData = syncMetaDataList[0];
         syncMetaData.version ++;
         syncMetaData = await this.syncMetaDataRepository.update({_id: syncMetaData._id},syncMetaData);
         return syncMetaData.version;
+    }
+
+    public async initObjectMetaData<T>(entityType: Constructable<T>){
+        let syncMetaDataList = await this.syncMetaDataRepository.query({type :entityType.name});
+        if(isNullOrUndefined(syncMetaDataList) || syncMetaDataList.length == 0){
+            let syncMetaData = new SyncMetaData(entityType.name, 0,new Date());
+            await this.syncMetaDataRepository.add(syncMetaData);        
+        }
     }
 } 

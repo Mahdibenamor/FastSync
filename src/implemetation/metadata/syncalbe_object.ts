@@ -1,8 +1,8 @@
 import { Schema, SchemaDefinition, SchemaDefinitionType } from "mongoose";
-import { ISyncableObject } from "../../../absractions/metadata/ISyncable_object";
-import { ISyncMetaData } from "../../../absractions/metadata/ISync_metadata";
+import { ISyncMetaData } from "../../absractions/metadata/ISync_metadata";
+import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
 
-export class SyncableItem implements ISyncableObject {
+export class SyncableObject implements ISyncableObject {
   public _id: string;
   public metadata: ISyncMetaData;
   public deleted: boolean;
@@ -12,9 +12,10 @@ export class SyncableItem implements ISyncableObject {
     return this.metadata.version
   }
 
-  alignRemoteVersion(){
-    this.metadata.remoteVersion = this.metadata.version;
+  setVersion(version: number): number{
+    return this.metadata.version = version;
   }
+  
 }
 
 const SyncableSchema = new Schema({
@@ -35,9 +36,4 @@ export function buildSycnableItemSchema(obj: SchemaDefinition<SchemaDefinitionTy
   let schema =  SyncableSchema.clone();
   schema.add(obj)
   return schema;
-}
-
-
-export class SyncMetaData {
-  
 }

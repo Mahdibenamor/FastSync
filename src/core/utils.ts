@@ -1,5 +1,12 @@
+export function createInstance<T>(
+  type: { new (...args: any[]): T },
+  ...args: any[]
+): T {
+  const instance = new type(...args);
+  return Object.assign(instance, args[0]);
+}
 
-export function mergeIdLists(list1: string[], list2: string[]): string[] {
-  const mergedList = [...new Set([...list1, ...list2])];
-  return mergedList;
+
+export function isNullOrUndefined(value: any): boolean {
+  return value === null || value === undefined;
 }

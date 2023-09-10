@@ -1,5 +1,8 @@
 import { useExpressServer } from "routing-controllers";
-import { NotificationController } from "./Innovation-work-flow/core/item/notification_controller";
+import { SyncController } from "./exemple/sync.controller";
+import Container from "typedi";
+import {SyncConfiguration} from "./implemetation/services/sync_config";
+import { Item } from "./exemple/item";
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -13,18 +16,19 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+
+
 useExpressServer(app, {
   routePrefix: "/express",
   cors: true,
   controllers: [
-    NotificationController,
-   
+    SyncController,
   ],
   middlewares: [cors()],
 });
 
 mongoose
-  .connect("mongodb://localhost:27017/deema", {
+  .connect("mongodb://localhost:27017/sync", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -33,6 +37,19 @@ app.use(express.json());
 app.use(cors());
 
 
-app.listen(3000, () =>
-  console.log(`listening on port ${3000}`)
-);
+app.listen(3000, async() => {  
+  console.log(`listening on port ${3000}`);
+
+  try {
+    await configureFastSync();
+    console.log("Configuration completed successfully");
+  } catch (error) {
+    console.error("Error configuring Fast Sync:", error);
+  }
+
+});
+
+async function configureFastSync(){
+  let syncConfiguration  =  Container.get(SyncConfiguration);
+  await syncConfiguration.SetSyncalbeObject(Item);
+}

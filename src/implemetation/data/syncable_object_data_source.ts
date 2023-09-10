@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
+import { IWithId } from "../../absractions/metadata/Iwith_id";
 
-export class SyncalbeDataSource<T> implements ISyncalbeDataSource<T> {
+export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDataSource<T> {
   model: mongoose.Model<T & mongoose.Document>;
 
   constructor(schema: mongoose.Schema, collection: string) {
@@ -51,15 +52,15 @@ export class SyncalbeDataSource<T> implements ISyncalbeDataSource<T> {
   }
 
   
-  async updateMany(entities: { id: string; entity: Partial<T> }[]): Promise<T[]> {
-    const bulkUpdateOperations = entities.map(({ id, entity }) => ({
+  async updateMany(entities: T[]): Promise<T[]> {
+    const bulkUpdateOperations = entities.map((entity ) => ({
       updateOne: {
-        filter: { _id: id },
+        filter: { _id: entity._id },
         update: { $set: entity },
       },
     }));
     await this.model.updateMany(entities)
-    return this.model.find({ _id: { $in: entities.map(({ id }) => id) } });
+    return entities;
   }
 
   async removeMany(ids: string[]): Promise<void> {

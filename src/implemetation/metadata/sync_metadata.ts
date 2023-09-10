@@ -3,11 +3,12 @@ import { ISyncMetaData } from "../../absractions/metadata/ISync_metadata";
 
 export class SyncMetaData implements ISyncMetaData{
     public _id: string;
-    public type: string;
-    public version: number;
-    public changeTime: Date;
-    constructor() {}
-  }
+    
+    constructor(
+        public type: string,
+        public version: number,
+        public changeTime: Date) {}
+    }
   
 export  const SyncMetaDataSchema = new Schema({
     _id: {

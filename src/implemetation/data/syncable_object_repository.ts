@@ -3,8 +3,11 @@ import { ISyncableRepository } from "../../absractions/data/ISyncable_Repository
 import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
 import { SyncService } from "../services/sync_service";
 import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
+import { isNullOrUndefined } from "../../core/utils";
+import { SyncMetaData } from "../metadata/sync_metadata";
 
-export abstract class SyncalbeRepository<T extends ISyncableObject> implements ISyncableRepository<T>
+
+export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableRepository<T>
 {
   private syncService: SyncService = Container.get(SyncService);
   constructor(public dataSource: ISyncalbeDataSource<T>, private type: Constructable<T>) {}
@@ -36,19 +39,19 @@ export abstract class SyncalbeRepository<T extends ISyncableObject> implements I
   }
 
   async addMany(entities: T[]): Promise<T[]> {
-    let lastKnowVersion =  await this.syncService.getLastSyncVersion(this.type)
+    let lastKnowVersion =  await this.syncService.getLastGlobalSyncVersion(this.type)
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = await this.dataSource.addMany(entities);
-    await this.syncService.incrementSyncVersion(this.type);
+    await this.syncService.incrementGlobalSyncVersion(this.type);
     return entities;
   }
 
   
   async updateMany(entities: T[]): Promise<T[]> {
-    let lastKnowVersion =  await this.syncService.getLastSyncVersion(this.type)
+    let lastKnowVersion =  await this.syncService.getLastGlobalSyncVersion(this.type)
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = await this.dataSource.updateMany(entities);
-    await this.syncService.incrementSyncVersion(this.type);
+    await this.syncService.incrementGlobalSyncVersion(this.type);
     return entities;
   }
 
@@ -74,7 +77,12 @@ export abstract class SyncalbeRepository<T extends ISyncableObject> implements I
   private incrementObjectsVersion(entities: T[], version:number){
     let incermentedEntities: T[]= [];
     for (let entity of entities) {
-      entity.metadata.version = version;
+      if(isNullOrUndefined(entity.metadata)){
+        entity.metadata = new SyncMetaData(this.type.name, version,new Date());
+      }
+      else{
+        entity.metadata.version = version;
+      }
       incermentedEntities.push(entity);
     }
     return incermentedEntities;

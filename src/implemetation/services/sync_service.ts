@@ -10,7 +10,7 @@ export class SyncService implements ISyncService {
 
     private syncMetaDataRepository = new SyncalbeMetaDataRepository(new SyncMetaDataDataSource())
 
-    public async getLastSyncVersion<T>(entityType: Constructable<T>): Promise<number> {
+    public async getLastGlobalSyncVersion<T>(entityType: Constructable<T>): Promise<number> {
         let syncMetaDataList = await this.syncMetaDataRepository.query({type :entityType.name});
         if(syncMetaDataList && syncMetaDataList.length != 0){
             return syncMetaDataList[0].version;
@@ -18,7 +18,7 @@ export class SyncService implements ISyncService {
         return 0;
     }
 
-    public async incrementSyncVersion<T>(entityType: Constructable<T>): Promise<number> {
+    public async incrementGlobalSyncVersion<T>(entityType: Constructable<T>): Promise<number> {
         let syncMetaDataList = await this.syncMetaDataRepository.query({type :entityType.name});
         let syncMetaData : SyncMetaData;
         syncMetaData = syncMetaDataList[0];
@@ -30,10 +30,7 @@ export class SyncService implements ISyncService {
     public async initObjectMetaData<T>(entityType: Constructable<T>){
         let syncMetaDataList = await this.syncMetaDataRepository.query({type :entityType.name});
         if(isNullOrUndefined(syncMetaDataList) || syncMetaDataList.length == 0){
-            let syncMetaData = new SyncMetaData();
-            syncMetaData.changeTime = new Date(); 
-            syncMetaData.version = 0; 
-            syncMetaData.type = entityType.name;
+            let syncMetaData = new SyncMetaData(entityType.name, 0,new Date());
             await this.syncMetaDataRepository.add(syncMetaData);        
         }
     }

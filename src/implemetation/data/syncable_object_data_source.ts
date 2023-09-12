@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
 import { IWithId } from "../../absractions/metadata/Iwith_id";
+import { ISyncMetaData } from "../../absractions/metadata/ISync_metadata";
 
 export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDataSource<T> {
   model: mongoose.Model<T & mongoose.Document>;
@@ -8,7 +9,7 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
   constructor(schema: mongoose.Schema, collection: string) {
     this.model = mongoose.model<T & mongoose.Document>(collection, schema);
   }
-
+  
   async add(entity: T): Promise<T> {
     return (await this.model.create(entity))?.toObject();
   }
@@ -31,10 +32,10 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
     let array: mongoose.Document<T>[] = await this.model.find().exec();
     return array.map((item) => item.toObject());
   }
-
-  async query(filter: any): Promise<T[]> {
-    let array: mongoose.Document<T>[] = await this.model.find(filter).exec();
-    return array.map((item) => item.toObject());
+  
+  async query(ISyncMetaData: ISyncMetaData): Promise<T[]> {
+     let array: mongoose.Document<T>[] = await this.model.find({'metadata.version': { $gt: ISyncMetaData.version } }).exec();
+     return array.map((item) => item.toObject());
   }
 
   async getById(id: string): Promise<T> {
@@ -61,10 +62,6 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
     }));
     await this.model.updateMany(entities)
     return entities;
-  }
-
-  async removeMany(ids: string[]): Promise<void> {
-    await this.model.deleteMany({ _id: { $in: ids } });
   }
   
   dispose(): void {

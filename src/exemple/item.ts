@@ -7,7 +7,7 @@ export class Item extends SyncableObject {
     }
 }
 
-export const  schema = buildSycnableItemSchema({
+export const  ItemSchema = buildSycnableItemSchema({
     content: {
       type: String,
     },

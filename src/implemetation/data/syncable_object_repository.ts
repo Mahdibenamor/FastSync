@@ -1,15 +1,16 @@
 import Container, { Constructable } from "typedi";
 import { ISyncableRepository } from "../../absractions/data/ISyncable_Repository";
 import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
-import { SyncService } from "../services/sync_service";
+import { SyncVersionManager } from "../services/sync_service";
 import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
 import { isNullOrUndefined } from "../../core/utils";
 import { SyncMetaData } from "../metadata/sync_metadata";
+import { ISyncMetaData } from "../../absractions/metadata/ISync_metadata";
 
 
 export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableRepository<T>
 {
-  private syncService: SyncService = Container.get(SyncService);
+  private syncService: SyncVersionManager = Container.get(SyncVersionManager);
   constructor(public dataSource: ISyncalbeDataSource<T>, private type: Constructable<T>) {}
 
   async add(entity: T): Promise<T> {
@@ -19,7 +20,6 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   async update(query: any, entity: T): Promise<T | null> {
     return await this.dataSource.update(query,entity);
   }
-
 
   async findById(id: string): Promise<T> {
     return await this.dataSource.findById(id)
@@ -36,6 +36,11 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
 
   async count(): Promise<number> {
     return await this.dataSource.count();
+  }
+
+  async fetchMany(metadata: ISyncMetaData): Promise<T[]> {
+    let entities = await this.dataSource.query(metadata)
+    return entities;
   }
 
   async addMany(entities: T[]): Promise<T[]> {

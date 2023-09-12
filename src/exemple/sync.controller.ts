@@ -29,7 +29,7 @@ export class SyncController extends BaseController {
     @Body() input: SyncPayload<SyncableObject>
   ) {
     try{
-      this.syncManager.processPush(input)
+     await this.syncManager.processPush(input)
       return this.success(res, {"result":"push was done with success"});
     }
     catch(err){

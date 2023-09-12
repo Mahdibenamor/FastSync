@@ -6,6 +6,7 @@ export class SyncableObject implements ISyncableObject {
   public _id: string;
   public metadata: ISyncMetaData;
   public deleted: boolean;
+  syncOperation: SyncOperationEnum;
   constructor() {}
   
   getVersion(){
@@ -14,8 +15,7 @@ export class SyncableObject implements ISyncableObject {
 
   setVersion(version: number): number{
     return this.metadata.version = version;
-  }
-  
+  } 
 }
 
 const SyncableSchema = new Schema({

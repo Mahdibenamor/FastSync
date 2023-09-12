@@ -1,12 +1,12 @@
 import { Constructable, Service } from "typedi";
-import { ISyncService } from "../../absractions/services/ISync_service";
+import { ISyncVersionManager } from "../../absractions/services/ISync_version_manager";
 import { SyncMetaData } from "../metadata/sync_metadata";
 import { SyncalbeMetaDataRepository } from "../data/sync_metadata_repository";
 import { SyncMetaDataDataSource } from "../data/sync_metadata_datasource";
 import { isNullOrUndefined } from "../../core/utils";
 
 @Service()
-export class SyncService implements ISyncService {
+export class SyncVersionManager implements ISyncVersionManager {
 
     private syncMetaDataRepository = new SyncalbeMetaDataRepository(new SyncMetaDataDataSource())
 

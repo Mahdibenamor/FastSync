@@ -1,4 +1,5 @@
 import { ISyncMetaData } from "./ISync_metadata";
+import { SyncOperationEnum } from "./ISync_operation";
 import { IWithId } from "./Iwith_id";
 
 export interface ISyncableObject extends IWithId  {

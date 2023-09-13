@@ -1,6 +1,7 @@
 import { Schema, SchemaDefinition, SchemaDefinitionType } from "mongoose";
 import { ISyncMetaData } from "../../absractions/metadata/ISync_metadata";
 import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
+import { SyncOperationEnum } from "../../absractions/metadata/ISync_operation";
 
 export class SyncableObject implements ISyncableObject {
   public _id: string;

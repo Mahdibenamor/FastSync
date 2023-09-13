@@ -5,13 +5,14 @@ import { ISyncManager } from "../../absractions/services/ISync_manager";
 import { SyncVersionManager } from "./sync_service";
 import { Item } from "../../exemple/item";
 import { SyncConfiguration } from "./sync_config";
+import { SyncOperationEnum } from "../../absractions/metadata/ISync_operation";
 
 
 @Service()
 export class SyncManager<T extends ISyncableObject> implements ISyncManager<T> {
     
     constructor(@Inject() private readonly syncVersionManager: SyncVersionManager, @Inject() private readonly synConfig: SyncConfiguration) {}
-
+ 
     
     async processPush(payload: SyncPayload<T>){
         let version = await this.syncVersionManager.getLastGlobalSyncVersion(Item)
@@ -22,9 +23,12 @@ export class SyncManager<T extends ISyncableObject> implements ISyncManager<T> {
             let updatedObjects = objects.filter(obj => obj.syncOperation == SyncOperationEnum.update)
             let deletedObjects = objects.filter(obj => obj.syncOperation == SyncOperationEnum.delete)
             let objectRepository = this.synConfig.getObjectRepository(type);
-            objectRepository.addMany(newObjects);
-            objectRepository.updateMany(updatedObjects);
-            objectRepository.removeMany(deletedObjects);
+            if(newObjects.length > 0)
+                objectRepository.addMany(newObjects);
+            if(updatedObjects.length > 0)
+                objectRepository.updateMany(updatedObjects);
+            if(deletedObjects.length > 0)
+                objectRepository.removeMany(deletedObjects);
         }
     }
     

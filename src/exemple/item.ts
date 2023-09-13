@@ -8,7 +8,10 @@ export class Item extends SyncableObject {
 }
 
 export const  ItemSchema = buildSycnableItemSchema({
-    content: {
-      type: String,
-    },
-  }); 
+  name: {
+      type: String
+  },
+  description: {
+    type: String,
+  }  
+}); 

@@ -1,8 +1,8 @@
-import { ISyncableObject } from "../metadata/ISyncable_object";
+import { SyncOperationMetada } from "../models/Sync_operation_metadata";
 import { SyncPayload } from "../models/Sync_payload";
 
-export interface ISyncManager<T extends ISyncableObject> {
-    processPush(payload: SyncPayload<T>);
-    processPull(payload: SyncPayload<T>): SyncPayload<T>;
-    processSync(payload: SyncPayload<T>): SyncPayload<T>;
+export interface ISyncManager {
+    processPush(payload: SyncPayload);
+    processPull(metaData: SyncOperationMetada): Promise<SyncPayload>;
+    processSync(metaData: SyncOperationMetada): SyncPayload;
 }

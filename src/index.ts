@@ -1,8 +1,10 @@
+import 'reflect-metadata';
 import { useExpressServer } from "routing-controllers";
 import { SyncController } from "./exemple/sync.controller";
 import Container from "typedi";
 import {SyncConfiguration} from "./implemetation/services/sync_config";
 import { Item } from "./exemple/item";
+import { ItemDataSource } from './exemple/item_datasource';
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -51,5 +53,5 @@ app.listen(3000, async() => {
 
 async function configureFastSync(){
   let syncConfiguration  =  Container.get(SyncConfiguration);
-  await syncConfiguration.SetSyncalbeObject(Item);
+  await syncConfiguration.SetSyncalbeObject(Item, new ItemDataSource());
 }

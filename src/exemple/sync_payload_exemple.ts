@@ -12,6 +12,14 @@ let payload = {
     "data": {
       "Item": [
         {
+          "metaData": {
+            "Item": {
+              "_id": "1",
+              "type": "example",
+              "version": 1,
+              "changeTime": "2023-09-09T12:00:00Z"
+            },
+          },
           "_id": "101",
           "name": "Item 1",
           "description": "Description of Item 1"

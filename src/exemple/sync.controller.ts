@@ -13,6 +13,7 @@ import { BaseController } from "../core/base_controller";
 import { SyncPayload } from "../absractions/models/Sync_payload";
 import { SyncableObject } from "../implemetation/metadata/syncalbe_object";
 import { SyncManager } from "../implemetation/services/sync_manager";
+import { SyncOperationMetada } from "../absractions/models/Sync_operation_metadata";
 
 @JsonController()
 export class SyncController extends BaseController {
@@ -26,14 +27,29 @@ export class SyncController extends BaseController {
   async pushUserObjects(
     @Req() req,
     @Res() res,
-    @Body() input: SyncPayload<SyncableObject>
+    @Body() input: SyncPayload
   ) {
     try{
-      this.syncManager.processPush(input)
+     await this.syncManager.processPush(input)
       return this.success(res, {"result":"push was done with success"});
     }
     catch(err){
       return this.error(res,err);
     }
+  }
+
+  @Post("/pull")
+  async pullUserObjects(
+    @Req() req,
+    @Res() res,
+    @Body() metadata: SyncOperationMetada
+  ) {
+    try{
+      let result = await this.syncManager.processPull(metadata)
+      return this.success(res, result);
     }
+    catch(err){
+      return this.error(res,err);
+    }
+  }
 }

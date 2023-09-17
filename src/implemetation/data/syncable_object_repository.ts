@@ -39,24 +39,24 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   }
 
   async fetchMany(metadata: ISyncMetaData): Promise<T[]> {
-    let entities = await this.dataSource.query(metadata)
+    let entities = await this.dataSource.fetchMany(metadata)
     return entities;
   }
 
   async addMany(entities: T[]): Promise<T[]> {
-    let lastKnowVersion =  await this.syncService.getLastGlobalSyncVersion(this.type)
+    let lastKnowVersion =  await this.syncService.getLastGlobalSyncVersion(this.type.name)
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = await this.dataSource.addMany(entities);
-    await this.syncService.incrementGlobalSyncVersion(this.type);
+    await this.syncService.incrementGlobalSyncVersion(this.type.name);
     return entities;
   }
 
   
   async updateMany(entities: T[]): Promise<T[]> {
-    let lastKnowVersion =  await this.syncService.getLastGlobalSyncVersion(this.type)
+    let lastKnowVersion =  await this.syncService.getLastGlobalSyncVersion(this.type.name)
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = await this.dataSource.updateMany(entities);
-    await this.syncService.incrementGlobalSyncVersion(this.type);
+    await this.syncService.incrementGlobalSyncVersion(this.type.name);
     return entities;
   }
 

@@ -17,7 +17,7 @@ export class SyncConfiguration implements ISyncConfiguration {
     constructor(){}
     
     public async SetSyncalbeObject<T extends ISyncableObject>(entityType: Constructable<T>, dataSource: ISyncalbeDataSource<T>){
-       await this.syncService.initObjectMetaData(entityType);
+       await this.syncService.initObjectMetaData(entityType.name);
        this.setConstructableType(entityType);
        this.setObjectDataSource(entityType, dataSource)
     }

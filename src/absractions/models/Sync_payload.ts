@@ -37,6 +37,6 @@ export class SyncPayload {
 
     private async buildTypeMetaData(type: string): Promise<SyncMetaData> {
         let globalSyncVersion = await this.syncVersionManager.getLastGlobalSyncVersion(type)
-        return new SyncMetaData(type, globalSyncVersion, new Date());
+        return new SyncMetaData(type, globalSyncVersion);
     }
 }

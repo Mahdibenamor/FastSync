@@ -11,7 +11,6 @@ import {
 } from "routing-controllers";
 import { BaseController } from "../core/base_controller";
 import { SyncPayload } from "../absractions/models/Sync_payload";
-import { SyncableObject } from "../implemetation/metadata/syncalbe_object";
 import { SyncManager } from "../implemetation/services/sync_manager";
 import { SyncOperationMetada } from "../absractions/models/Sync_operation_metadata";
 

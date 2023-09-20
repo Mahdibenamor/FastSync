@@ -30,7 +30,8 @@ export class SyncVersionManager implements ISyncVersionManager {
     public async initObjectMetaData(entityType: string){
         let syncMetaDataList = await this.syncMetaDataRepository.query({type :entityType});
         if(isNullOrUndefined(syncMetaDataList) || syncMetaDataList.length == 0){
-            let syncMetaData = new SyncMetaData(entityType, 0,new Date());
+            let syncMetaData = new SyncMetaData(entityType, 0);
+            syncMetaData.timestamp = new Date().getTime();
             await this.syncMetaDataRepository.add(syncMetaData);        
         }
     }

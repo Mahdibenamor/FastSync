@@ -83,7 +83,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
     let incermentedEntities: T[]= [];
     for (let entity of entities) {
       if(isNullOrUndefined(entity.metadata)){
-        entity.metadata = new SyncMetaData(this.type.name, version,new Date());
+        entity.metadata = new SyncMetaData(this.type.name, version);
       }
       else{
         entity.metadata.version = version;

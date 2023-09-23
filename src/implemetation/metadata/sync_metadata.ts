@@ -1,15 +1,18 @@
 import { Schema } from "mongoose";
-import { ISyncMetaData } from "../../absractions/metadata/ISync_metadata";
+import { ISyncMetadata } from "../../absractions/metadata/ISync_metadata";
+import { SyncOperationEnum } from "../../absractions/metadata/ISync_operation";
 
-export class SyncMetaData implements ISyncMetaData{
+export class SyncMetadata implements ISyncMetadata{
     public _id: string;
     public timestamp: number;
+    syncOperation: SyncOperationEnum;
+
     constructor(
         public type: string,
         public version: number) {}
     }
   
-export  const SyncMetaDataSchema = new Schema({
+export  const SyncMetadataSchema = new Schema({
     _id: {
         type: Schema.Types.ObjectId,
         required: true,

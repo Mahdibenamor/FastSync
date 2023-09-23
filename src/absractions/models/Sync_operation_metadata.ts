@@ -1,19 +1,19 @@
 import { isNullOrUndefined } from "../../core/utils";
-import { ISyncMetaData } from "../metadata/ISync_metadata";
+import { ISyncMetadata } from "../metadata/ISync_metadata";
 
-export class SyncOperationMetada{
-    metaData: Record<string, ISyncMetaData> = {};
+export class SyncOperationMetadata{
+  metadata: Record<string, ISyncMetadata> = {};
     constructor(){};
-    public setMetaData(type:string, metaData:ISyncMetaData): void{
-        this.metaData[type] = metaData;
+    public setMetadata(type:string, metadata:ISyncMetadata): void{
+        this.metadata[type] = metadata;
   }
-  public getTypeMetaData(type:string): ISyncMetaData{
-    if(this.metaData.hasOwnProperty(type) && !isNullOrUndefined(this.metaData[type])){
-      return this.metaData[type];
+  public getTypeMetadata(type:string): ISyncMetadata{
+    if(this.metadata.hasOwnProperty(type) && !isNullOrUndefined(this.metadata[type])){
+      return this.metadata[type];
     }
   }
 
   public getSynckedTypes(): string[]{
-   return Object.keys(this.metaData);
+   return Object.keys(this.metadata);
   }
 }

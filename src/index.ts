@@ -5,6 +5,10 @@ import Container from "typedi";
 import {SyncConfiguration} from "./implemetation/services/sync_config";
 import { Item } from "./exemple/item";
 import { ItemDataSource } from './exemple/item_datasource';
+import { ConflictsHandler } from './implemetation/services/Conflicts_handler';
+import { IConflictsHandler } from './absractions/services/IConflicts_handler';
+import { ConflictsResolutionStrategyEnum } from './absractions/services/conflicts_resolution_strategie';
+import { ISyncableObject } from './absractions/metadata/ISyncable_object';
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -36,9 +40,6 @@ mongoose
   })
 
 app.use(express.json());
-app.use(cors());
-
-
 app.listen(3000, async() => {  
   console.log(`listening on port ${3000}`);
 
@@ -53,5 +54,11 @@ app.listen(3000, async() => {
 
 async function configureFastSync(){
   let syncConfiguration  =  Container.get(SyncConfiguration);
-  await syncConfiguration.SetSyncalbeObject(Item, new ItemDataSource());
+  let conflictsHandler: IConflictsHandler = new  ConflictsHandler(ConflictsResolutionStrategyEnum.TimestampOrdering, conflictsResolutionFunction)
+  await syncConfiguration.SetSyncalbeObject(Item, new ItemDataSource(), conflictsHandler);
+}
+
+
+async function conflictsResolutionFunction (oldObject: Item, newObject: Item): Promise<ISyncableObject>{
+  return oldObject;
 }

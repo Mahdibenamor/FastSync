@@ -1,4 +1,4 @@
-import { ISyncMetaData } from "../metadata/ISync_metadata";
+import { ISyncMetadata } from "../metadata/ISync_metadata";
 
 export interface ISyncalbeDataSource<T> {
   add(entity: T): Promise<T>;
@@ -9,6 +9,6 @@ export interface ISyncalbeDataSource<T> {
   count(): Promise<number>;
   updateMany(entities: T[]): Promise<T[]>;
   addMany(entities: T[]): Promise<T[]>;
-  fetchMany(syncMetaData: ISyncMetaData): Promise<T[]>;
+  fetchMany(syncMetadata: ISyncMetadata): Promise<T[]>;
   dispose(): void;
 }

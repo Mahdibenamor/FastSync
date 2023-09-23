@@ -1,6 +1,6 @@
 let payload = {
-    "operationMetaData": {
-      "metaData": {
+    "operationMetadata": {
+      "metadata": {
         "Item": {
           "_id": "1",
           "type": "example",
@@ -12,7 +12,7 @@ let payload = {
     "data": {
       "Item": [
         {
-          "metaData": {
+          "metadata": {
             "Item": {
               "_id": "1",
               "type": "example",

@@ -12,7 +12,7 @@ import {
 import { BaseController } from "../core/base_controller";
 import { SyncPayload } from "../absractions/models/Sync_payload";
 import { SyncManager } from "../implemetation/services/sync_manager";
-import { SyncOperationMetada } from "../absractions/models/Sync_operation_metadata";
+import { SyncOperationMetadata } from "../absractions/models/Sync_operation_metadata";
 
 @JsonController()
 export class SyncController extends BaseController {
@@ -41,7 +41,7 @@ export class SyncController extends BaseController {
   async pullUserObjects(
     @Req() req,
     @Res() res,
-    @Body() metadata: SyncOperationMetada
+    @Body() metadata: SyncOperationMetadata
   ) {
     try{
       let result = await this.syncManager.processPull(metadata)

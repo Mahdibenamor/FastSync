@@ -3,15 +3,17 @@ import { ISyncableRepository } from "../../absractions/data/ISyncable_Repository
 import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
 import { SyncVersionManager } from "../services/sync_service";
 import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
-import { isNullOrUndefined } from "../../core/utils";
-import { SyncMetaData } from "../metadata/sync_metadata";
-import { ISyncMetaData } from "../../absractions/metadata/ISync_metadata";
+import { createDict, isNullOrUndefined } from "../../core/utils";
+import { SyncMetadata } from "../metadata/sync_metadata";
+import { ISyncMetadata } from "../../absractions/metadata/ISync_metadata";
+import { IConflictsHandler } from "../../absractions/services/IConflicts_handler";
+import { ConflictsResolutionStrategyEnum } from "../../absractions/services/conflicts_resolution_strategie";
 
 
 export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableRepository<T>
 {
   private syncService: SyncVersionManager = Container.get(SyncVersionManager);
-  constructor(public dataSource: ISyncalbeDataSource<T>, private type: Constructable<T>) {}
+  constructor(public dataSource: ISyncalbeDataSource<T>, private type: Constructable<T>, private conflictsHandler:IConflictsHandler) {}
 
   async add(entity: T): Promise<T> {
     return await this.dataSource.add(entity);
@@ -38,7 +40,11 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
     return await this.dataSource.count();
   }
 
-  async fetchMany(metadata: ISyncMetaData): Promise<T[]> {
+  private async getObjectsByIds(ids: string[]):Promise<T[]>{
+    return await this.query({ _id: { $in: ids } });
+ }
+
+  async fetchMany(metadata: ISyncMetadata): Promise<T[]> {
     let entities = await this.dataSource.fetchMany(metadata)
     return entities;
   }
@@ -53,21 +59,28 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
 
   
   async updateMany(entities: T[]): Promise<T[]> {
+    let mergedList :T[] = [];
+    mergedList = await this.doResolveConflictsObject(entities);
     let lastKnowVersion =  await this.syncService.getLastGlobalSyncVersion(this.type.name)
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
-    entities = await this.dataSource.updateMany(entities);
+    entities = await this.dataSource.updateMany(mergedList);
     await this.syncService.incrementGlobalSyncVersion(this.type.name);
     return entities;
   }
 
+  async doResolveConflictsObject(newObjects: T[]): Promise<T[]> {
+    let result :T[] = [];
+    let oldObjects =await this.getObjectsByIds(newObjects.map(obj => obj._id));
+    result = await this.resolveConflicts(oldObjects,newObjects)
+    return result;
+  }
+
   async removeMany(entities: T[]): Promise<T[]> {
+    let lastKnowVersion =  await this.syncService.getLastGlobalSyncVersion(this.type.name)
+    entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = this.doMarkObjectsAsDeleted(entities);
     entities = await this.updateMany(entities);
     return entities;
-  }
-  
-  dispose(): void {
-     this.dataSource.dispose();
   }
 
   private doMarkObjectsAsDeleted(entities: T[]):T[]{
@@ -78,12 +91,33 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
     }
     return incermentedEntities;
   }
+
+  private async resolveConflicts(oldList: T[], newList :T[]):Promise<T[]>{
+    if(this.conflictsHandler.getConflictsResolutionStrategy() == ConflictsResolutionStrategyEnum.LastWriterWins){
+      return newList;
+    }
+
+    let newListDict = createDict(newList);
+    let oldListDict = createDict(oldList);
+    let mergingResult: T[] = [];
+
+    for (const id in newListDict) {
+      if (oldListDict.hasOwnProperty(id)) {
+        let result = await this.conflictsHandler.resolveConflicts(oldListDict[id],newListDict[id]);
+        mergingResult.push(result)
+      }
+      else{
+        mergingResult.push(newListDict[id])
+      }
+    }
+    return mergingResult;
+  }
   
   private incrementObjectsVersion(entities: T[], version:number){
     let incermentedEntities: T[]= [];
     for (let entity of entities) {
       if(isNullOrUndefined(entity.metadata)){
-        entity.metadata = new SyncMetaData(this.type.name, version);
+        entity.metadata = new SyncMetadata(this.type.name, version);
       }
       else{
         entity.metadata.version = version;
@@ -91,5 +125,9 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
       incermentedEntities.push(entity);
     }
     return incermentedEntities;
+  }
+ 
+  dispose(): void {
+    this.dataSource.dispose();
   }
 }

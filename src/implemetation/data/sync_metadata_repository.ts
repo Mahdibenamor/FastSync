@@ -2,7 +2,7 @@ import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_sourc
 import { IWithId } from "../../absractions/metadata/Iwith_id";
 import { IBaseRepository } from "../../absractions/data/base_repository";
 
-export class SyncalbeMetaDataRepository<T extends IWithId> implements IBaseRepository<T>
+export class SyncalbeMetadataRepository<T extends IWithId> implements IBaseRepository<T>
 {
   constructor(public dataSource: ISyncalbeDataSource<T>) {}
 

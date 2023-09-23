@@ -7,6 +7,7 @@ import { Constants } from "../../absractions/constants";
 import { SyncalbeRepository } from "../data/syncable_object_repository";
 import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
 import { ISyncableRepository } from "../../absractions/data/ISyncable_Repository";
+import { IConflictsHandler } from "../../absractions/services/IConflicts_handler";
 
 @Service({global: true})
 export class SyncConfiguration implements ISyncConfiguration {
@@ -16,10 +17,11 @@ export class SyncConfiguration implements ISyncConfiguration {
 
     constructor(){}
     
-    public async SetSyncalbeObject<T extends ISyncableObject>(entityType: Constructable<T>, dataSource: ISyncalbeDataSource<T>){
-       await this.syncService.initObjectMetaData(entityType.name);
+    public async SetSyncalbeObject<T extends ISyncableObject>(entityType: Constructable<T>, dataSource: ISyncalbeDataSource<T>, conflictsHandler?: IConflictsHandler){
+       await this.syncService.initObjectMetadata(entityType.name);
        this.setConstructableType(entityType);
-       this.setObjectDataSource(entityType, dataSource)
+       this.setObjectConflictsHandler(entityType,conflictsHandler);
+       this.setObjectDataSource(entityType, dataSource);
     }
 
     public getConstructableType(type: string){
@@ -44,14 +46,22 @@ export class SyncConfiguration implements ISyncConfiguration {
     }
 
     private setObjectRepository<T extends ISyncableObject>(entityType: Constructable<T>, dataSource: ISyncalbeDataSource<T>){
-        let repo = new SyncalbeRepository(dataSource, entityType) 
+        let repo = new SyncalbeRepository(dataSource, entityType, this.getObjectConflictsHandler(entityType.name)) 
         if(!isNullOrUndefined(repo)){
             Container.set(entityType.name +  Constants.repositoryName, repo)
         }
         else {     
             throw Error("repository of the " +entityType+" is not configured well, please check the configuration")
         }
+    }
 
+    private setObjectConflictsHandler<T extends ISyncableObject>(entityType: Constructable<T>,  conflictsHandler: IConflictsHandler){
+        if(!isNullOrUndefined(conflictsHandler)){
+            Container.set(entityType.name +  Constants.conflictsHandlerName, conflictsHandler)
+        }
+        else {     
+            throw Error("conflictsHandler of the " +entityType+" is not configured well, please check the configuration")
+        }
     }
 
     private getObjectDataSource(type: string){
@@ -61,6 +71,16 @@ export class SyncConfiguration implements ISyncConfiguration {
         }
         else {     
             throw Error("datasource of the " +type+" is not configured well, please check the configuration")
+        }
+    }
+
+    private getObjectConflictsHandler(type:string): IConflictsHandler{
+        let conflictsHandler  = Container.get(type +  Constants.conflictsHandlerName);
+        if(!isNullOrUndefined(conflictsHandler)){
+            return conflictsHandler as IConflictsHandler;
+        }
+        else {     
+            throw Error("conflictsHandler of the " +type+" is not configured well, please check the configuration")
         }
     }
 

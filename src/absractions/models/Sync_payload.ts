@@ -1,14 +1,13 @@
 import Container from "typedi";
 import { isNullOrUndefined } from "../../core/utils";
-import { SyncMetaData } from "../../implemetation/metadata/sync_metadata";
+import { SyncMetadata } from "../../implemetation/metadata/sync_metadata";
 import { ISyncableObject } from "../metadata/ISyncable_object";
-import { SyncOperationMetada } from "./Sync_operation_metadata";
+import { SyncOperationMetadata } from "./Sync_operation_metadata";
 import { SyncVersionManager } from "../../implemetation/services/sync_service";
 
 export class SyncPayload {
-    private operationMetaData: SyncOperationMetada = new SyncOperationMetada();
+    private operationMetadata: SyncOperationMetadata = new SyncOperationMetadata();
     private data: Record<string, any[]> = {};
-    private syncVersionManager: SyncVersionManager = Container.get(SyncVersionManager);
 
     constructor() {}
 
@@ -18,8 +17,8 @@ export class SyncPayload {
             this.data[type] = [];
         }
         this.data[type].push(...entities);
-        let globalSyncVersion = await this.buildTypeMetaData(type)
-        this.operationMetaData.setMetaData(type, globalSyncVersion)
+        let globalSyncVersion = await this.buildTypeMetadata(type)
+        this.operationMetadata.setMetadata(type, globalSyncVersion)
     }
 
     public getObjectsForType(type: string){
@@ -35,8 +34,9 @@ export class SyncPayload {
         return Object.keys(this.data);
     }
 
-    private async buildTypeMetaData(type: string): Promise<SyncMetaData> {
-        let globalSyncVersion = await this.syncVersionManager.getLastGlobalSyncVersion(type)
-        return new SyncMetaData(type, globalSyncVersion);
+    private async buildTypeMetadata(type: string): Promise<SyncMetadata> {
+        let syncVersionManager: SyncVersionManager = Container.get(SyncVersionManager);
+        let globalSyncVersion = await syncVersionManager.getLastGlobalSyncVersion(type)
+        return new SyncMetadata(type, globalSyncVersion);
     }
 }

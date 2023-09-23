@@ -1,8 +1,8 @@
-import { SyncMetaData, SyncMetaDataSchema } from "../metadata/sync_metadata";
+import { SyncMetadata, SyncMetadataSchema } from "../metadata/sync_metadata";
 import { SyncalbeObjectDataSource } from "./syncable_object_data_source";
 
-export class SyncMetaDataDataSource  extends SyncalbeObjectDataSource<SyncMetaData> {
+export class SyncMetadataDataSource  extends SyncalbeObjectDataSource<SyncMetadata> {
     constructor() {
-        super(SyncMetaDataSchema, SyncMetaData.name);
+        super(SyncMetadataSchema, SyncMetadata.name);
     }
 }

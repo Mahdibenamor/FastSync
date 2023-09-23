@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
 import { IWithId } from "../../absractions/metadata/Iwith_id";
-import { ISyncMetaData } from "../../absractions/metadata/ISync_metadata";
+import { ISyncMetadata } from "../../absractions/metadata/ISync_metadata";
 
 export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDataSource<T> {
   model: mongoose.Model<T & mongoose.Document>;
@@ -68,8 +68,8 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
     return entities;
   }
 
-  async fetchMany(syncMetaData: ISyncMetaData): Promise<T[]> {
-    let array: mongoose.Document<T>[] = await this.model.find({'metadata.version': { $gt: syncMetaData.version } }).exec();
+  async fetchMany(syncMetadata: ISyncMetadata): Promise<T[]> {
+    let array: mongoose.Document<T>[] = await this.model.find({'metadata.version': { $gt: syncMetadata.version } }).exec();
     return array.map((item) => item.toObject()); 
   }
   

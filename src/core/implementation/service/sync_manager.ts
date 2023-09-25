@@ -1,11 +1,10 @@
 import { Inject, Service } from "typedi";
-import { SyncPayload } from "../../absractions/models/Sync_payload";
-import { ISyncManager } from "../../absractions/services/ISync_manager";
-import { SyncVersionManager } from "./sync_service";
 import { SyncConfiguration } from "./sync_config";
-import { SyncOperationEnum } from "../../absractions/metadata/ISync_operation";
-import { SyncOperationMetadata } from "../../absractions/models/Sync_operation_metadata";
-import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
+import { SyncOperationMetadata } from "../../abstraction/models/Sync_operation_metadata";
+import { SyncPayload } from "../../abstraction/models/Sync_payload";
+import { SyncOperationEnum } from "../../abstraction/metadata/ISync_operation";
+import { ISyncManager } from "../../abstraction/service/ISync_manager";
+import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
 
 
 @Service()

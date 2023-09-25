@@ -9,10 +9,10 @@ import {
   Req,
   Res,
 } from "routing-controllers";
-import { BaseController } from "../core/base_controller";
-import { SyncPayload } from "../absractions/models/Sync_payload";
-import { SyncManager } from "../implemetation/services/sync_manager";
-import { SyncOperationMetadata } from "../absractions/models/Sync_operation_metadata";
+import { BaseController } from "./base_controller";
+import { SyncManager } from "../core/implementation/service/sync_manager";
+import { SyncOperationMetadata } from "../core/abstraction/models/Sync_operation_metadata";
+import { SyncPayload } from "../core/abstraction/models/Sync_payload";
 
 @JsonController()
 export class SyncController extends BaseController {

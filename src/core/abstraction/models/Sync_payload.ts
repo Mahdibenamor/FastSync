@@ -1,9 +1,9 @@
 import Container from "typedi";
-import { isNullOrUndefined } from "../../core/utils";
-import { SyncMetadata } from "../../implemetation/metadata/sync_metadata";
 import { ISyncableObject } from "../metadata/ISyncable_object";
 import { SyncOperationMetadata } from "./Sync_operation_metadata";
-import { SyncVersionManager } from "../../implemetation/services/sync_service";
+import { isNullOrUndefined } from "../../utils";
+import { SyncVersionManager } from "../../implementation/service/sync_service";
+import { SyncMetadata } from "../../../mongoose-dao/metadata/sync_metadata";
 
 export class SyncPayload {
     private operationMetadata: SyncOperationMetadata = new SyncOperationMetadata();

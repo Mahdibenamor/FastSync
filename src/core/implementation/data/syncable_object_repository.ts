@@ -1,13 +1,13 @@
 import Container, { Constructable } from "typedi";
-import { ISyncableRepository } from "../../absractions/data/ISyncable_Repository";
-import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
-import { SyncVersionManager } from "../services/sync_service";
-import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
-import { createDict, isNullOrUndefined } from "../../core/utils";
-import { SyncMetadata } from "../metadata/sync_metadata";
-import { ISyncMetadata } from "../../absractions/metadata/ISync_metadata";
-import { IConflictsHandler } from "../../absractions/services/IConflicts_handler";
-import { ConflictsResolutionStrategyEnum } from "../../absractions/services/conflicts_resolution_strategie";
+import { SyncVersionManager } from "../service/sync_service";
+import { createDict, isNullOrUndefined } from "../../utils";
+import { ISyncMetadata } from "../../abstraction/metadata/ISync_metadata";
+import { ConflictsResolutionStrategyEnum } from "../../abstraction/service/conflicts_resolution_strategie";
+import { IConflictsHandler } from "../../abstraction/service/IConflicts_handler";
+import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
+import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository";
+import { ISyncalbeDataSource } from "../../abstraction/data/ISyncable_data_source";
+import { SyncMetadata } from "../../../mongoose-dao/metadata/sync_metadata";
 
 
 export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableRepository<T>

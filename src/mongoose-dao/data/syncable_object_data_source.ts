@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
-import { IWithId } from "../../absractions/metadata/Iwith_id";
-import { ISyncMetadata } from "../../absractions/metadata/ISync_metadata";
+import { ISyncalbeDataSource } from "../../core/abstraction/data/ISyncable_data_source";
+import { IWithId } from "../../core/abstraction/metadata/Iwith_id";
+import { ISyncMetadata } from "../../core/abstraction/metadata/ISync_metadata";
 
 export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDataSource<T> {
   model: mongoose.Model<T & mongoose.Document>;

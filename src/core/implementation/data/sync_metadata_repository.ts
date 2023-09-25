@@ -1,6 +1,6 @@
-import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
-import { IWithId } from "../../absractions/metadata/Iwith_id";
-import { IBaseRepository } from "../../absractions/data/base_repository";
+import { ISyncalbeDataSource } from "../../abstraction/data/ISyncable_data_source";
+import { IBaseRepository } from "../../abstraction/data/base_repository";
+import { IWithId } from "../../abstraction/metadata/Iwith_id";
 
 export class SyncalbeMetadataRepository<T extends IWithId> implements IBaseRepository<T>
 {

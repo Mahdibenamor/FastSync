@@ -1,9 +1,9 @@
-import { Constructable, Service } from "typedi";
-import { ISyncVersionManager } from "../../absractions/services/ISync_version_manager";
-import { SyncMetadata } from "../metadata/sync_metadata";
+import { Service } from "typedi";
 import { SyncalbeMetadataRepository } from "../data/sync_metadata_repository";
-import { SyncMetadataDataSource } from "../data/sync_metadata_datasource";
-import { isNullOrUndefined } from "../../core/utils";
+import { isNullOrUndefined } from "../../utils";
+import { ISyncVersionManager } from "../../abstraction/service/ISync_version_manager";
+import { SyncMetadataDataSource } from "../../../mongoose-dao/data/sync_metadata_datasource";
+import { SyncMetadata } from "../../../mongoose-dao/metadata/sync_metadata";
 
 @Service()
 export class SyncVersionManager implements ISyncVersionManager {

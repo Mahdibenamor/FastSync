@@ -1,13 +1,14 @@
 import Container, { Constructable, Service } from "typedi";
-import { ISyncConfiguration } from "../../absractions/services/ISync_config";
 import { SyncVersionManager } from "./sync_service";
-import { isNullOrUndefined } from "../../core/utils";
-import { ISyncalbeDataSource } from "../../absractions/data/ISyncable_data_source";
-import { Constants } from "../../absractions/constants";
+import { isNullOrUndefined } from "../../utils";
+import { Constants } from "../../abstraction/constants";
 import { SyncalbeRepository } from "../data/syncable_object_repository";
-import { ISyncableObject } from "../../absractions/metadata/ISyncable_object";
-import { ISyncableRepository } from "../../absractions/data/ISyncable_Repository";
-import { IConflictsHandler } from "../../absractions/services/IConflicts_handler";
+import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
+import { ISyncalbeDataSource } from "../../abstraction/data/ISyncable_data_source";
+import { IConflictsHandler } from "../../abstraction/service/IConflicts_handler";
+import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository";
+import { ISyncConfiguration } from "../../abstraction/service/ISync_config";
+
 
 @Service({global: true})
 export class SyncConfiguration implements ISyncConfiguration {

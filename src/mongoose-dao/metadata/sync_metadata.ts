@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
-import { ISyncMetadata } from "../../absractions/metadata/ISync_metadata";
-import { SyncOperationEnum } from "../../absractions/metadata/ISync_operation";
+import { ISyncMetadata } from "../../core/abstraction/metadata/ISync_metadata";
+import { SyncOperationEnum } from "../../core/abstraction/metadata/ISync_operation";
 
 export class SyncMetadata implements ISyncMetadata{
     public _id: string;

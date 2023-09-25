@@ -3,7 +3,7 @@ import { ISyncableObject } from "../metadata/ISyncable_object";
 import { SyncOperationMetadata } from "./Sync_operation_metadata";
 import { isNullOrUndefined } from "../../utils";
 import { SyncVersionManager } from "../../implementation/service/sync_service";
-import { SyncMetadata } from "../../../mongoose-dao/metadata/sync_metadata";
+import { SyncMetadata } from "../../implementation/metadata/syncable_metadata";
 
 export class SyncPayload {
     private operationMetadata: SyncOperationMetadata = new SyncOperationMetadata();

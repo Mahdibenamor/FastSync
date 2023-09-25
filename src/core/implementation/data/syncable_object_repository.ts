@@ -7,7 +7,7 @@ import { IConflictsHandler } from "../../abstraction/service/IConflicts_handler"
 import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
 import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository";
 import { ISyncalbeDataSource } from "../../abstraction/data/ISyncable_data_source";
-import { SyncMetadata } from "../../../mongoose-dao/metadata/sync_metadata";
+import { SyncMetadata } from "../metadata/syncable_metadata";
 
 
 export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableRepository<T>

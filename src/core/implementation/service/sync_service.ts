@@ -3,7 +3,7 @@ import { SyncalbeMetadataRepository } from "../data/sync_metadata_repository";
 import { isNullOrUndefined } from "../../utils";
 import { ISyncVersionManager } from "../../abstraction/service/ISync_version_manager";
 import { SyncMetadataDataSource } from "../../../mongoose-dao/data/sync_metadata_datasource";
-import { SyncMetadata } from "../../../mongoose-dao/metadata/sync_metadata";
+import { SyncMetadata } from "../metadata/syncable_metadata";
 
 @Service()
 export class SyncVersionManager implements ISyncVersionManager {

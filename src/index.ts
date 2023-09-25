@@ -54,7 +54,7 @@ app.listen(3000, async() => {
 
 async function configureFastSync(){
   let syncConfiguration  =  Container.get(SyncConfiguration);
-  let conflictsHandler: IConflictsHandler = new  ConflictsHandler(ConflictsResolutionStrategyEnum.TimestampOrdering, conflictsResolutionFunction)
+  let conflictsHandler: IConflictsHandler = new  ConflictsHandler(ConflictsResolutionStrategyEnum.LastWriterWins, conflictsResolutionFunction)
   await syncConfiguration.SetSyncalbeObject(Item, new ItemDataSource(), conflictsHandler);
 }
 

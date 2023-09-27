@@ -1,5 +1,5 @@
 import { SyncalbeMetadataRepository } from "../data/sync_metadata_repository";
-import { isNullOrUndefined } from "../../utils";
+import { isNullOrUndefined } from "../utils/utils";
 import { ISyncVersionManager } from "../../abstraction/service/ISync_version_manager";
 import { SyncMetadata } from "../metadata/syncable_metadata";
 import { ISyncalbeDataSource } from "../../abstraction/data/ISyncable_data_source";

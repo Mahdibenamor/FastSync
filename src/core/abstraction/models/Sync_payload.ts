@@ -1,7 +1,7 @@
 import Container from "typedi";
 import { ISyncableObject } from "../metadata/ISyncable_object";
 import { SyncOperationMetadata } from "./Sync_operation_metadata";
-import { isNullOrUndefined } from "../../utils";
+import { isNullOrUndefined } from "../../implementation/utils/utils";
 import { SyncVersionManager } from "../../implementation/service/sync_version_manager";
 import { SyncMetadata } from "../../implementation/metadata/syncable_metadata";
 

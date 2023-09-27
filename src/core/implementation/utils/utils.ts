@@ -1,4 +1,4 @@
-import { IWithId } from "./abstraction/metadata/Iwith_id";
+import { IWithId } from "../../abstraction/metadata/Iwith_id";
 
 export function createInstance<T>(
   type: { new (...args: any[]): T },

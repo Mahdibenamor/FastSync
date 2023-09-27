@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "../../utils";
+import { isNullOrUndefined } from "../../implementation/utils/utils";
 import { ISyncMetadata } from "../metadata/ISync_metadata";
 
 export class SyncOperationMetadata{

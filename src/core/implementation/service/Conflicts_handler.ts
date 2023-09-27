@@ -1,7 +1,7 @@
 import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
 import { IConflictsHandler } from "../../abstraction/service/IConflicts_handler";
 import { ConflictsResolutionStrategyEnum } from "../../abstraction/service/conflicts_resolution_strategie";
-import { isNullOrUndefined } from "../../utils";
+import { isNullOrUndefined } from "../utils/utils";
 
 export class ConflictsHandler implements IConflictsHandler{
 

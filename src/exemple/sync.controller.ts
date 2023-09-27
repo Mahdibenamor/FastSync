@@ -9,7 +9,7 @@ import {
   Req,
   Res,
 } from "routing-controllers";
-import { BaseController } from "./base_controller";
+import { BaseController } from "./utils/base_controller";
 import { SyncManager } from "../core/implementation/service/sync_manager";
 import { SyncOperationMetadata } from "../core/abstraction/models/Sync_operation_metadata";
 import { SyncPayload } from "../core/abstraction/models/Sync_payload";

@@ -1,19 +1,20 @@
 import Container, { Constructable } from "typedi";
 import { SyncVersionManager } from "../service/sync_version_manager";
-import { createDict, isNullOrUndefined } from "../../utils";
+import { createDict, isNullOrUndefined } from "../utils/utils";
 import { ISyncMetadata } from "../../abstraction/metadata/ISync_metadata";
 import { ConflictsResolutionStrategyEnum } from "../../abstraction/service/conflicts_resolution_strategie";
-import { IConflictsHandler } from "../../abstraction/service/IConflicts_handler";
 import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
 import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository";
 import { ISyncalbeDataSource } from "../../abstraction/data/ISyncable_data_source";
 import { SyncMetadata } from "../metadata/syncable_metadata";
+import { getObjectConflictsHandler } from "../utils/injection";
 
 
 export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableRepository<T>
 {
   private syncService: SyncVersionManager = Container.get(SyncVersionManager);
-  constructor(public dataSource: ISyncalbeDataSource<T>, private type: Constructable<T>, private conflictsHandler:IConflictsHandler) {}
+  
+  constructor(public dataSource: ISyncalbeDataSource<T>, private type: Constructable<T> ) {}
 
   async add(entity: T): Promise<T> {
     return await this.dataSource.add(entity);
@@ -57,7 +58,6 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
     return entities;
   }
 
-  
   async updateMany(entities: T[]): Promise<T[]> {
     let mergedList :T[] = [];
     mergedList = await this.doResolveConflictsObject(entities);
@@ -93,7 +93,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   }
 
   private async resolveConflicts(oldList: T[], newList :T[]):Promise<T[]>{
-    if(this.conflictsHandler.getConflictsResolutionStrategy() == ConflictsResolutionStrategyEnum.LastWriterWins){
+    if(getObjectConflictsHandler(this.type.name).getConflictsResolutionStrategy() == ConflictsResolutionStrategyEnum.LastWriterWins){
       return newList;
     }
 
@@ -103,7 +103,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
 
     for (const id in newListDict) {
       if (oldListDict.hasOwnProperty(id)) {
-        let result = await this.conflictsHandler.resolveConflicts(oldListDict[id],newListDict[id]);
+        let result = await getObjectConflictsHandler(this.type.name).resolveConflicts(oldListDict[id],newListDict[id]);
         mergingResult.push(result)
       }
       else{

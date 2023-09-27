@@ -1,5 +1,5 @@
 import Container, { Constructable } from "typedi";
-import { SyncVersionManager } from "../service/sync_service";
+import { SyncVersionManager } from "../service/sync_version_manager";
 import { createDict, isNullOrUndefined } from "../../utils";
 import { ISyncMetadata } from "../../abstraction/metadata/ISync_metadata";
 import { ConflictsResolutionStrategyEnum } from "../../abstraction/service/conflicts_resolution_strategie";

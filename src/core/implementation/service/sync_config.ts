@@ -1,5 +1,5 @@
 import Container, { Constructable, Service } from "typedi";
-import { SyncVersionManager } from "./sync_service";
+import { SyncVersionManager } from "./sync_version_manager";
 import { isNullOrUndefined } from "../../utils";
 import { Constants } from "../../abstraction/constants";
 import { SyncalbeRepository } from "../data/syncable_object_repository";
@@ -8,18 +8,34 @@ import { ISyncalbeDataSource } from "../../abstraction/data/ISyncable_data_sourc
 import { IConflictsHandler } from "../../abstraction/service/IConflicts_handler";
 import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository";
 import { ISyncConfiguration } from "../../abstraction/service/ISync_config";
+import { SyncMetadata } from "../metadata/syncable_metadata";
 
 
 @Service({global: true})
 export class SyncConfiguration implements ISyncConfiguration {
 
     classTypeMap: { [key: string]: any } = {};
-    private syncService  =  Container.get(SyncVersionManager);
+    private get syncVersionManager(): SyncVersionManager {
+        try{
+            let manager =  Container.get(SyncVersionManager);
+            if(!isNullOrUndefined(manager)){
+                return manager
+            }
+        }
+        catch(e){
+            throw Error("Please init the SyncVersionManager, using initSyncVersionManager")
+        }
+    }
 
     constructor(){}
+
+    public async initSyncVersionManager(syncMetadataDataSource: ISyncalbeDataSource<SyncMetadata>){
+        let syncVersionManager = new SyncVersionManager(syncMetadataDataSource);
+        Container.set(SyncVersionManager, syncVersionManager)
+    }
     
     public async SetSyncalbeObject<T extends ISyncableObject>(entityType: Constructable<T>, dataSource: ISyncalbeDataSource<T>, conflictsHandler?: IConflictsHandler){
-       await this.syncService.initObjectMetadata(entityType.name);
+       await this.syncVersionManager.initObjectMetadata(entityType.name);
        this.setConstructableType(entityType);
        this.setObjectConflictsHandler(entityType,conflictsHandler);
        this.setObjectDataSource(entityType, dataSource);

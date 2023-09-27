@@ -1,14 +1,16 @@
-import { Service } from "typedi";
 import { SyncalbeMetadataRepository } from "../data/sync_metadata_repository";
 import { isNullOrUndefined } from "../../utils";
 import { ISyncVersionManager } from "../../abstraction/service/ISync_version_manager";
-import { SyncMetadataDataSource } from "../../../mongoose-dao/data/sync_metadata_datasource";
 import { SyncMetadata } from "../metadata/syncable_metadata";
+import { ISyncalbeDataSource } from "../../abstraction/data/ISyncable_data_source";
 
-@Service()
 export class SyncVersionManager implements ISyncVersionManager {
 
-    private syncMetadataRepository = new SyncalbeMetadataRepository(new SyncMetadataDataSource())
+    private syncMetadataRepository: SyncalbeMetadataRepository<SyncMetadata>;
+    constructor(private syncMetadataDataSource : ISyncalbeDataSource<SyncMetadata>){
+        this.syncMetadataRepository = new SyncalbeMetadataRepository(this.syncMetadataDataSource)
+    }
+
 
     public async getLastGlobalSyncVersion(entityType: string): Promise<number> {
         let syncMetadataList = await this.syncMetadataRepository.query({type :entityType});

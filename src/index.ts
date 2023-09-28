@@ -12,6 +12,7 @@ import { ISyncableObject } from './core/abstraction/metadata/ISyncable_object';
 import { SyncMetadataDataSource } from './mongoose-dao/data/sync_metadata_datasource';
 import { ItemRepository } from './exemple/item_repository';
 import { FastSync } from './core/implementation/fast_sync';
+import { MongooseSyncConfiguration } from './mongoose-dao/service/mongoose_sync_config';
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -56,9 +57,9 @@ app.listen(3000, async() => {
 });
 
 async function configureFastSync(){
-  let fastSync : FastSync = FastSync.getInstance(new SyncConfiguration());
+  let fastSync : FastSync = FastSync.getInstance(new MongooseSyncConfiguration());
   let conflictsHandler: IConflictsHandler = new  ConflictsHandler(ConflictsResolutionStrategyEnum.PredefinedRules, conflictsResolutionFunction)
-  await fastSync.SetSyncalbeObject(Item, new ItemRepository(), conflictsHandler);
+  await fastSync.SetSyncalbeObject(Item.name, new ItemRepository(), conflictsHandler);
 }
 
 

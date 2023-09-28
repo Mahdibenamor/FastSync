@@ -32,7 +32,7 @@ export class FastSync {
         this.syncConfiguration = syncConfiguration;
     }   
 
-    public SetSyncalbeObject<T extends ISyncableObject>(entityType: Constructable<T>, repository: ISyncableRepository<T>, conflictsHandler?: IConflictsHandler) {
+    public SetSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, conflictsHandler?: IConflictsHandler) {
       this.syncConfiguration.SetSyncalbeObject(entityType,repository,conflictsHandler );
   }   
   }

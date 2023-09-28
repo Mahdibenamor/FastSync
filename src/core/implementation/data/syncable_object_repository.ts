@@ -1,5 +1,4 @@
-import Container, { Constructable } from "typedi";
-import { SyncVersionManager } from "../service/sync_version_manager";
+import  { Constructable } from "typedi";
 import { createDict, isNullOrUndefined } from "../utils/utils";
 import { ISyncMetadata } from "../../abstraction/metadata/ISync_metadata";
 import { ConflictsResolutionStrategyEnum } from "../../abstraction/service/conflicts_resolution_strategie";
@@ -8,11 +7,13 @@ import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository
 import { ISyncalbeDataSource } from "../../abstraction/data/ISyncable_data_source";
 import { SyncMetadata } from "../metadata/syncable_metadata";
 import { getObjectConflictsHandler } from "../utils/injection";
+import { FastSync } from "../fast_sync";
+import { ISyncVersionManager } from "../../abstraction/service/ISync_version_manager";
 
 
 export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableRepository<T>
 {
-  private syncService: SyncVersionManager = Container.get(SyncVersionManager);
+  private syncService: ISyncVersionManager = FastSync.getInstance().getSyncVersionManager();
   
   constructor(public dataSource: ISyncalbeDataSource<T>, private type: Constructable<T> ) {}
 

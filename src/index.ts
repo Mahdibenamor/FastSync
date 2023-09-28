@@ -11,6 +11,7 @@ import { IConflictsHandler } from './core/abstraction/service/IConflicts_handler
 import { ISyncableObject } from './core/abstraction/metadata/ISyncable_object';
 import { SyncMetadataDataSource } from './mongoose-dao/data/sync_metadata_datasource';
 import { ItemRepository } from './exemple/item_repository';
+import { FastSync } from './core/implementation/fast_sync';
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -55,10 +56,9 @@ app.listen(3000, async() => {
 });
 
 async function configureFastSync(){
-  let syncConfiguration  =  Container.get(SyncConfiguration);
+  let fastSync : FastSync = FastSync.getInstance(new SyncConfiguration());
   let conflictsHandler: IConflictsHandler = new  ConflictsHandler(ConflictsResolutionStrategyEnum.PredefinedRules, conflictsResolutionFunction)
-  await syncConfiguration.initSyncVersionManager(new SyncMetadataDataSource());
-  await syncConfiguration.SetSyncalbeObject(Item, new ItemRepository(), conflictsHandler);
+  await fastSync.SetSyncalbeObject(Item, new ItemRepository(), conflictsHandler);
 }
 
 

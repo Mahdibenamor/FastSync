@@ -1,9 +1,9 @@
-import Container from "typedi";
 import { ISyncableObject } from "../metadata/ISyncable_object";
 import { SyncOperationMetadata } from "./Sync_operation_metadata";
 import { isNullOrUndefined } from "../../implementation/utils/utils";
-import { SyncVersionManager } from "../../implementation/service/sync_version_manager";
 import { SyncMetadata } from "../../implementation/metadata/syncable_metadata";
+import { FastSync } from "../../implementation/fast_sync";
+import { ISyncVersionManager } from "../service/ISync_version_manager";
 
 export class SyncPayload {
     private operationMetadata: SyncOperationMetadata = new SyncOperationMetadata();
@@ -35,7 +35,7 @@ export class SyncPayload {
     }
 
     private async buildTypeMetadata(type: string): Promise<SyncMetadata> {
-        let syncVersionManager: SyncVersionManager = Container.get(SyncVersionManager);
+        let syncVersionManager: ISyncVersionManager = FastSync.getInstance().getSyncVersionManager();
         let globalSyncVersion = await syncVersionManager.getLastGlobalSyncVersion(type)
         return new SyncMetadata(type, globalSyncVersion);
     }

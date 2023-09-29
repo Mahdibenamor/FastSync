@@ -9,11 +9,10 @@ import {
   Req,
   Res,
 } from "routing-controllers";
-import { BaseController } from "../core/base_controller";
-import { SyncPayload } from "../absractions/models/Sync_payload";
-import { SyncableObject } from "../implemetation/metadata/syncalbe_object";
-import { SyncManager } from "../implemetation/services/sync_manager";
-import { SyncOperationMetada } from "../absractions/models/Sync_operation_metadata";
+import { BaseController } from "./utils/base_controller";
+import { SyncManager } from "../core/implementation/service/sync_manager";
+import { SyncOperationMetadata } from "../core/abstraction/models/Sync_operation_metadata";
+import { SyncPayload } from "../core/abstraction/models/Sync_payload";
 
 @JsonController()
 export class SyncController extends BaseController {
@@ -42,7 +41,7 @@ export class SyncController extends BaseController {
   async pullUserObjects(
     @Req() req,
     @Res() res,
-    @Body() metadata: SyncOperationMetada
+    @Body() metadata: SyncOperationMetadata
   ) {
     try{
       let result = await this.syncManager.processPull(metadata)

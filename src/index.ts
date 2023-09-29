@@ -2,9 +2,17 @@ import 'reflect-metadata';
 import { useExpressServer } from "routing-controllers";
 import { SyncController } from "./exemple/sync.controller";
 import Container from "typedi";
-import {SyncConfiguration} from "./implemetation/services/sync_config";
+import {SyncConfiguration} from "./core/implementation/service/sync_config";
 import { Item } from "./exemple/item";
 import { ItemDataSource } from './exemple/item_datasource';
+import { ConflictsHandler } from './core/implementation/service/Conflicts_handler';
+import { ConflictsResolutionStrategyEnum } from './core/abstraction/service/conflicts_resolution_strategie';
+import { IConflictsHandler } from './core/abstraction/service/IConflicts_handler';
+import { ISyncableObject } from './core/abstraction/metadata/ISyncable_object';
+import { SyncMetadataDataSource } from './mongoose-dao/data/sync_metadata_datasource';
+import { ItemRepository } from './exemple/item_repository';
+import { FastSync } from './core/implementation/fast_sync';
+import { MongooseSyncConfiguration } from './mongoose-dao/service/mongoose_sync_config';
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -36,9 +44,6 @@ mongoose
   })
 
 app.use(express.json());
-app.use(cors());
-
-
 app.listen(3000, async() => {  
   console.log(`listening on port ${3000}`);
 
@@ -52,6 +57,15 @@ app.listen(3000, async() => {
 });
 
 async function configureFastSync(){
-  let syncConfiguration  =  Container.get(SyncConfiguration);
-  await syncConfiguration.SetSyncalbeObject(Item, new ItemDataSource());
+  let fastSync : FastSync = FastSync.getInstance(new SyncConfiguration());
+  let conflictsHandler: IConflictsHandler = new  ConflictsHandler(ConflictsResolutionStrategyEnum.PredefinedRules, conflictsResolutionFunction)
+  let repo =  new ItemRepository();
+  await fastSync.setSyncalbeObject(Item.name,repo , conflictsHandler);
+
+}
+
+
+async function conflictsResolutionFunction (oldObject: Item, newObject: Item): Promise<ISyncableObject>{
+  newObject.name = 'from conflicts resolving function'
+  return newObject;
 }

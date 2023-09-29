@@ -1,4 +1,4 @@
-import { SyncalbeObjectDataSource } from "../implemetation/data/syncable_object_data_source";
+import { SyncalbeObjectDataSource } from "../mongoose-dao/data/syncable_object_data_source";
 import { Item, ItemSchema } from "./item";
 
 

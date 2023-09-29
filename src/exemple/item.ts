@@ -1,8 +1,10 @@
-import { SyncableObject, buildSycnableItemSchema } from "../implemetation/metadata/syncalbe_object";
+import { SyncableObject } from "../core/implementation/metadata/syncable_object";
+import {  buildSycnableItemSchema } from "../mongoose-dao/metadata/syncalbe_object_model";
 
 export class Item extends SyncableObject {
-    public content: string;
-    constructor() {
+  public name: string;
+  public description: string;
+  constructor() {
       super(); 
     }
 }

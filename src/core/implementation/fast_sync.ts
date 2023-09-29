@@ -1,4 +1,3 @@
-import { Constructable } from "typedi/types/types/constructable.type";
 import { ISyncableRepository } from "../abstraction/data/ISyncable_Repository";
 import { ISyncableObject } from "../abstraction/metadata/ISyncable_object";
 import { SyncConfiguration } from "./service/sync_config";
@@ -19,21 +18,32 @@ export class FastSync {
         FastSync.instance = new FastSync();
       }
       if (syncConfiguration) {
-        FastSync.instance.setSyncConfiguration(syncConfiguration);
+        FastSync.setSyncConfiguration(syncConfiguration);
       }
-      return FastSync.instance as FastSync;
+      return FastSync.instance;
     }
 
     public getSyncVersionManager(): SyncVersionManager{
-        return this.syncConfiguration.syncVersionManager;
+        return FastSync.instance.syncConfiguration.syncVersionManager;
     }
   
-    public setSyncConfiguration(syncConfiguration: SyncConfiguration) {
-        this.syncConfiguration = syncConfiguration;
-    }   
+    private static setSyncConfiguration(syncConfiguration: SyncConfiguration) {
+      FastSync.instance.syncConfiguration = syncConfiguration;
+    }     
 
-    public SetSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, conflictsHandler?: IConflictsHandler) {
-      this.syncConfiguration.SetSyncalbeObject(entityType,repository,conflictsHandler );
-  }   
+    public async setSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, conflictsHandler?: IConflictsHandler) {
+      let syncConfiguration= FastSync.instance.syncConfiguration;
+      await syncConfiguration.setSyncalbeObject(entityType,repository,conflictsHandler );  
+      FastSync.setSyncConfiguration(syncConfiguration);
+    }
+
+    public getObjectConflictsHandler(type:string): IConflictsHandler {
+      return FastSync.instance.syncConfiguration.getObjectConflictsHandler(type);
+    }
+
+    public getObjectRepository<T extends ISyncableObject>(type: string): ISyncableRepository<T> {
+      return FastSync.instance.syncConfiguration.getObjectRepository(type);
+    }
+
   }
   

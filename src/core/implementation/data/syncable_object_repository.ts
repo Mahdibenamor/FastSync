@@ -1,4 +1,3 @@
-import  { Constructable } from "typedi";
 import { createDict, isNullOrUndefined } from "../utils/utils";
 import { ISyncMetadata } from "../../abstraction/metadata/ISync_metadata";
 import { ConflictsResolutionStrategyEnum } from "../../abstraction/service/conflicts_resolution_strategie";
@@ -6,7 +5,6 @@ import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
 import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository";
 import { ISyncalbeDataSource } from "../../abstraction/data/ISyncable_data_source";
 import { SyncMetadata } from "../metadata/syncable_metadata";
-import { getObjectConflictsHandler } from "../utils/injection";
 import { FastSync } from "../fast_sync";
 import { ISyncVersionManager } from "../../abstraction/service/ISync_version_manager";
 
@@ -94,7 +92,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   }
 
   private async resolveConflicts(oldList: T[], newList :T[]):Promise<T[]>{
-    if(getObjectConflictsHandler(this.type).getConflictsResolutionStrategy() == ConflictsResolutionStrategyEnum.LastWriterWins){
+    if(FastSync.getInstance().getObjectConflictsHandler(this.type).getConflictsResolutionStrategy() == ConflictsResolutionStrategyEnum.LastWriterWins){
       return newList;
     }
 
@@ -104,7 +102,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
 
     for (const id in newListDict) {
       if (oldListDict.hasOwnProperty(id)) {
-        let result = await getObjectConflictsHandler(this.type).resolveConflicts(oldListDict[id],newListDict[id]);
+        let result = await FastSync.getInstance().getObjectConflictsHandler(this.type).resolveConflicts(oldListDict[id],newListDict[id]);
         mergingResult.push(result)
       }
       else{

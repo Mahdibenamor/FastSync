@@ -3,14 +3,13 @@ import { isNullOrUndefined } from "../utils/utils";
 import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
 import { IConflictsHandler } from "../../abstraction/service/IConflicts_handler";
 import { ISyncConfiguration } from "../../abstraction/service/ISync_config";
-import { setObjectConflictsHandler, setObjectRepository } from "../utils/injection";
 import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository";
+import { SyncMetadataDataSource } from "../../../mongoose-dao/data/sync_metadata_datasource";
+import Container from "typedi";
+import { Constants } from "../../abstraction/constants";
 
 
 export class SyncConfiguration implements ISyncConfiguration {
-
-
-    classTypeMap: { [key: string]: any } = {};
 
     private _syncVersionManager: SyncVersionManager
 
@@ -33,24 +32,54 @@ export class SyncConfiguration implements ISyncConfiguration {
         this.init();
     }
     
-    protected init(){}
+    protected init(){
+        this.syncVersionManager = new SyncVersionManager(new SyncMetadataDataSource());
+    }
     
     
-    public async SetSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, conflictsHandler?: IConflictsHandler){
+    public async setSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, conflictsHandler?: IConflictsHandler){
        await this.syncVersionManager.initObjectMetadata(entityType);
-       this.setConstructableType(entityType);
-       setObjectConflictsHandler(entityType,conflictsHandler);
-       setObjectRepository(entityType, repository);
+       this.setObjectConflictsHandler(entityType,conflictsHandler);
+       this.setObjectRepository(entityType, repository);
     }
 
-    public getConstructableType(type: string){
-        if(!isNullOrUndefined(this.classTypeMap[type])){
-            return this.classTypeMap[type];
+    public setObjectRepository<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>){
+        if(!isNullOrUndefined(repository)){
+            Container.set(entityType +  Constants.repositoryName, repository)
         }
-        throw Error(type+" is not configured well, please check the configuration")
+        else {     
+            throw Error("repository of the " +entityType+" is not configured well, please check the configuration")
+        }
     }
-
-    private setConstructableType<T>(entityType: string){
-        this.classTypeMap[entityType] == entityType;
+    
+    
+    public setObjectConflictsHandler(entityType: string,  conflictsHandler: IConflictsHandler){
+        if(!isNullOrUndefined(conflictsHandler)){
+            Container.set(entityType +  Constants.conflictsHandlerName, conflictsHandler)
+        }
+        else {     
+            throw Error("conflictsHandler of the " +entityType+" is not configured well, please check the configuration")
+        }
+    }
+    
+    
+    public getObjectConflictsHandler(type:string): IConflictsHandler{
+        let conflictsHandler  = Container.get(type +  Constants.conflictsHandlerName);
+        if(!isNullOrUndefined(conflictsHandler)){
+             return conflictsHandler as IConflictsHandler;
+        }
+        else {     
+            throw Error("conflictsHandler of the " +type+" is not configured well, please check the configuration")
+        }
+    }
+    
+    public getObjectRepository<T extends ISyncableObject>(type: string): ISyncableRepository<T>{
+        let repository = Container.get(type +  Constants.repositoryName);
+        if(!isNullOrUndefined(repository)){
+            return repository as ISyncableRepository<T>;;
+        }
+        else {     
+            throw Error("repository of the " +type+" is not configured well, please check the configuration")
+        }
     }
 }

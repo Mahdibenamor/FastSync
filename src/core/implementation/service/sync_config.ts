@@ -6,7 +6,7 @@ import { ISyncConfiguration } from "../../abstraction/service/ISync_config";
 import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository";
 import Container from "typedi";
 import { Constants } from "../../abstraction/constants";
-import { SyncZoneConfiguration, SyncZoneRestrictionEnum } from "../../abstraction/models/Sync_zone_configuration";
+import { SyncZoneRestrictionEnum } from "../../abstraction/models/Sync_zone_restriction";
 
 
 export class SyncConfiguration implements ISyncConfiguration {
@@ -36,8 +36,8 @@ export class SyncConfiguration implements ISyncConfiguration {
     }
     
     
-    public async setSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, syncZoneConfiguration?: SyncZoneConfiguration, conflictsHandler?: IConflictsHandler){
-       this.setSyncZoneConfiguration(entityType, syncZoneConfiguration)
+    public async setSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, syncZoneRestriction: SyncZoneRestrictionEnum,conflictsHandler?: IConflictsHandler){
+       this.setSyncZoneTypeConfiguration(entityType, syncZoneRestriction)
        this.setObjectConflictsHandler(entityType,conflictsHandler);
        this.setObjectRepository(entityType, repository);
     }
@@ -72,24 +72,24 @@ export class SyncConfiguration implements ISyncConfiguration {
         }
     }
 
-    public setSyncZoneConfiguration(entityType: string,  syncZoneConfiguration: SyncZoneConfiguration){
-        if(!isNullOrUndefined(syncZoneConfiguration)){
-            Container.set(entityType +  Constants.syncZoneAttribute, syncZoneConfiguration)
+    public setSyncZoneTypeConfiguration(entityType: string,  syncZoneRestriction: SyncZoneRestrictionEnum){
+        if(!isNullOrUndefined(syncZoneRestriction)){
+            Container.set(entityType +  Constants.syncZoneRestriction, syncZoneRestriction)
         }
         else {  
-            syncZoneConfiguration =  new SyncZoneConfiguration(SyncZoneRestrictionEnum.global, Constants.globalSyncZoneAttribute)
-            Container.set(entityType +  Constants.syncZoneAttribute, syncZoneConfiguration)
+            throw Error("syncZoneRestriction of the " +entityType+" is not be undefined")
+
         }
     }
     
     
-    public getSyncZoneConfiguration(type:string): IConflictsHandler{
-        let conflictsHandler  = Container.get(type +  Constants.conflictsHandlerName);
-        if(!isNullOrUndefined(conflictsHandler)){
-             return conflictsHandler as IConflictsHandler;
+    public getSyncZoneConfiguration(type:string): SyncZoneRestrictionEnum{
+        let syncZoneRestriction  = Container.get(type +  Constants.syncZoneRestriction);
+        if(!isNullOrUndefined(syncZoneRestriction)){
+             return syncZoneRestriction as SyncZoneRestrictionEnum;
         }
         else {     
-            throw Error("conflictsHandler of the " +type+" is not configured well, please check the configuration")
+            throw Error("syncZoneRestriction of the " +type+" is not be undefined")
         }
     }
     

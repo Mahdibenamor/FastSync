@@ -21,6 +21,7 @@
     "axios": "^1.2.4",
     "bcrypt": "^5.1.0",
     "camunda-bpm-sdk-js": "^7.7.4-SNAPSHOT",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "concurrently": "^7.6.0",
     "cors": "^2.8.5",

@@ -4,7 +4,6 @@ import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
 import { IConflictsHandler } from "../../abstraction/service/IConflicts_handler";
 import { ISyncConfiguration } from "../../abstraction/service/ISync_config";
 import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository";
-import { SyncMetadataDataSource } from "../../../mongoose-dao/data/sync_metadata_datasource";
 import Container from "typedi";
 import { Constants } from "../../abstraction/constants";
 
@@ -33,12 +32,10 @@ export class SyncConfiguration implements ISyncConfiguration {
     }
     
     protected init(){
-        this.syncVersionManager = new SyncVersionManager(new SyncMetadataDataSource());
     }
     
     
     public async setSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, conflictsHandler?: IConflictsHandler){
-       await this.syncVersionManager.initObjectMetadata(entityType);
        this.setObjectConflictsHandler(entityType,conflictsHandler);
        this.setObjectRepository(entityType, repository);
     }

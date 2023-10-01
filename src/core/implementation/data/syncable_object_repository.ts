@@ -1,17 +1,16 @@
-import { createDict, isNullOrUndefined } from "../utils/utils";
+import { createDict } from "../utils/utils";
 import { ISyncMetadata } from "../../abstraction/metadata/ISync_metadata";
 import { ConflictsResolutionStrategyEnum } from "../../abstraction/service/conflicts_resolution_strategie";
 import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
 import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository";
 import { ISyncalbeDataSource } from "../../abstraction/data/ISyncable_data_source";
-import { SyncMetadata } from "../metadata/syncable_metadata";
 import { FastSync } from "../fast_sync";
 import { ISyncVersionManager } from "../../abstraction/service/ISync_version_manager";
 
 
 export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableRepository<T>
 {
-  private syncService: ISyncVersionManager = FastSync.getInstance().getSyncVersionManager();
+  private syncVersionManager: ISyncVersionManager = FastSync.getInstance().getSyncVersionManager();
   
   constructor(public dataSource: ISyncalbeDataSource<T>, private type: string ) {}
 
@@ -49,21 +48,21 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
     return entities;
   }
 
-  async addMany(entities: T[]): Promise<T[]> {
-    let lastKnowVersion =  await this.syncService.getLastGlobalSyncVersion(this.type)
+  async addMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
+    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSelector())
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = await this.dataSource.addMany(entities);
-    await this.syncService.incrementGlobalSyncVersion(this.type);
+    await this.syncVersionManager.incrementSyncVersion(this.type, metadata.getSelector());
     return entities;
   }
 
-  async updateMany(entities: T[]): Promise<T[]> {
+  async updateMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
     let mergedList :T[] = [];
     mergedList = await this.doResolveConflictsObject(entities);
-    let lastKnowVersion =  await this.syncService.getLastGlobalSyncVersion(this.type)
+    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSelector())
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = await this.dataSource.updateMany(mergedList);
-    await this.syncService.incrementGlobalSyncVersion(this.type);
+    await this.syncVersionManager.incrementSyncVersion(this.type,metadata.getSelector());
     return entities;
   }
 
@@ -74,11 +73,11 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
     return result;
   }
 
-  async removeMany(entities: T[]): Promise<T[]> {
-    let lastKnowVersion =  await this.syncService.getLastGlobalSyncVersion(this.type)
+  async removeMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
+    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSelector())
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = this.doMarkObjectsAsDeleted(entities);
-    entities = await this.updateMany(entities);
+    entities = await this.updateMany(entities, metadata);
     return entities;
   }
 
@@ -115,12 +114,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   private incrementObjectsVersion(entities: T[], version:number){
     let incermentedEntities: T[]= [];
     for (let entity of entities) {
-      if(isNullOrUndefined(entity.metadata)){
-        entity.metadata = new SyncMetadata(this.type, version);
-      }
-      else{
-        entity.metadata.version = version;
-      }
+      entity.metadata.version = version;
       incermentedEntities.push(entity);
     }
     return incermentedEntities;

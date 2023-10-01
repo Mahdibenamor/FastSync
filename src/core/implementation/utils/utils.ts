@@ -13,6 +13,10 @@ export function isNullOrUndefined(value: any): boolean {
   return value === null || value === undefined;
 }
 
+
+export function isEmptyString(value: string): boolean {
+  return isNullOrUndefined(value) || value == '';
+}
 export function createDict<T extends IWithId>(objects: T[]): {[id:string]:T}{
   let dict : {[id: string]: T} = {};
   for (const obj of objects) {

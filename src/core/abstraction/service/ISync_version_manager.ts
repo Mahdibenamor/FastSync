@@ -1,5 +1,5 @@
 
 export interface ISyncVersionManager {
-    getLastGlobalSyncVersion(entityType: string): Promise<number>;
-    incrementGlobalSyncVersion(entityType: string): Promise<number>;
+    getLastSyncVersion(entityType: string, selector: string): Promise<number>;
+    incrementSyncVersion(entityType: string, selector: string): Promise<number>;
 }

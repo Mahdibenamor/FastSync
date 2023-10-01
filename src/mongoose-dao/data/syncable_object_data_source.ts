@@ -71,7 +71,7 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
   async fetchMany(syncMetadata: ISyncMetadata): Promise<T[]> {
     let array: mongoose.Document<T>[] = await this.model.find({ 
       'metadata.version': { $gt: syncMetadata.version } ,
-      'metadata.selector': syncMetadata.getSelector()}).exec();
+      'metadata.syncZone': syncMetadata.getSyncZone()}).exec();
     return array.map((item) => item.toObject()); 
   }
   

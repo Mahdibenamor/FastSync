@@ -34,7 +34,7 @@ export class SyncManager implements ISyncManager {
             let objectRepository = FastSync.getInstance().getObjectRepository(type); 
             let typeMetadata = metadata.getTypeMetadata(type);
             let objects = await objectRepository.fetchMany(metadata.getTypeMetadata(type));
-            await syncPayload.pushObjects(type, objects, typeMetadata.getSelector());
+            await syncPayload.pushObjects(type, objects, typeMetadata.getSyncZone());
         }
         return syncPayload;
     }

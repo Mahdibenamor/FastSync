@@ -16,12 +16,12 @@ export class SyncPayload {
         return payload;
     }
     
-    public async pushObjects<T extends ISyncableObject>(type: string, entities: T[], selector: string) {
+    public async pushObjects<T extends ISyncableObject>(type: string, entities: T[], syncZone: string) {
         if (!(type in this.data)) {
             this.data[type] = [];
         }
         this.data[type].push(...entities);
-        let globalSyncVersion = await this.buildTypeMetadata(type, selector)
+        let globalSyncVersion = await this.buildTypeMetadata(type, syncZone)
         this.operationMetadata.setMetadata(type, globalSyncVersion)
     }
 
@@ -46,10 +46,10 @@ export class SyncPayload {
         throw new Error("metadata of each syncked type should specified, please check how you build SyncPayload")
     }
 
-    private async buildTypeMetadata(type: string, selector: string): Promise<SyncMetadata> {
+    private async buildTypeMetadata(type: string, syncZone: string): Promise<SyncMetadata> {
     
         let objects = this.getObjectsForType(type);
         const newVersion = Math.max(...objects.map(obj => obj.metadata.version));
-        return new SyncMetadata(type, newVersion, selector);
+        return new SyncMetadata(type, newVersion, syncZone);
     }
 }

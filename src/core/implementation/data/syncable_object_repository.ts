@@ -49,20 +49,20 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   }
 
   async addMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
-    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSelector())
+    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSyncZone())
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = await this.dataSource.addMany(entities);
-    await this.syncVersionManager.incrementSyncVersion(this.type, metadata.getSelector());
+    await this.syncVersionManager.incrementSyncVersion(this.type, metadata.getSyncZone());
     return entities;
   }
 
   async updateMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
     let mergedList :T[] = [];
     mergedList = await this.doResolveConflictsObject(entities);
-    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSelector())
+    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSyncZone())
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = await this.dataSource.updateMany(mergedList);
-    await this.syncVersionManager.incrementSyncVersion(this.type,metadata.getSelector());
+    await this.syncVersionManager.incrementSyncVersion(this.type,metadata.getSyncZone());
     return entities;
   }
 
@@ -74,7 +74,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   }
 
   async removeMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
-    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSelector())
+    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSyncZone())
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = this.doMarkObjectsAsDeleted(entities);
     entities = await this.updateMany(entities, metadata);

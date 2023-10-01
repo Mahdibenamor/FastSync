@@ -12,35 +12,35 @@ export class SyncVersionManager implements ISyncVersionManager {
     }
 
 
-    public async getLastSyncVersion(entityType: string, selector: string): Promise<number> {
-        let syncMetadataList = await this.syncMetadataRepository.query({type :entityType, selector: selector});
+    public async getLastSyncVersion(entityType: string, syncZone: string): Promise<number> {
+        let syncMetadataList = await this.syncMetadataRepository.query({type :entityType, syncZone: syncZone});
         if(syncMetadataList && syncMetadataList.length != 0){
             return syncMetadataList[0].version;
         }
         else{
-            let syncMetadata = await this.initObjectMetadata(entityType,selector)
+            let syncMetadata = await this.initObjectMetadata(entityType,syncZone)
             return syncMetadata.version
         }
     }
 
-    public async incrementSyncVersion(entityType: string, selector: string): Promise<number> {
-        let syncMetadataList = await this.syncMetadataRepository.query({type :entityType,selector: selector});
+    public async incrementSyncVersion(entityType: string, syncZone: string): Promise<number> {
+        let syncMetadataList = await this.syncMetadataRepository.query({type :entityType,syncZone: syncZone});
         let syncMetadata : SyncMetadata;
         if(syncMetadataList && syncMetadataList.length != 0){
             syncMetadata = syncMetadataList[0];
         }
         else{
-             syncMetadata = await this.initObjectMetadata(entityType,selector)
+             syncMetadata = await this.initObjectMetadata(entityType,syncZone)
         }
         syncMetadata.version ++;
         syncMetadata = await this.syncMetadataRepository.update({_id: syncMetadata._id},syncMetadata);
         return syncMetadata.version;
     }
 
-    private async initObjectMetadata(entityType: string, selector: string): Promise<SyncMetadata>{
-        let syncMetadataList = await this.syncMetadataRepository.query({type :entityType, selector: selector});
+    private async initObjectMetadata(entityType: string, syncZone: string): Promise<SyncMetadata>{
+        let syncMetadataList = await this.syncMetadataRepository.query({type :entityType, syncZone: syncZone});
         if(isNullOrUndefined(syncMetadataList) || syncMetadataList.length == 0){
-            let syncMetadata = new SyncMetadata(entityType, 0, selector);
+            let syncMetadata = new SyncMetadata(entityType, 0, syncZone);
             syncMetadata.timestamp = new Date().getTime();
             return await this.syncMetadataRepository.add(syncMetadata);        
         }

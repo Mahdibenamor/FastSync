@@ -8,18 +8,18 @@ export class SyncMetadata implements ISyncMetadata{
     syncOperation: SyncOperationEnum;
     
   static create(metadata: SyncMetadata){
-    let syncOperationMetadata = new SyncMetadata(metadata.type, metadata.version, metadata.selector);
+    let syncOperationMetadata = new SyncMetadata(metadata.type, metadata.version, metadata.syncZone);
     return syncOperationMetadata;
   }
     constructor(
         public type: string,
         public version: number,
-        public selector:string) {}
+        public syncZone:string) {}
 
-    getSelector(){
-        if(!isEmptyString(this.selector)){
-            return this.selector;
+      getSyncZone(){
+        if(!isEmptyString(this.syncZone)){
+            return this.syncZone;
         }
-        throw new Error("Each SyncMetadata should have selector (unique id), it is specified when configuring SyncConfiguration object")
+        throw new Error("Each SyncMetadata should have syncZone (unique id), it is specified when configuring SyncConfiguration object")
     }
 }

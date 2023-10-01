@@ -3,10 +3,10 @@ import { IWithId } from "./Iwith_id";
 
 export interface ISyncMetadata extends IWithId {
     _id: string;
-    selector:string;
+    syncZone:string;
     type: string;
     version: number
     timestamp: number;
     syncOperation: SyncOperationEnum;
-    getSelector();
+    getSyncZone();
 }

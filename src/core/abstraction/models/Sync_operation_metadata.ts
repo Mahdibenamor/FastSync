@@ -11,7 +11,7 @@ export class SyncOperationMetadata{
     const keys = Object.keys(operationMetadata.metadata);
     for (const key of keys) {
       const value = operationMetadata.metadata[key];
-      syncOperationMetadata.setMetadata(key, new SyncMetadata(value.type, value.version, value.selector))
+      syncOperationMetadata.setMetadata(key, new SyncMetadata(value.type, value.version, value.syncZone))
     }
     
     return syncOperationMetadata;

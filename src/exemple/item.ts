@@ -4,6 +4,7 @@ import {  buildSycnableItemSchema } from "../mongoose-dao/metadata/syncalbe_obje
 export class Item extends SyncableObject {
   public name: string;
   public description: string;
+  public id: string;
   constructor() {
       super(); 
     }

@@ -2,22 +2,26 @@ import { ISyncableObject } from "../metadata/ISyncable_object";
 import { SyncOperationMetadata } from "./Sync_operation_metadata";
 import { isNullOrUndefined } from "../../implementation/utils/utils";
 import { SyncMetadata } from "../../implementation/metadata/syncable_metadata";
-import { FastSync } from "../../implementation/fast_sync";
-import { ISyncVersionManager } from "../service/ISync_version_manager";
+import { ISyncMetadata } from "../metadata/ISync_metadata";
 
 export class SyncPayload {
-    private operationMetadata: SyncOperationMetadata = new SyncOperationMetadata();
-    private data: Record<string, any[]> = {};
+   
 
-    constructor() {}
+    constructor(public data: Record<string, any[]> = {}, public operationMetadata: SyncOperationMetadata = new SyncOperationMetadata()) {}
 
+    static create(syncPayload:SyncPayload){
+        let payload =  new SyncPayload()
+        payload.data = syncPayload.data;
+        payload.operationMetadata = SyncOperationMetadata.create(syncPayload.operationMetadata);
+        return payload;
+    }
     
-    public async pushObjects<T extends ISyncableObject>(type: string, entities: T[]) {
+    public async pushObjects<T extends ISyncableObject>(type: string, entities: T[], syncZone: string) {
         if (!(type in this.data)) {
             this.data[type] = [];
         }
         this.data[type].push(...entities);
-        let globalSyncVersion = await this.buildTypeMetadata(type)
+        let globalSyncVersion = await this.buildTypeMetadata(type, syncZone)
         this.operationMetadata.setMetadata(type, globalSyncVersion)
     }
 
@@ -34,9 +38,18 @@ export class SyncPayload {
         return Object.keys(this.data);
     }
 
-    private async buildTypeMetadata(type: string): Promise<SyncMetadata> {
-        let syncVersionManager: ISyncVersionManager = FastSync.getInstance().getSyncVersionManager();
-        let globalSyncVersion = await syncVersionManager.getLastGlobalSyncVersion(type)
-        return new SyncMetadata(type, globalSyncVersion);
+    public getTypeMetadata(type:string): ISyncMetadata{
+        let metadata = this.operationMetadata.getTypeMetadata(type)
+        if(!isNullOrUndefined(metadata)){
+            return metadata;
+        }
+        throw new Error("metadata of each syncked type should specified, please check how you build SyncPayload")
+    }
+
+    private async buildTypeMetadata(type: string, syncZone: string): Promise<SyncMetadata> {
+    
+        let objects = this.getObjectsForType(type);
+        const newVersion = Math.max(...objects.map(obj => obj.metadata.version));
+        return new SyncMetadata(type, newVersion, syncZone);
     }
 }

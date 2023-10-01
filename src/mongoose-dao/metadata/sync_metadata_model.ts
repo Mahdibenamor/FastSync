@@ -6,6 +6,10 @@ export  const SyncMetadataSchema = new Schema({
         required: true,
         auto: true,
     },
+    syncZone: {
+        type: String,
+        required: true,
+    }, 
     type: {
         type: String,
     },

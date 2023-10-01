@@ -1,11 +1,9 @@
 import "reflect-metadata";
 import { Container } from "typedi";
 import {
-    Body,
-  Get,
+  Body,
   JsonController,
   Post,
-  QueryParam,
   Req,
   Res,
 } from "routing-controllers";
@@ -29,7 +27,7 @@ export class SyncController extends BaseController {
     @Body() input: SyncPayload
   ) {
     try{
-     await this.syncManager.processPush(input)
+      await this.syncManager.processPush(input)
       return this.success(res, {"result":"push was done with success"});
     }
     catch(err){

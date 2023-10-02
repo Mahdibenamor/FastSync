@@ -6,7 +6,6 @@ import { ISyncMetadata } from "../metadata/ISync_metadata";
 
 export class SyncPayload {
    
-
     constructor(public data: Record<string, any[]> = {}, public operationMetadata: SyncOperationMetadata = new SyncOperationMetadata()) {}
 
     static create(syncPayload:SyncPayload){

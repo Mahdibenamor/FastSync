@@ -25,6 +25,7 @@ export class SyncOperationMetadata{
     if(this.metadata.hasOwnProperty(type) && !isNullOrUndefined(this.metadata[type])){
       return this.metadata[type];
     }
+    throw new Error("metadata of each syncked type should specified, please check how you build SyncOperationMetadata")
   }
 
   public getSynckedTypes(): string[]{

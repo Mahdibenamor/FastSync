@@ -3,6 +3,7 @@ import { ISyncableObject } from "../abstraction/metadata/ISyncable_object";
 import { SyncConfiguration } from "./service/sync_config";
 import { SyncVersionManager } from "./service/sync_version_manager";
 import { IConflictsHandler } from "../abstraction/service/IConflicts_handler";
+import { SyncZoneRestrictionEnum } from "../abstraction/models/Sync_zone_restriction";
 
 export class FastSync {
     private static instance: FastSync;
@@ -31,9 +32,9 @@ export class FastSync {
       FastSync.instance.syncConfiguration = syncConfiguration;
     }     
 
-    public async setSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, conflictsHandler?: IConflictsHandler) {
+    public async setSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, conflictsHandler?: IConflictsHandler,  syncZoneRestriction: SyncZoneRestrictionEnum = SyncZoneRestrictionEnum.global ) {
       let syncConfiguration= FastSync.instance.syncConfiguration;
-      await syncConfiguration.setSyncalbeObject(entityType,repository,conflictsHandler );  
+      await syncConfiguration.setSyncalbeObject(entityType,repository,syncZoneRestriction, conflictsHandler);  
       FastSync.setSyncConfiguration(syncConfiguration);
     }
 
@@ -43,6 +44,10 @@ export class FastSync {
 
     public getObjectRepository<T extends ISyncableObject>(type: string): ISyncableRepository<T> {
       return FastSync.instance.syncConfiguration.getObjectRepository(type);
+    }
+
+    getSyncZoneConfiguration(type:string): SyncZoneRestrictionEnum{
+      return FastSync.instance.syncConfiguration.getSyncZoneConfiguration(type);
     }
 
   }

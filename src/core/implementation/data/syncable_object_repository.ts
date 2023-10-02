@@ -49,20 +49,22 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   }
 
   async addMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
-    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSyncZone())
+    let computedSyncZone = metadata.computeSyncZone(FastSync.getInstance().getSyncZoneConfiguration(metadata.type))
+    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, computedSyncZone)
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = await this.dataSource.addMany(entities);
-    await this.syncVersionManager.incrementSyncVersion(this.type, metadata.getSyncZone());
+    await this.syncVersionManager.incrementSyncVersion(this.type, computedSyncZone);
     return entities;
   }
 
   async updateMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
     let mergedList :T[] = [];
+    let computedSyncZone = metadata.computeSyncZone(FastSync.getInstance().getSyncZoneConfiguration(metadata.type))
     mergedList = await this.doResolveConflictsObject(entities);
-    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSyncZone())
+    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, computedSyncZone);
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = await this.dataSource.updateMany(mergedList);
-    await this.syncVersionManager.incrementSyncVersion(this.type,metadata.getSyncZone());
+    await this.syncVersionManager.incrementSyncVersion(this.type,computedSyncZone);
     return entities;
   }
 
@@ -74,7 +76,8 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   }
 
   async removeMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
-    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, metadata.getSyncZone())
+    let computedSyncZone = metadata.computeSyncZone(FastSync.getInstance().getSyncZoneConfiguration(metadata.type))
+    let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, computedSyncZone)
     entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
     entities = this.doMarkObjectsAsDeleted(entities);
     entities = await this.updateMany(entities, metadata);

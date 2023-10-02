@@ -1,6 +1,7 @@
+import { Constants } from "../../abstraction/constants";
 import { ISyncMetadata } from "../../abstraction/metadata/ISync_metadata";
 import { SyncOperationEnum } from "../../abstraction/metadata/ISync_operation";
-import { isEmptyString } from "../utils/utils";
+import { SyncZoneRestrictionEnum } from "../../abstraction/models/Sync_zone_restriction";
 
 export class SyncMetadata implements ISyncMetadata{
     _id: string;
@@ -17,9 +18,13 @@ export class SyncMetadata implements ISyncMetadata{
         public syncZone:string) {}
 
       getSyncZone(){
-        if(!isEmptyString(this.syncZone)){
-            return this.syncZone;
-        }
-        throw new Error("Each SyncMetadata should have syncZone (unique id), it is specified when configuring SyncConfiguration object")
+          return this.syncZone;
+      }
+
+    computeSyncZone(syncZoneRestrictionType: SyncZoneRestrictionEnum){
+      if(syncZoneRestrictionType == SyncZoneRestrictionEnum.restricted)
+      return this.syncZone;
+    else 
+      return Constants.globalSyncZoneRestriction;
     }
 }

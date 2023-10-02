@@ -1,0 +1,29 @@
+{
+  "name": "fast-sync-core",
+  "version": "1.0.0",
+  "description": "core version of fast sync, synchro service between 2 services distante(backend, mobile app)  ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mahdibenamor/FastSync.git"
+  },
+  "keywords": [
+    "sync",
+    "fast",
+    "sync",
+    "database",
+    "mongoose"
+  ],
+  "author": "Mahdi Ben Amor",
+  "license": "MIT",
+  "dependencies": {
+    "typedi": "^0.10.0"
+  },
+  "bugs": {
+    "url": "https://github.com/Mahdibenamor/FastSync/issues"
+  },
+  "homepage": "https://github.com/Mahdibenamor/FastSync#readme"
+}

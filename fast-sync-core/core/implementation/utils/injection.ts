@@ -1,4 +1,4 @@
-import Container, { Constructable } from "typedi"
+import Container from "typedi"
 import { isNullOrUndefined } from "./utils"
 import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository"
 import { Constants } from "../../abstraction/constants"

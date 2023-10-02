@@ -1,4 +1,4 @@
-import { SyncalbeRepository } from "../core/implementation/data/syncable_object_repository";
+import { SyncalbeRepository } from "fast-sync-core";
 import { Item } from "./item";
 import { ItemDataSource } from "./item_datasource";
 

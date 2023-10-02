@@ -1,15 +1,12 @@
-import 'reflect-metadata';
 import { useExpressServer } from "routing-controllers";
 import { SyncController } from "./exemple/sync.controller";
-import Container from "typedi";
-import {SyncConfiguration} from "./core/implementation/service/sync_config";
 import { Item } from "./exemple/item";
-import { ConflictsHandler } from './core/implementation/service/Conflicts_handler';
-import { ConflictsResolutionStrategyEnum } from './core/abstraction/service/conflicts_resolution_strategie';
-import { IConflictsHandler } from './core/abstraction/service/IConflicts_handler';
-import { ISyncableObject } from './core/abstraction/metadata/ISyncable_object';
+import { ConflictsHandler } from "fast-sync-core";
+import { ConflictsResolutionStrategyEnum } from "fast-sync-core";
+import { IConflictsHandler } from "fast-sync-core";
+import { ISyncableObject } from "fast-sync-core";
 import { ItemRepository } from './exemple/item_repository';
-import { FastSync } from './core/implementation/fast_sync';
+import { FastSync } from "fast-sync-core";
 import { MongooseSyncConfiguration } from './mongoose-dao/service/mongoose_sync_config';
 const express = require("express");
 const app = express();
@@ -58,7 +55,7 @@ async function configureFastSync(){
   let fastSync : FastSync = FastSync.getInstance(new MongooseSyncConfiguration());
   let conflictsHandler: IConflictsHandler = new  ConflictsHandler(ConflictsResolutionStrategyEnum.PredefinedRules, conflictsResolutionFunction)
   let repo =  new ItemRepository();
-  await fastSync.setSyncalbeObject(Item.name,repo , conflictsHandler);
+  await fastSync.setSyncalbeObject(Item.name, repo , conflictsHandler);
 
 }
 

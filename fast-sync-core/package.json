@@ -20,7 +20,8 @@
   "author": "Mahdi Ben Amor",
   "license": "MIT",
   "dependencies": {
-    "typedi": "^0.10.0"
+    "typedi": "^0.10.0",
+    "reflect-metadata": "^0.1.13"
   },
   "bugs": {
     "url": "https://github.com/Mahdibenamor/FastSync/issues"

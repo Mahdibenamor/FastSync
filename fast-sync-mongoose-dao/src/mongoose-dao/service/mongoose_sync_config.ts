@@ -1,5 +1,5 @@
-import { SyncConfiguration } from "../../core/implementation/service/sync_config";
-import { SyncVersionManager } from "../../core/implementation/service/sync_version_manager";
+import { SyncConfiguration } from "fast-sync-core"
+import { SyncVersionManager } from "fast-sync-core"
 import { SyncMetadataDataSource } from "../data/sync_metadata_datasource";
 
 export class MongooseSyncConfiguration extends SyncConfiguration{

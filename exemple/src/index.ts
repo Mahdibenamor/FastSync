@@ -7,7 +7,7 @@ import { IConflictsHandler } from "fast-sync-core";
 import { ISyncableObject } from "fast-sync-core";
 import { ItemRepository } from './exemple/item_repository';
 import { FastSync } from "fast-sync-core";
-import { MongooseSyncConfiguration } from './mongoose-dao/service/mongoose_sync_config';
+import { MongooseSyncConfiguration } from "fast-sync-mongoose-dao";
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");

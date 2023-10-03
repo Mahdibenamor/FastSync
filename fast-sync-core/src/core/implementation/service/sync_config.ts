@@ -7,6 +7,8 @@ import { ISyncableRepository } from "../../abstraction/data/ISyncable_Repository
 import Container from "typedi";
 import { Constants } from "../../abstraction/constants";
 import { SyncZoneRestrictionEnum } from "../../abstraction/models/Sync_zone_restriction";
+import { ISyncManager } from "../../abstraction/service/ISync_manager";
+import { SyncManager } from "./sync_manager";
 
 
 export class SyncConfiguration implements ISyncConfiguration {
@@ -33,6 +35,7 @@ export class SyncConfiguration implements ISyncConfiguration {
     }
     
     protected init(){
+        this.setSyncManager(new SyncManager());
     }
     
     
@@ -102,4 +105,25 @@ export class SyncConfiguration implements ISyncConfiguration {
             throw Error("repository of the " +type+" is not configured well, please check the configuration")
         }
     }
+
+   public getSyncManager(): ISyncManager {
+        let syncManager  = Container.get(SyncManager.name);
+        if(!isNullOrUndefined(syncManager)){
+            return syncManager as ISyncManager;
+        }
+        else {     
+            throw Error("Sync manager should not be null, be check your sync configuration class")
+        }    
+    }
+
+    public setSyncManager(syncManager: ISyncManager){
+        if(!isNullOrUndefined(syncManager)){
+            Container.set(SyncManager.name, syncManager)
+        }
+        else {  
+            throw Error("Sync manager should not be null, be check your sync configuration class")
+
+        }
+    }
+    
 }

@@ -1,5 +1,3 @@
-import "reflect-metadata";
-import { Container } from "typedi";
 import {
   Body,
   JsonController,
@@ -8,13 +6,13 @@ import {
   Res,
 } from "routing-controllers";
 import { BaseController } from "./utils/base_controller";
-import { SyncManager } from "fast-sync-core";
 import { SyncOperationMetadata } from "fast-sync-core";
-import { SyncPayload } from "fast-sync-core";
+import { SyncPayload, FastSync } from "fast-sync-core";
 
 @JsonController()
 export class SyncController extends BaseController {
-  private syncManager = Container.get(SyncManager);
+  
+  private syncManager = FastSync.getInstance().getSyncManager()
 
   constructor() {
     super();

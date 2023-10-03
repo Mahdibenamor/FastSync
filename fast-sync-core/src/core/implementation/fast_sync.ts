@@ -4,6 +4,7 @@ import { SyncConfiguration } from "./service/sync_config";
 import { SyncVersionManager } from "./service/sync_version_manager";
 import { IConflictsHandler } from "../abstraction/service/IConflicts_handler";
 import { SyncZoneRestrictionEnum } from "../abstraction/models/Sync_zone_restriction";
+import { ISyncManager } from "../abstraction/service/ISync_manager";
 
 export class FastSync {
     private static instance: FastSync;
@@ -48,6 +49,10 @@ export class FastSync {
 
     getSyncZoneConfiguration(type:string): SyncZoneRestrictionEnum{
       return FastSync.instance.syncConfiguration.getSyncZoneConfiguration(type);
+    }
+
+    getSyncManager(): ISyncManager{
+      return FastSync.instance.syncConfiguration.getSyncManager();
     }
 
   }

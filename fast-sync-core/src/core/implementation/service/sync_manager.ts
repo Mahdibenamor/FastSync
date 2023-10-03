@@ -1,4 +1,3 @@
-import { Service } from "typedi";
 import { SyncOperationMetadata } from "../../abstraction/models/Sync_operation_metadata";
 import { SyncPayload } from "../../abstraction/models/Sync_payload";
 import { SyncOperationEnum } from "../../abstraction/metadata/ISync_operation";
@@ -7,8 +6,8 @@ import { FastSync } from "../fast_sync";
 import { isEmptyString } from "../utils/utils";
 import { SyncZoneRestrictionEnum } from "../../abstraction/models/Sync_zone_restriction";
 
-@Service()
 export class SyncManager implements ISyncManager {
+    constructor(){}
      
     async processPush(payload: SyncPayload){
         payload = SyncPayload.create(payload);

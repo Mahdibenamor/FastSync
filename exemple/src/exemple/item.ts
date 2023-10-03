@@ -1,5 +1,5 @@
 import { SyncableObject } from "fast-sync-core";
-import {  buildSycnableItemSchema } from "../mongoose-dao/metadata/syncalbe_object_model";
+import {  buildSycnableItemSchema } from  "fast-sync-mongoose-dao";
 
 export class Item extends SyncableObject {
   public name: string;

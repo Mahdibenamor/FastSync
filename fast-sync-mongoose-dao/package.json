@@ -2,7 +2,8 @@
   "name": "fast-sync-mongoose-dao",
   "version": "1.0.0",
   "description": "core version of fast sync, synchro service between 2 services distante(backend, mobile app)  ",
-  "main": "index.js",
+  "main": "dist/esm/index.js",
+  "module": "dist/esm/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +22,8 @@
   "license": "MIT",
   "dependencies": {
     "fast-sync-core":"../fast-sync-core",
+    "@types/node": "^20.8.2",
+    "typescript": "^5.2.2",
     "mongoose": "^6.8.3"
   },
   "bugs": {

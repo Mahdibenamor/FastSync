@@ -7,7 +7,7 @@
     "strictPropertyInitialization": false,
     "sourceMap": true,
     "outDir": "dist",
-    "allowJs": true,
+    "allowJs": false,
     "target": "ES2022",
     "strict": false,
     "esModuleInterop": true,

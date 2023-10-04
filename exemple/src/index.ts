@@ -1,13 +1,15 @@
+import 'reflect-metadata';
+
 import { useExpressServer } from "routing-controllers";
-import { SyncController } from "./exemple/sync.controller";
-import { Item } from "./exemple/item";
 import { ConflictsHandler } from "fast-sync-core";
 import { ConflictsResolutionStrategyEnum } from "fast-sync-core";
 import { IConflictsHandler } from "fast-sync-core";
 import { ISyncableObject } from "fast-sync-core";
-import { ItemRepository } from './exemple/item_repository';
 import { FastSync } from "fast-sync-core";
 import { MongooseSyncConfiguration } from "fast-sync-mongoose-dao";
+import { ItemRepository } from "./item_repository";
+import { Item } from "./item";
+import { SyncController } from "./sync.controller";
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -23,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 
-useExpressServer(app, {
+useExpressServer(app, { 
   routePrefix: "/express",
   cors: true,
   controllers: [

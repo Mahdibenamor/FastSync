@@ -7,10 +7,10 @@ const SyncableSchema = new Schema({
     auto: true,
   },
   metadata: {
-    type: JSON,
+    type: Schema.Types.Mixed,
   },
   deleted: {
-    type: Boolean,
+    type: Schema.Types.Boolean
   },
 });
 

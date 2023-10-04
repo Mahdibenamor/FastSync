@@ -1,17 +1,21 @@
 {
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/index.ts"],
   "exclude": ["node_modules", "**/*.spec.ts"],
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
-    "sourceMap": true,
-    "outDir": "dist",
-    "allowJs": true,
-    "target": "ES2022",
-    "strict": false,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
     "esModuleInterop": true,
+    "lib": ["es5", "es2015", "es2016", "dom", "esnext"],
+    "types": ["node"],
+    "sourceMap": true,
+    "outDir": "dist/esm",
+    "allowJs": true,
+    "target": "es6",
+    "strict": false,
     "moduleResolution": "node",
-    "module": "commonjs"
+    "module": "es2015"
   }
 }

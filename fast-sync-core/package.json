@@ -1,19 +1,17 @@
 {
   "name": "fast-sync-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "core version of fast sync, synchro service between 2 services distante(backend, mobile app)  ",
   "scripts": {
+    "build": "tsc -p tsconfig.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Mahdibenamor/FastSync.git"
   },
-  "main": "dist/esm/index.js",
-  "module": "dist/esm/index.js",
-  "files": [
-    "dist"
-  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "sync",
     "fast",
@@ -25,9 +23,13 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^20.8.2",
-    "reflect-metadata": "^0.1.13",
-    "typedi": "^0.10.0",
-    "typescript": "^5.2.2"
+    "reflect-metadata": "0.1.13",
+    "typedi": "0.10.0",
+    "typescript": "5.2.2"
+  },
+  "peerDependencies": {
+    "mongoose": "^6.0.2 || ^7.0.0",
+    "reflect-metadata": "^0.1.12"
   },
   "bugs": {
     "url": "https://github.com/Mahdibenamor/FastSync/issues"

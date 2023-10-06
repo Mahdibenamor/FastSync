@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import * as mongoose from 'mongoose';
 import { ISyncalbeDataSource } from "fast-sync-core"
 import { IWithId } from "fast-sync-core"
 import { ISyncMetadata } from"fast-sync-core"

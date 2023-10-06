@@ -1,21 +1,23 @@
-import { Schema, SchemaDefinition, SchemaDefinitionType } from "mongoose";
+import * as mongoose from 'mongoose';
 
-const SyncableSchema = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    auto: true,
-  },
-  metadata: {
-    type: Schema.Types.Mixed,
-  },
-  deleted: {
-    type: Schema.Types.Boolean
-  },
-});
+export class SyncableSchemaItemBuilder{
 
-export function buildSycnableItemSchema(obj: SchemaDefinition<SchemaDefinitionType<any>> | Schema){
-  let schema =  SyncableSchema.clone();
-  schema.add(obj)
-  return schema;
+  static baseSchema : mongoose.Schema = new mongoose.Schema({
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      auto: true,
+    },
+    metadata: {
+      type: mongoose.Schema.Types.Mixed,
+    },
+    deleted: {
+      type: mongoose.Schema.Types.Boolean
+    },
+  }); 
+  static plugMetadataSchema(obj: mongoose.SchemaDefinition<mongoose.SchemaDefinitionType<any>> | mongoose.Schema){
+    let schema =  this.baseSchema.clone();
+    schema.add(obj)
+    return schema;
+  }
 }

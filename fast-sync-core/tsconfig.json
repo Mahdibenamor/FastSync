@@ -1,21 +1,20 @@
 {
-  "include": ["src/**/*", "src/index.ts"],
-  "exclude": ["node_modules", "**/*.spec.ts"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "tests", "dist", "**/*spec.ts"],
   "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "commonjs",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "esModuleInterop": true,
-    "lib": ["es5", "es2015", "es2016", "dom", "esnext"],
-    "types": ["node"],
-    "sourceMap": true,
-    "outDir": "dist/esm",
-    "allowJs": true,
-    "target": "es6",
+    "target": "ES2021",
+    "sourceMap": false,
+    "skipLibCheck": true,
     "strict": false,
-    "moduleResolution": "node",
-    "module": "es2015"
+    "strictPropertyInitialization": false
   }
 }

@@ -1,5 +1,6 @@
 import { SyncableObject } from "fast-sync-core";
-import { Schema } from "mongoose";
+import { SyncableSchemaItemBuilder } from "fast-sync-mongoose-dao";
+import * as mongoose from 'mongoose';
 
 export class Item extends SyncableObject {
   public name: string;
@@ -10,22 +11,14 @@ export class Item extends SyncableObject {
   }
 }
 
-var entrepreneurSchema   = new Schema({
+
+
+
+export const  ItemSchema = SyncableSchemaItemBuilder({
   name: {
-    type: Schema.Types.String
-},
-description: {
-  type: Schema.Types.String
-} });
-
-
-
-
-// export const  ItemSchema = buildSycnableItemSchema({
-//   name: {
-//       type: mon.Schema.Types.String
-//   },
-//   description: {
-//     type: mon.Schema.Types.String
-//   }  
-// }); 
+      type: mongoose.Schema.Types.String
+  },
+  description: {
+    type: mongoose.Schema.Types.String
+  }  
+}); 

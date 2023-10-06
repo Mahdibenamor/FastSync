@@ -1,8 +1,8 @@
-import { Schema } from "mongoose";
+import * as mongoose from 'mongoose';
 
-export  const SyncMetadataSchema = new Schema({
+export  const SyncMetadataSchema = new mongoose.Schema({
     _id: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         auto: true,
     },

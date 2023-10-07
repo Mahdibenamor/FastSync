@@ -1,0 +1,45 @@
+{
+  "name": "fast-sync-mongoose-dao",
+  "version": "1.0.1",
+  "description": "core version of fast sync, synchro service between 2 services distante(backend, mobile app)  ",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mahdibenamor/FastSync.git"
+  },
+  "keywords": [
+    "sync",
+    "fast",
+    "sync",
+    "database",
+    "mongoose"
+  ],
+  "author": "Mahdi Ben Amor",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "18.17.12",
+    "mongoose": "7.5.0",
+    "fast-sync-core": "1.0.1",
+    "reflect-metadata": "0.1.13",
+    "ts-node": "10.9.1",
+    "typescript": "5.2.2"
+  },
+  "peerDependencies": {
+    "mongoose": "^6.0.2 || ^7.0.0",
+    "reflect-metadata": "^0.1.12",
+    "fast-sync-core": "^1.0.1"
+
+  },
+  "bugs": {
+    "url": "https://github.com/Mahdibenamor/FastSync/issues"
+  },
+  "homepage": "https://github.com/Mahdibenamor/FastSync#readme",
+  "dependencies": {
+    "fast-sync-core": "^1.0.1"
+  }
+}

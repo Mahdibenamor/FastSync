@@ -1,29 +1,16 @@
 import 'reflect-metadata';
-
-import { useExpressServer } from "routing-controllers";
-import { ConflictsHandler } from "fast-sync-core";
-import { ConflictsResolutionStrategyEnum } from "fast-sync-core";
-import { IConflictsHandler } from "fast-sync-core";
-import { ISyncableObject } from "fast-sync-core";
-import { FastSync } from "fast-sync-core";
+import { ConflictsHandler, ConflictsResolutionStrategyEnum, FastSync, IConflictsHandler, ISyncableObject } from "fast-sync-core";
 import { MongooseSyncConfiguration } from "fast-sync-mongoose-dao";
-import { ItemRepository } from "./item_repository";
-import { Item } from "./item";
-import { SyncController } from "./sync.controller";
+import { useExpressServer } from "routing-controllers";
+import { Item } from './item';
+import { ItemRepository } from './item_repository';
+import { SyncController } from './sync.controller';
+import * as mongoose from 'mongoose';
+
+
+
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-
-
-var cors = require("cors");
-app.use(bodyParser.json({ limit: "1000mb" }));
-app.use(bodyParser.urlencoded({ limit: "1000mb", extended: true }));
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-
 
 useExpressServer(app, { 
   routePrefix: "/express",
@@ -31,16 +18,14 @@ useExpressServer(app, {
   controllers: [
     SyncController,
   ],
-  middlewares: [cors()],
+  middlewares: [],
 });
 
-mongoose
-  .connect("mongodb://localhost:27017/sync", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
 
+mongoose.connect("mongodb://localhost:27017/sync");
 app.use(express.json());
+
+
 app.listen(3000, async() => {  
   console.log(`listening on port ${3000}`);
 

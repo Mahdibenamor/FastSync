@@ -1,17 +1,22 @@
 {
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"],
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
   "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
     "sourceMap": true,
-    "outDir": "dist",
-    "allowJs": false,
-    "target": "ES2022",
-    "strict": false,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "module": "commonjs"
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
   }
 }

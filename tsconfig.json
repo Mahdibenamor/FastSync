@@ -17,6 +17,10 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "fast-sync-core": ["./packages/fast-sync-core/src"],
+      "fast-sync-mongoose-dao": ["./packages/fast-sync-mongoose-dao/src"],
+    }
   }
 }

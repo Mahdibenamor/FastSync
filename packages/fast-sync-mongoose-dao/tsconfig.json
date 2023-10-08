@@ -15,6 +15,9 @@
     "sourceMap": false,
     "skipLibCheck": true,
     "strict": false,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "paths": {
+      "fast-sync-core": ["../fast-sync-core/src"],
+    }
   }
 }

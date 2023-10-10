@@ -7,8 +7,6 @@ import { ItemRepository } from './item_repository';
 import { SyncController } from './sync.controller';
 import * as mongoose from 'mongoose';
 
-
-
 const express = require("express");
 const app = express();
 

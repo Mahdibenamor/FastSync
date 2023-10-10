@@ -1,9 +1,3 @@
-if (!Reflect || !(Reflect as any).getMetadata) {
-    throw new Error(
-      'TypeDI requires "Reflect.getMetadata" to work. Please import the "reflect-metadata" package at the very first line of your application.'
-    );
-}
-
 // export the abstraction folder
 
 // export the data folder

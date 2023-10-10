@@ -15,8 +15,9 @@ export class SyncableSchemaItemBuilder{
       type: mongoose.Schema.Types.Boolean
     },
   }); 
-  static plugMetadataSchema(obj: mongoose.SchemaDefinition<mongoose.SchemaDefinitionType<any>> | mongoose.Schema){
-    let schema =  this.baseSchema.clone();
+  static plugMetadataSchema(obj: mongoose.Schema){
+    let schema = new mongoose.Schema();
+    schema.add(this.baseSchema)
     schema.add(obj)
     return schema;
   }

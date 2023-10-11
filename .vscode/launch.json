@@ -8,9 +8,6 @@
         "preLaunchTask": "npm: build",
         "program": "${workspaceFolder}/packages/exemple/dist/index.js",
         "cwd": "${workspaceFolder}",
-        "outFiles": [
-          "${workspaceFolder}/packages/exemple/**/*.js"
-        ],
       }
     ]
 }

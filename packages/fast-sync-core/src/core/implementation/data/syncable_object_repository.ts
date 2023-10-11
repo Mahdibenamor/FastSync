@@ -44,6 +44,8 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
  }
 
   async fetchMany(metadata: ISyncMetadata): Promise<T[]> {
+    let computedSyncZone = metadata.computeSyncZone(FastSync.getInstance().getSyncZoneConfiguration(metadata.type))
+    metadata.syncZone = computedSyncZone;
     let entities = await this.dataSource.fetchMany(metadata)
     return entities;
   }

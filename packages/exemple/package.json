@@ -20,7 +20,7 @@
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.10.4",
     "fast-sync-core": "*",
-    "fast-sync-mongoose-dao": "*"
+    "fast-sync-mongoose-dao":"*"
   },
   "devDependencies": {
     "@types/node": "^20.3.1",

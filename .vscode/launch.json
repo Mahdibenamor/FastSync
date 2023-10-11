@@ -5,9 +5,12 @@
         "type": "node",
         "request": "launch",
         "name": "Debug ms-locations",
-        "preLaunchTask": "npm: build",
         "program": "${workspaceFolder}/packages/exemple/dist/index.js",
         "cwd": "${workspaceFolder}",
-      }
+        "sourceMaps": true,
+        "runtimeArgs": ["--preserve-symlinks"],
+        "trace": true
+      },
+      
     ]
 }

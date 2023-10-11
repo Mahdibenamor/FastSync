@@ -3,7 +3,7 @@
   "exclude": ["node_modules", "tests", "dist", "**/*spec.ts"],
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": ".",
+    "rootDir": "../.",
     "module": "commonjs",
     "declaration": true,
     "noImplicitAny": false,

@@ -10,8 +10,14 @@
     "type": "git",
     "url": "git+https://github.com/Mahdibenamor/FastSync.git"
   },
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "types": "dist/index.d.ts",
+  "directories": {
+    "lib": "src"
+  },
+  "files": [
+    "src"
+  ],
   "keywords": [
     "sync",
     "fast",

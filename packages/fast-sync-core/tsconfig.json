@@ -2,9 +2,10 @@
   "include": ["src/**/*"],
   "exclude": ["node_modules", "tests", "dist", "**/*spec.ts"],
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "dist",
     "rootDir": "../.",
     "module": "commonjs",
+    "esModuleInterop":true,
     "declaration": true,
     "noImplicitAny": false,
     "removeComments": true,

@@ -5,12 +5,11 @@
         "type": "node",
         "request": "launch",
         "name": "Debug ms-locations",
-        "program": "${workspaceFolder}/packages/exemple/dist/index.js",
+        "program": "${workspaceFolder}\\src\\index.ts",
         "cwd": "${workspaceFolder}",
         "sourceMaps": true,
-        "runtimeArgs": ["--preserve-symlinks"],
+        "runtimeArgs": ["-r","ts-node/register","-r","tsconfig-paths/register"],
         "trace": true
       },
-      
     ]
 }

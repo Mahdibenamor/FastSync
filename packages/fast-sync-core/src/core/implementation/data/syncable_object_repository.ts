@@ -51,7 +51,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   async addMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
     let computedSyncZone = metadata.computeSyncZone(FastSync.getInstance().getSyncZoneConfiguration(metadata.type))
     let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, computedSyncZone)
-    entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
+    entities = this.incrementObjectsVersion(entities, ++lastKnowVersion, computedSyncZone)
     entities = await this.dataSource.addMany(entities);
     await this.syncVersionManager.incrementSyncVersion(this.type, computedSyncZone);
     return entities;
@@ -62,7 +62,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
     let computedSyncZone = metadata.computeSyncZone(FastSync.getInstance().getSyncZoneConfiguration(metadata.type))
     mergedList = await this.doResolveConflictsObject(entities);
     let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, computedSyncZone);
-    entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
+    entities = this.incrementObjectsVersion(entities, ++lastKnowVersion, computedSyncZone)
     entities = await this.dataSource.updateMany(mergedList);
     await this.syncVersionManager.incrementSyncVersion(this.type,computedSyncZone);
     return entities;
@@ -78,7 +78,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   async removeMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
     let computedSyncZone = metadata.computeSyncZone(FastSync.getInstance().getSyncZoneConfiguration(metadata.type))
     let lastKnowVersion =  await this.syncVersionManager.getLastSyncVersion(this.type, computedSyncZone)
-    entities = this.incrementObjectsVersion(entities, ++lastKnowVersion)
+    entities = this.incrementObjectsVersion(entities, ++lastKnowVersion, computedSyncZone)
     entities = this.doMarkObjectsAsDeleted(entities);
     entities = await this.updateMany(entities, metadata);
     return entities;
@@ -114,10 +114,11 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
     return mergingResult;
   }
   
-  private incrementObjectsVersion(entities: T[], version:number){
+  private incrementObjectsVersion(entities: T[], version:number, computedSyncZone: string){
     let incermentedEntities: T[]= [];
     for (let entity of entities) {
       entity.metadata.version = version;
+      entity.metadata.syncZone = computedSyncZone;
       incermentedEntities.push(entity);
     }
     return incermentedEntities;

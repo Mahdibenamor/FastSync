@@ -5,9 +5,11 @@
         "type": "node",
         "request": "launch",
         "name": "Debug ms-locations",
-        "preLaunchTask": "npm: build",
-        "program": "${workspaceFolder}/packages/exemple/dist/index.js",
+        "program": "${workspaceFolder}\\src\\index.ts",
         "cwd": "${workspaceFolder}",
-      }
+        "sourceMaps": true,
+        "runtimeArgs": ["-r","ts-node/register","-r","tsconfig-paths/register"],
+        "trace": true
+      },
     ]
 }

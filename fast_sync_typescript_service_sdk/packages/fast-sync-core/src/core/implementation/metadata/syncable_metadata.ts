@@ -4,7 +4,7 @@ import { SyncOperationEnum } from "../../abstraction/metadata/ISync_operation";
 import { SyncZoneRestrictionEnum } from "../../abstraction/models/Sync_zone_restriction";
 
 export class SyncMetadata implements ISyncMetadata{
-    _id: string;
+    id: string;
     timestamp: number;
     syncOperation: SyncOperationEnum;
     

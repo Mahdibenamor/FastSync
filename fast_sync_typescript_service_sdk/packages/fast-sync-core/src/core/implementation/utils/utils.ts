@@ -20,7 +20,7 @@ export function isEmptyString(value: string): boolean {
 export function createDict<T extends IWithId>(objects: T[]): {[id:string]:T}{
   let dict : {[id: string]: T} = {};
   for (const obj of objects) {
-    dict[obj._id] =  obj;
+    dict[obj.id] =  obj;
   }
   return dict;
 }

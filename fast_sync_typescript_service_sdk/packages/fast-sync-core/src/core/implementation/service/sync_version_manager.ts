@@ -33,7 +33,7 @@ export class SyncVersionManager implements ISyncVersionManager {
              syncMetadata = await this.initObjectMetadata(entityType,syncZone)
         }
         syncMetadata.version ++;
-        syncMetadata = await this.syncMetadataRepository.update({_id: syncMetadata._id},syncMetadata);
+        syncMetadata = await this.syncMetadataRepository.update({id: syncMetadata.id},syncMetadata);
         return syncMetadata.version;
     }
 

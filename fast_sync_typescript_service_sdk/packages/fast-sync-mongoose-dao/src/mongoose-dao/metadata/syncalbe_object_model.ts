@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 export class SyncableSchemaItemBuilder{
 
   static baseSchema : mongoose.Schema = new mongoose.Schema({
-    _id: {
+    id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       auto: true,

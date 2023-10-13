@@ -59,7 +59,7 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
     entities.forEach(entity =>{
       bulk.push({
         updateOne: {
-          filter: { _id: Object(entity._id) },
+          filter: { id: Object(entity.id) },
           update: { $set: entity },
         },
       })

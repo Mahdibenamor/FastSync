@@ -40,7 +40,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
   }
 
   private async getObjectsByIds(ids: string[]):Promise<T[]>{
-    return await this.query({ _id: { $in: ids } });
+    return await this.query({ id: { $in: ids } });
  }
 
   async fetchMany(metadata: ISyncMetadata): Promise<T[]> {
@@ -72,7 +72,7 @@ export class SyncalbeRepository<T extends ISyncableObject> implements ISyncableR
 
   async doResolveConflictsObject(newObjects: T[]): Promise<T[]> {
     let result :T[] = [];
-    let oldObjects =await this.getObjectsByIds(newObjects.map(obj => obj._id));
+    let oldObjects =await this.getObjectsByIds(newObjects.map(obj => obj.id));
     result = await this.resolveConflicts(oldObjects,newObjects)
     return result;
   }

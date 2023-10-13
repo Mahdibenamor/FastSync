@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export  const SyncMetadataSchema = new mongoose.Schema({
-    _id: {
+    id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         auto: true,

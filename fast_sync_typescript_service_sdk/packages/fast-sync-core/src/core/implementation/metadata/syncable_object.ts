@@ -3,7 +3,7 @@ import { SyncOperationEnum } from "../../abstraction/metadata/ISync_operation";
 import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
 
 export class SyncableObject implements ISyncableObject {
-    public _id: string;
+    public id: string;
     public metadata: ISyncMetadata;
     public deleted: boolean;
     syncOperation: SyncOperationEnum;

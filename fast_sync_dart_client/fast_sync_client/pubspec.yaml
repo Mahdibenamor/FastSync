@@ -1,7 +1,7 @@
 name: fast_sync_client
 description:
 version: 1.0.0
-homepage: https://github.com/Milad-Akarie/injectable
+homepage: https://github.com/Mahdibenamor/FastSync
 
 environment:
   sdk: ">=3.0.0 <4.0.0"

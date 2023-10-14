@@ -1,20 +1,18 @@
-import 'package:fast_sync_client/src/absraction/metadata/isync_metadata.dart';
-import 'package:fast_sync_client/src/absraction/metadata/isync_operation.dart';
-import 'package:fast_sync_client/src/absraction/metadata/isyncalbe_object.dart';
+import 'package:fast_sync_client/fast_sync_client.dart';
 
 class SyncableObject implements ISyncableObject {
   @override
   final String id;
 
   @override
-  final ISyncMetadata metadata;
+  final SyncMetadata metadata;
 
   @override
   final bool deleted;
 
   final SyncOperationEnum syncOperation;
 
-  SyncableObject(
+  const SyncableObject(
       {required this.id,
       required this.metadata,
       required this.deleted,

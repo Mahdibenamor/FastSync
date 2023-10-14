@@ -5,9 +5,12 @@ part 'syncable_object_model.g.dart';
 
 @JsonSerializable()
 class SyncableItemModel extends SyncableObject {
+  @override
+  final SyncMetadataModel metadata;
+
   const SyncableItemModel(
       {required String id,
-      required SyncMetadataModel metadata,
+      required this.metadata,
       required bool deleted,
       required SyncOperationEnum syncOperation})
       : super(

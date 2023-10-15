@@ -10,7 +10,7 @@ class SyncConfiguration implements ISyncConfiguration {
   }
 
   void init() {
-    // setSyncManager(SyncManager());
+    setSyncManager(SyncManager());
   }
 
   @override
@@ -23,6 +23,7 @@ class SyncConfiguration implements ISyncConfiguration {
     setObjectRepository(entityType, repository);
   }
 
+  @override
   void setObjectRepository<T extends ISyncableObject>(
       String entityType, ISyncableRepository<T> repository) {
     if (repository != null) {
@@ -46,6 +47,7 @@ class SyncConfiguration implements ISyncConfiguration {
     }
   }
 
+  @override
   IConflictsHandler getObjectConflictsHandler(String type) {
     IConflictsHandler conflictsHandler =
         _container(instanceName: type + Constants.conflictsHandlerName);
@@ -77,6 +79,7 @@ class SyncConfiguration implements ISyncConfiguration {
     }
   }
 
+  @override
   ISyncableRepository<T> getObjectRepository<T extends ISyncableObject>(
       String type) {
     ISyncableRepository<T> repository =
@@ -89,6 +92,7 @@ class SyncConfiguration implements ISyncConfiguration {
     }
   }
 
+  @override
   ISyncManager getSyncManager() {
     ISyncManager syncManager = _container<ISyncManager>();
     if (syncManager != null) {

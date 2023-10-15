@@ -5,10 +5,18 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  flutter:
+    sdk: flutter
   get_it: ">=7.0.0 <8.0.0"
+  json_annotation: ^4.8.1
+  fast_sync_client:
+    path: ../../fast_sync_client
+  fast_sync_floor_dao:
+    path: ../../fast_sync_floor_dao
 
 dev_dependencies:
   pedantic: ^1.11.1
   build_runner: ^2.4.0
+  json_serializable: ^6.7.1
   effective_dart: ^1.3.2
   lints: ^2.1.0

@@ -4,4 +4,6 @@ class Constants {
   static final String conflictsHandlerName = "ConflictsHandler";
   static final String syncZoneRestriction = "SyncZoneConfiguration";
   static final String globalSyncZoneRestriction = "Global";
+  static final String metadataTableName = "SyncMetadataTable";
+  static final String syncDataBaseName = "'sync.db'";
 }

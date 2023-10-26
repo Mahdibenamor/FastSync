@@ -1,12 +1,13 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
 
-class FastSync {
+class FastSync<V extends SyncConfiguration> {
   static FastSync? _instance;
-  SyncConfiguration? _syncConfiguration;
+  V? _syncConfiguration;
 
   FastSync._();
 
-  static FastSync getInstance([SyncConfiguration? syncConfiguration]) {
+  static FastSync getInstance<V extends SyncConfiguration>(
+      [V? syncConfiguration]) {
     _instance ??= FastSync._();
     if (_instance?._syncConfiguration == null && syncConfiguration != null) {
       FastSync.setSyncConfiguration(syncConfiguration);
@@ -14,8 +15,14 @@ class FastSync {
     return _instance!;
   }
 
-  static void setSyncConfiguration(SyncConfiguration syncConfiguration) {
+  static void setSyncConfiguration<V extends SyncConfiguration>(
+      V syncConfiguration) {
+    _instance ??= FastSync._();
     _instance!._syncConfiguration = syncConfiguration;
+  }
+
+  static getSyncConfiguration<V extends SyncConfiguration>() {
+    return _instance!._syncConfiguration!;
   }
 
   Future<void> setSyncableObject<T extends ISyncableObject>(

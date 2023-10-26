@@ -1,10 +1,18 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
+import 'package:fast_sync_floor_dao/fast_sync_floor_dao.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SyncalbeObjectDataSource implements ISyncableDataSource {
+  final SqfliteSyncConfiguration configuration =
+      FastSync.getSyncConfiguration<SqfliteSyncConfiguration>();
+  final String tableName;
+
+  SyncalbeObjectDataSource({required this.tableName});
+
   @override
-  Future add(entity) {
-    // TODO: implement addMany
-    throw UnimplementedError();
+  Future add(entity) async {
+    Database db = await getLocalDataBase();
+    return await db.insert(tableName, entity.fromJson());
   }
 
   @override
@@ -58,5 +66,9 @@ class SyncalbeObjectDataSource implements ISyncableDataSource {
   Future<List> updateMany(List entities) {
     // TODO: implement updateMany
     throw UnimplementedError();
+  }
+
+  Future<Database> getLocalDataBase() {
+    return configuration.database;
   }
 }

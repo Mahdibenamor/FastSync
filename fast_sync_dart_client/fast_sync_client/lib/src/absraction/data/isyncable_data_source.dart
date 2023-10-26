@@ -1,4 +1,4 @@
-import 'package:fast_sync_client/src/absraction/metadata/isync_metadata.dart';
+import 'package:fast_sync_client/fast_sync_client.dart';
 
 abstract class ISyncableDataSource<T> {
   Future<T> add(T entity);
@@ -10,5 +10,5 @@ abstract class ISyncableDataSource<T> {
   Future<List<T>> updateMany(List<T> entities);
   Future<List<T>> addMany(List<T> entities);
   Future<List<T>> fetchMany(ISyncMetadata syncMetadata);
-  void dispose();
+  Future<void> dispose();
 }

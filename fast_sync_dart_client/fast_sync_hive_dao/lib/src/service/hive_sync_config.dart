@@ -1,13 +1,13 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
-import 'package:fast_sync_floor_dao/src/metadata/sync_metadata_model.dart';
+import 'package:fast_sync_hive_dao/fast_sync_hive_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class SqfliteSyncConfiguration extends SyncConfiguration {
+class HiveSyncConfiguration extends SyncConfiguration {
   Database? _database;
   final List<String> createDBs;
 
-  SqfliteSyncConfiguration({required this.createDBs}) : super();
+  HiveSyncConfiguration({required this.createDBs}) : super();
 
   @override
   Future<void> init() async {

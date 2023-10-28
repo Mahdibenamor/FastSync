@@ -11,8 +11,8 @@ dependencies:
   json_annotation: ^4.8.1
   fast_sync_client:
     path: ../../fast_sync_client
-  fast_sync_floor_dao:
-    path: ../../fast_sync_floor_dao
+  fast_sync_hive_dao:
+    path: ../../fast_sync_hive_dao
 
 dev_dependencies:
   pedantic: ^1.11.1

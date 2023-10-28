@@ -1,11 +1,11 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
-import 'package:fast_sync_floor_dao/fast_sync_floor_dao.dart';
+import 'package:fast_sync_hive_dao/fast_sync_hive_dao.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SyncalbeObjectDataSource<T extends SyncableItemModel>
     implements ISyncableDataSource<T> {
-  final SqfliteSyncConfiguration configuration =
-      FastSync.getSyncConfiguration<SqfliteSyncConfiguration>();
+  final HiveSyncConfiguration configuration =
+      FastSync.getSyncConfiguration<HiveSyncConfiguration>();
   final String tableName;
   final Function fromJson;
 

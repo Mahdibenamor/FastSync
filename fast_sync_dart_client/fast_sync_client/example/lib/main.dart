@@ -11,9 +11,14 @@ void main() async {
       SqfliteSyncConfiguration(createDBs: [Item.createShema()]);
   await configuration.init();
   FastSync.setSyncConfiguration<SqfliteSyncConfiguration>(configuration);
+
   ItemDataSource datasource =
-      ItemDataSource(tableName: "itemDataSource", fromJson: Item.fromJson);
+      ItemDataSource(tableName: Item.tableName, fromJson: Item.fromJson);
   ItemRepository repository = ItemRepository(dataSource: datasource);
+  IConflictsHandler conflictsHandler = ConflictsHandler(
+      resolutionStrategy: ConflictsResolutionStrategyEnum.lastWriterWins);
+  FastSync.setSyncableObject<Item>(
+      repository: repository, conflictsHandler: conflictsHandler);
   runApp(MyApp());
 }
 
@@ -34,11 +39,54 @@ class MyHomePage extends StatelessWidget {
         title: Text('Flutter Example Page'),
       ),
       body: Center(
-        child: Text(
-          'Hello, Flutter!',
-          style: TextStyle(fontSize: 24),
+        child: TextButton(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+          ),
+          onPressed: () async {
+            await testExecution();
+          },
+          child: Text('TextButton'),
         ),
       ),
     );
+  }
+
+  Future<void> testExecution() async {
+    ISyncableRepository<Item> repository =
+        FastSync.getInstance().getObjectRepository<Item>();
+    var count = await repository.count();
+    SyncMetadataModel metadata = SyncMetadataModel(
+        id: "id",
+        syncOperation: SyncOperationEnum.add,
+        syncZone: "user",
+        timestamp: 1,
+        type: 'Item',
+        version: 1);
+    Item item = Item(
+        id: 'id',
+        metadata: metadata,
+        deleted: false,
+        syncOperation: SyncOperationEnum.add,
+        name: 'name',
+        description: 'description');
+    await repository.add(item);
+    count = await repository.count();
+
+    item.name = 'update name';
+    item.description = 'update description';
+
+    await repository.update(item.id, item);
+    var updatedItem = await repository.findById(item.id);
+
+    var allItems = await repository.getAll();
+
+    item.name = 'update name 2';
+    item.description = 'update description2';
+
+    await repository.updateMany([item], metadata);
+    updatedItem = await repository.findById(item.id);
+
+    var test = 1 + 1;
   }
 }

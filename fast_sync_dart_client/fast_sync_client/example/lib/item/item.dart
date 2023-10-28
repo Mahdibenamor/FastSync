@@ -5,8 +5,8 @@ part 'item.g.dart';
 
 @JsonSerializable()
 class Item extends SyncableItemModel {
-  final String name;
-  final String description;
+  String name;
+  String description;
   Item(
       {required super.id,
       required super.metadata,
@@ -23,6 +23,8 @@ class Item extends SyncableItemModel {
 
   static String createShema() {
     return SyncableItemModel.createSchema(
-        tableName: "ItemTable", columns: 'name TEXT, description TEXT');
+        tableName: tableName, columns: 'name TEXT, description TEXT');
   }
+
+  static String get tableName => "ItemTable";
 }

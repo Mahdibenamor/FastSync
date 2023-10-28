@@ -25,14 +25,14 @@ class FastSync<V extends SyncConfiguration> {
     return _instance!._syncConfiguration!;
   }
 
-  Future<void> setSyncableObject<T extends ISyncableObject>(
-      String entityType, ISyncableRepository<T> repository,
-      {IConflictsHandler? conflictsHandler,
+  static void setSyncableObject<T extends ISyncableObject>(
+      {required ISyncableRepository<T> repository,
+      IConflictsHandler? conflictsHandler,
       SyncZoneRestrictionEnum syncZoneRestriction =
-          SyncZoneRestrictionEnum.global}) async {
+          SyncZoneRestrictionEnum.global}) {
     final syncConfiguration = _instance!._syncConfiguration!;
-    syncConfiguration.setSyncableObject(
-        entityType, repository, syncZoneRestriction, conflictsHandler);
+    syncConfiguration.setSyncableObject(T.runtimeType.toString(), repository,
+        syncZoneRestriction, conflictsHandler);
     setSyncConfiguration(syncConfiguration);
   }
 
@@ -40,9 +40,9 @@ class FastSync<V extends SyncConfiguration> {
     return _instance!._syncConfiguration!.getObjectConflictsHandler(type);
   }
 
-  ISyncableRepository<T> getObjectRepository<T extends ISyncableObject>(
-      String type) {
-    return _instance!._syncConfiguration!.getObjectRepository(type);
+  ISyncableRepository<T> getObjectRepository<T extends ISyncableObject>() {
+    return _instance!._syncConfiguration!
+        .getObjectRepository(T.runtimeType.toString());
   }
 
   SyncZoneRestrictionEnum getSyncZoneConfiguration(String type) {

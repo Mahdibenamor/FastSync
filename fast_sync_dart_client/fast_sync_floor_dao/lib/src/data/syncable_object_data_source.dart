@@ -3,25 +3,27 @@ import 'package:fast_sync_floor_dao/fast_sync_floor_dao.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SyncalbeObjectDataSource<T extends SyncableItemModel>
-    implements ISyncableDataSource {
+    implements ISyncableDataSource<T> {
   final SqfliteSyncConfiguration configuration =
       FastSync.getSyncConfiguration<SqfliteSyncConfiguration>();
   final String tableName;
+  final Function fromJson;
 
-  SyncalbeObjectDataSource({required this.tableName});
+  SyncalbeObjectDataSource({required this.tableName, required this.fromJson});
 
   @override
-  Future add(entity) async {
+  Future<T> add(T entity) async {
     Database db = await getLocalDataBase();
-    return await db.insert(tableName, entity);
+    await db.insert(tableName, entity.toJson());
+    return entity;
   }
 
   @override
-  Future<List> addMany(List entities) async {
+  Future<List<T>> addMany(List<T> entities) async {
     Database db = await getLocalDataBase();
     final batch = db.batch();
     for (var object in entities) {
-      batch.insert(tableName, object);
+      batch.insert(tableName, object.toJson());
     }
     await batch.commit();
     return entities;
@@ -43,13 +45,13 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   }
 
   @override
-  Future<List> fetchMany(ISyncMetadata syncMetadata) {
+  Future<List<T>> fetchMany(ISyncMetadata syncMetadata) {
     // TODO: implement fetchMany
     throw UnimplementedError();
   }
 
   @override
-  Future findById(String id) async {
+  Future<T?> findById(String id) async {
     Database db = await getLocalDataBase();
     List<Map<String, dynamic>> results = await db.query(
       tableName,
@@ -58,56 +60,61 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
       limit: 1,
     );
     if (results.isNotEmpty) {
-      return results.first;
+      return fromJson(results.first);
     }
     return null;
   }
 
   @override
-  Future<List> getAll() async {
+  Future<List<T>> getAll() async {
     Database db = await getLocalDataBase();
     final results = await db.query(tableName);
-    return results;
+    List<T> objects = _objectsCreator(results);
+    return objects;
   }
 
   @override
-  Future<List> query(query) async {
+  Future<List<T>> query(query) async {
     Database db = await getLocalDataBase();
     final results = await db.query(tableName, where: query);
-    return results;
+    List<T> objects = _objectsCreator(results);
+
+    return objects;
   }
 
   @override
-  Future update(query, entity) async {
+  Future<T> update(query, entity) async {
     Database db = await getLocalDataBase();
-    final int updatedRows = await db.update(
+    await db.update(
       tableName,
-      entity,
+      entity.toJson(),
       where: query,
     );
 
-    if (updatedRows > 0) {
-      return entity;
-    } else {
-      return null;
-    }
+    return entity;
   }
 
   @override
-  Future<List> updateMany(List entities) async {
+  Future<List<T>> updateMany(List<T> entities) async {
     Database db = await getLocalDataBase();
     final batch = db.batch();
 
     for (final entity in entities) {
       batch.update(
         tableName,
-        entity,
+        entity.toJson(),
         where: 'id = ?',
-        whereArgs: [entity['id']],
+        whereArgs: [entity.id],
       );
     }
-    final results = await batch.commit(noResult: true);
-    return results;
+    await batch.commit(noResult: true);
+    return entities;
+  }
+
+  List<T> _objectsCreator(List jsonObjects) {
+    List<T> objects =
+        List<T>.from(jsonObjects.map((itemsJson) => fromJson(itemsJson)));
+    return objects;
   }
 
   Future<Database> getLocalDataBase() {

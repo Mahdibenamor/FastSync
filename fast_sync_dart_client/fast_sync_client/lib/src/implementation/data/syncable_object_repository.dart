@@ -32,7 +32,7 @@ class SyncalbeRepository<T extends ISyncableObject>
   }
 
   @override
-  Future<T> findById(String id) async {
+  Future<T?> findById(String id) async {
     return await dataSource.findById(id);
   }
 

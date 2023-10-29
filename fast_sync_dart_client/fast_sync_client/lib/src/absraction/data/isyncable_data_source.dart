@@ -2,7 +2,7 @@ import 'package:fast_sync_client/fast_sync_client.dart';
 
 abstract class ISyncableDataSource<T> {
   Future<T> add(T entity);
-  Future<T> update(dynamic query, T entity);
+  Future<T> update(String query, T entity);
   Future<T?> findById(String id);
   Future<List<T>> getAll();
   Future<List<T>> query(dynamic query);

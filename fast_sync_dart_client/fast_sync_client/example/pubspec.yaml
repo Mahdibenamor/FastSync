@@ -8,6 +8,9 @@ dependencies:
   flutter:
     sdk: flutter
   get_it: ">=7.0.0 <8.0.0"
+  path: ^1.8.3
+  hive: ^2.2.3
+  path_provider: ^2.1.1
   json_annotation: ^4.8.1
   fast_sync_client:
     path: ../../fast_sync_client
@@ -20,3 +23,4 @@ dev_dependencies:
   json_serializable: ^6.7.1
   effective_dart: ^1.3.2
   lints: ^2.1.0
+  hive_generator: ^2.0.1

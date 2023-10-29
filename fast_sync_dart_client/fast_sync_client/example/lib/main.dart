@@ -4,22 +4,25 @@ import 'package:example/item/item_repository.dart';
 import 'package:fast_sync_client/fast_sync_client.dart';
 import 'package:fast_sync_hive_dao/fast_sync_hive_dao.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  HiveSyncConfiguration configuration =
-      HiveSyncConfiguration(createDBs: [Item.createShema()]);
-  await configuration.init();
-  FastSync.setSyncConfiguration<HiveSyncConfiguration>(configuration);
-
-  ItemDataSource datasource =
-      ItemDataSource(tableName: Item.tableName, fromJson: Item.fromJson);
+  FastSync.setSyncConfiguration<HiveSyncConfiguration>(HiveSyncConfiguration());
+  ItemDataSource datasource = ItemDataSource();
   ItemRepository repository = ItemRepository(dataSource: datasource);
   IConflictsHandler conflictsHandler = ConflictsHandler(
       resolutionStrategy: ConflictsResolutionStrategyEnum.lastWriterWins);
   FastSync.setSyncableObject<Item>(
       repository: repository, conflictsHandler: conflictsHandler);
   runApp(MyApp());
+}
+
+Future<void> initHive() async {
+  var dir = await getApplicationDocumentsDirectory();
+  Hive.init(dir.path);
+  Hive.registerAdapter(ItemAdapter());
 }
 
 class MyApp extends StatelessWidget {

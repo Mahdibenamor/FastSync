@@ -1,18 +1,32 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
 import 'package:fast_sync_hive_dao/fast_sync_hive_dao.dart';
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'syncable_object_model.g.dart';
 
 @JsonSerializable()
 class SyncableItemModel extends SyncableObject {
+  @HiveField(250)
+  @override
+  final String id;
+
+  @HiveField(251)
+  @override
+  final bool deleted;
+
+  @HiveField(252)
+  @override
+  final SyncOperationEnum syncOperation;
+
+  @HiveField(253)
   @override
   final SyncMetadataModel metadata;
 
   const SyncableItemModel(
-      {required String id,
+      {required this.id,
       required this.metadata,
-      required bool deleted,
-      required SyncOperationEnum syncOperation})
+      required this.deleted,
+      required this.syncOperation})
       : super(
             id: id,
             metadata: metadata,
@@ -23,21 +37,4 @@ class SyncableItemModel extends SyncableObject {
       _$SyncableItemModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$SyncableItemModelToJson(this);
-
-  static String createSchema({
-    required String tableName,
-    required String columns,
-  }) {
-    return ('''
-      CREATE TABLE IF NOT EXISTS $tableName (
-        id TEXT PRIMARY KEY,
-        metadata TEXT,
-        type TEXT,
-        version REAL,
-        timestamp REAL,
-        syncOperation INTEGER,
-        $columns
-      )
-    ''');
-  }
 }

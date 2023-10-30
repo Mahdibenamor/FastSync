@@ -28,7 +28,7 @@ class SyncMetadataModel extends SyncMetadata {
 
   @override
   @HiveField(255)
-  final SyncOperationEnum syncOperation;
+  final int syncOperation;
 
   const SyncMetadataModel(
       {required this.id,

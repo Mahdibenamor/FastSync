@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initHive();
   FastSync.setSyncConfiguration<HiveSyncConfiguration>(HiveSyncConfiguration());
   ItemDataSource datasource = ItemDataSource();
   ItemRepository repository = ItemRepository(dataSource: datasource);
@@ -61,7 +62,7 @@ class MyHomePage extends StatelessWidget {
     var count = await repository.count();
     SyncMetadataModel metadata = SyncMetadataModel(
         id: "id",
-        syncOperation: SyncOperationEnum.add,
+        syncOperation: SyncOperationEnum.add.code,
         syncZone: "user",
         timestamp: 1,
         type: 'Item',
@@ -70,7 +71,6 @@ class MyHomePage extends StatelessWidget {
         id: 'id',
         metadata: metadata,
         deleted: false,
-        syncOperation: SyncOperationEnum.add,
         name: 'name',
         description: 'description');
     await repository.add(item);

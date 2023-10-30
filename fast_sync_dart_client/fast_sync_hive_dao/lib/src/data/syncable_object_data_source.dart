@@ -4,11 +4,7 @@ import 'package:hive/hive.dart';
 
 class SyncalbeObjectDataSource<T extends SyncableItemModel>
     implements ISyncableDataSource<T> {
-  late Box<T> _boxInstance;
-
-  Future<Box<T>> get boxInstance async {
-    return await _openBox();
-  }
+  Box<T>? _boxInstance;
 
   SyncalbeObjectDataSource();
 
@@ -90,15 +86,25 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   }
 
   Future<void> _init() async {
+    // HiveSyncConfiguration instance =
+    //     FastSync.getSyncConfiguration<HiveSyncConfiguration>();
     _boxInstance = await Hive.openBox(T.toString());
   }
 
   Future<Box<T>> _openBox() async {
-    if (_boxInstance == null || !_boxInstance.isOpen) {
+    if (_boxInstance == null) {
       await _init();
-      return _boxInstance;
+      return _boxInstance!;
     }
-    return _boxInstance;
+    if (!_boxInstance!.isOpen) {
+      await _init();
+      return _boxInstance!;
+    }
+    return _boxInstance!;
+  }
+
+  Future<Box<T>> get boxInstance async {
+    return await _openBox();
   }
 
   Future<List<String>> get keys async {

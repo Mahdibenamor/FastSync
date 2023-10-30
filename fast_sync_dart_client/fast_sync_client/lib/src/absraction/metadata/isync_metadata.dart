@@ -1,4 +1,3 @@
-import 'package:fast_sync_client/src/absraction/metadata/isync_operation.dart';
 import 'package:fast_sync_client/src/absraction/metadata/iwith_id.dart';
 import 'package:fast_sync_client/src/absraction/models/sync_zone_restriction.dart';
 
@@ -7,7 +6,7 @@ abstract class ISyncMetadata extends IWithId {
   final String type;
   final num version;
   final num timestamp;
-  final SyncOperationEnum syncOperation;
+  final int syncOperation;
 
   const ISyncMetadata(
       {required String id,

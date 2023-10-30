@@ -1,6 +1,5 @@
 import 'package:fast_sync_client/src/absraction/constants.dart';
 import 'package:fast_sync_client/src/absraction/metadata/isync_metadata.dart';
-import 'package:fast_sync_client/src/absraction/metadata/isync_operation.dart';
 import 'package:fast_sync_client/src/absraction/models/sync_zone_restriction.dart';
 
 class SyncMetadata implements ISyncMetadata {
@@ -20,7 +19,7 @@ class SyncMetadata implements ISyncMetadata {
   final num timestamp;
 
   @override
-  final SyncOperationEnum syncOperation;
+  final int syncOperation;
 
   const SyncMetadata(
       {required this.id,

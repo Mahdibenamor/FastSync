@@ -22,7 +22,7 @@ class MetaDataAdapter extends TypeAdapter<SyncMetadataModel> {
       type: fields[242] as String,
       version: fields[243] as num,
       timestamp: fields[244] as num,
-      syncOperation: fields[255] as SyncOperationEnum,
+      syncOperation: fields[255] as int,
     );
   }
 
@@ -66,8 +66,7 @@ SyncMetadataModel _$SyncMetadataModelFromJson(Map<String, dynamic> json) =>
       type: json['type'] as String,
       version: json['version'] as num,
       timestamp: json['timestamp'] as num,
-      syncOperation:
-          $enumDecode(_$SyncOperationEnumEnumMap, json['syncOperation']),
+      syncOperation: json['syncOperation'] as int,
     );
 
 Map<String, dynamic> _$SyncMetadataModelToJson(SyncMetadataModel instance) =>
@@ -77,11 +76,5 @@ Map<String, dynamic> _$SyncMetadataModelToJson(SyncMetadataModel instance) =>
       'type': instance.type,
       'version': instance.version,
       'timestamp': instance.timestamp,
-      'syncOperation': _$SyncOperationEnumEnumMap[instance.syncOperation]!,
+      'syncOperation': instance.syncOperation,
     };
-
-const _$SyncOperationEnumEnumMap = {
-  SyncOperationEnum.add: 'add',
-  SyncOperationEnum.update: 'update',
-  SyncOperationEnum.delete: 'delete',
-};

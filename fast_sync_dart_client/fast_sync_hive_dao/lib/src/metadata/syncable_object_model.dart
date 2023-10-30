@@ -14,24 +14,13 @@ class SyncableItemModel extends SyncableObject {
   @override
   final bool deleted;
 
-  @HiveField(252)
-  @override
-  final SyncOperationEnum syncOperation;
-
   @HiveField(253)
   @override
   final SyncMetadataModel metadata;
 
   const SyncableItemModel(
-      {required this.id,
-      required this.metadata,
-      required this.deleted,
-      required this.syncOperation})
-      : super(
-            id: id,
-            metadata: metadata,
-            deleted: deleted,
-            syncOperation: syncOperation);
+      {required this.id, required this.metadata, required this.deleted})
+      : super(id: id, metadata: metadata, deleted: deleted);
 
   factory SyncableItemModel.fromJson(Map<String, dynamic> json) =>
       _$SyncableItemModelFromJson(json);

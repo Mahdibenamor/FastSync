@@ -20,7 +20,6 @@ class ItemAdapter extends TypeAdapter<Item> {
       id: fields[250] as String,
       metadata: fields[253] as SyncMetadataModel,
       deleted: fields[251] as bool,
-      syncOperation: fields[252] as SyncOperationEnum,
       name: fields[1] as String,
       description: fields[2] as String,
     );
@@ -29,7 +28,7 @@ class ItemAdapter extends TypeAdapter<Item> {
   @override
   void write(BinaryWriter writer, Item obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(5)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
@@ -38,8 +37,6 @@ class ItemAdapter extends TypeAdapter<Item> {
       ..write(obj.id)
       ..writeByte(251)
       ..write(obj.deleted)
-      ..writeByte(252)
-      ..write(obj.syncOperation)
       ..writeByte(253)
       ..write(obj.metadata);
   }
@@ -64,8 +61,6 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
       metadata:
           SyncMetadataModel.fromJson(json['metadata'] as Map<String, dynamic>),
       deleted: json['deleted'] as bool,
-      syncOperation:
-          $enumDecode(_$SyncOperationEnumEnumMap, json['syncOperation']),
       name: json['name'] as String,
       description: json['description'] as String,
     );
@@ -73,14 +68,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
 Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
-      'syncOperation': _$SyncOperationEnumEnumMap[instance.syncOperation]!,
       'metadata': instance.metadata,
       'name': instance.name,
       'description': instance.description,
     };
-
-const _$SyncOperationEnumEnumMap = {
-  SyncOperationEnum.add: 'add',
-  SyncOperationEnum.update: 'update',
-  SyncOperationEnum.delete: 'delete',
-};

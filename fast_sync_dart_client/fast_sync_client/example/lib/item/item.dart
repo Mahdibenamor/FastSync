@@ -17,7 +17,6 @@ class Item extends SyncableItemModel {
       {required super.id,
       required super.metadata,
       required super.deleted,
-      required super.syncOperation,
       required this.name,
       required this.description});
 

@@ -17,8 +17,8 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
 
   @override
   Future<List<T>> addMany(List<T> entities) async {
-    final Box<T> box = await boxInstance;
-    await box.addAll(entities);
+    //final Box<T> box = await boxInstance;
+    List<T> test = await this.updateMany(entities);
     return entities;
   }
 

@@ -5,7 +5,7 @@ part 'sync_metadata_model.g.dart';
 
 @HiveType(typeId: 223, adapterName: "MetaDataAdapter")
 @JsonSerializable()
-class SyncMetadataModel extends SyncMetadata {
+class SyncMetadataModel implements SyncMetadata {
   @override
   @HiveField(240)
   final String id;
@@ -36,17 +36,24 @@ class SyncMetadataModel extends SyncMetadata {
       required this.type,
       required this.version,
       required this.timestamp,
-      required this.syncOperation})
-      : super(
-            id: id,
-            syncZone: syncZone,
-            type: type,
-            version: version,
-            timestamp: timestamp,
-            syncOperation: syncOperation);
+      required this.syncOperation});
 
   factory SyncMetadataModel.fromJson(Map<String, dynamic> json) =>
       _$SyncMetadataModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$SyncMetadataModelToJson(this);
+
+  @override
+  String computeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType) {
+    if (syncZoneRestrictionType == SyncZoneRestrictionEnum.restricted) {
+      return syncZone;
+    } else {
+      return Constants.globalSyncZoneRestriction;
+    }
+  }
+
+  @override
+  String getSyncZone() {
+    return syncZone;
+  }
 }

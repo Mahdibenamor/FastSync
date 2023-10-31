@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'syncable_object_model.g.dart';
 
 @JsonSerializable()
-class SyncableItemModel extends SyncableObject {
+class SyncableItemModel implements SyncableObject {
   @HiveField(250)
   @override
   final String id;
@@ -19,11 +19,15 @@ class SyncableItemModel extends SyncableObject {
   final SyncMetadataModel metadata;
 
   const SyncableItemModel(
-      {required this.id, required this.metadata, required this.deleted})
-      : super(id: id, metadata: metadata, deleted: deleted);
+      {required this.id, required this.metadata, required this.deleted});
 
   factory SyncableItemModel.fromJson(Map<String, dynamic> json) =>
       _$SyncableItemModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$SyncableItemModelToJson(this);
+
+  @override
+  num getVersion() {
+    return metadata.version;
+  }
 }

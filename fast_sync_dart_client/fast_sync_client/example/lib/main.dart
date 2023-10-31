@@ -59,37 +59,57 @@ class MyHomePage extends StatelessWidget {
   Future<void> testExecution() async {
     ISyncableRepository<Item> repository =
         FastSync.getInstance().getObjectRepository<Item>();
-    var count = await repository.count();
-    SyncMetadataModel metadata = SyncMetadataModel(
-        id: "id",
+    // var count = await repository.count();
+    // SyncMetadataModel metadata = SyncMetadataModel(
+    //     id: "id",
+    //     syncOperation: SyncOperationEnum.add.code,
+    //     syncZone: "user",
+    //     timestamp: 1,
+    //     type: 'Item',
+    //     version: 1);
+    // Item item = Item(
+    //     id: 'id',
+    //     metadata: metadata,
+    //     deleted: false,
+    //     name: 'name',
+    //     description: 'description');
+    // await repository.add(item);
+    // count = await repository.count();
+
+    // item.name = 'update name';
+    // item.description = 'update description';
+
+    // await repository.update(item.id, item);
+    // var updatedItem = await repository.findById(item.id);
+
+    // var allItems = await repository.getAll();
+
+    // item.name = 'update name 2';
+    // item.description = 'update description2';
+
+    // await repository.updateMany([item], metadata);
+    // updatedItem = await repository.findById(item.id);
+
+    SyncMetadataModel metadata2 = SyncMetadataModel(
+        id: "id2",
         syncOperation: SyncOperationEnum.add.code,
-        syncZone: "user",
+        syncZone: "user2",
         timestamp: 1,
-        type: 'Item',
+        type: 'Item2',
         version: 1);
-    Item item = Item(
-        id: 'id',
-        metadata: metadata,
+    Item item2 = Item(
+        id: 'id2',
+        metadata: metadata2,
         deleted: false,
-        name: 'name',
-        description: 'description');
-    await repository.add(item);
-    count = await repository.count();
+        name: 'name2',
+        description: 'description2');
 
-    item.name = 'update name';
-    item.description = 'update description';
+    await repository.addMany([item2], metadata2);
+    var updatedItem2 = await repository.findById(item2.id);
 
-    await repository.update(item.id, item);
-    var updatedItem = await repository.findById(item.id);
-
-    var allItems = await repository.getAll();
-
-    item.name = 'update name 2';
-    item.description = 'update description2';
-
-    await repository.updateMany([item], metadata);
-    updatedItem = await repository.findById(item.id);
-
+    item2.name = "name2 updated";
+    item2.description = "description2 updated";
+    await repository.addMany([item2], metadata2);
     var test = 1 + 1;
   }
 }

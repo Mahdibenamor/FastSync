@@ -5,7 +5,7 @@ class SyncableObject implements ISyncableObject {
   final String id;
 
   @override
-  final SyncMetadata metadata;
+  final ISyncMetadata metadata;
 
   @override
   final bool deleted;

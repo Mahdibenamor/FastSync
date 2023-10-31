@@ -16,8 +16,8 @@ export  const SyncMetadataSchema = new mongoose.Schema({
     version: {
         type: Number,
     },
-    changeTime: {
-        type: Date,
+    timestamp: {
+        type: Number,
     },
   });
   

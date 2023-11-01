@@ -2,14 +2,9 @@
   "name": "fast-sync-mongoose-dao",
   "version": "1.0.6",
   "description": "core version of fast sync, synchro service between 2 services distante(backend, mobile app)  ",
-  "scripts": {
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Mahdibenamor/FastSync.git"
-  },
+  "author": "Mahdibenamor <mahdi.benamor@supcom.tn>",
+  "homepage": "https://github.com/Mahdibenamor/FastSync#readme",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "directories": {
@@ -25,21 +20,26 @@
     "database",
     "mongoose"
   ],
-  "author": "Mahdi Ben Amor",
-  "license": "MIT",
   "dependencies": {
     "@types/node": "^20.8.2",
     "reflect-metadata": "0.1.13",
     "typedi": "0.10.0",
     "typescript": "5.2.2",
-    "fast-sync-core": "*"
+    "fast-sync-core": "file:../fast-sync-core/src"
   },
   "peerDependencies": {
     "mongoose": "^6.0.2 || ^7.0.0",
     "reflect-metadata": "^0.1.12"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mahdibenamor/FastSync.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "bugs": {
     "url": "https://github.com/Mahdibenamor/FastSync/issues"
-  },
-  "homepage": "https://github.com/Mahdibenamor/FastSync#readme"
+  }
 }

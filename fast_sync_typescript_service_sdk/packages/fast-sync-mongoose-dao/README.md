@@ -1,3 +1,11 @@
-# FastSync-mongoose-ts
+# `fast-sync-mongoose-dao`
 
-Express server for communication with services that require credentials/secrets.
+> TODO: description
+
+## Usage
+
+```
+const fastSyncMongooseDao = require('fast-sync-mongoose-dao');
+
+// TODO: DEMONSTRATE API
+```

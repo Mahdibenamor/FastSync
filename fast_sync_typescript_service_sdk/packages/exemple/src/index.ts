@@ -26,8 +26,9 @@ const uri = "mongodb+srv://FastSync:FastSyncForAll@fastsync.6o4fi9y.mongodb.net/
 mongoose.connect(uri);
 
 app.use(express.json());
-app.listen(3000, async() => {  
-  console.log(`listening on port ${3000}`);
+const port = process.env.PORT || 3000;
+app.listen(port, async() => {  
+  console.log(`listening on port ${port}`);
 
   try {
     await configureFastSync();

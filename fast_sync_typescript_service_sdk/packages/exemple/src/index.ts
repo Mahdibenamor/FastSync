@@ -6,8 +6,6 @@ import { Item } from './item';
 import { ItemRepository } from './item_repository';
 import { SyncController } from './sync.controller';
 import * as mongoose from 'mongoose';
-import { MongoClient, ServerApiVersion } from 'mongodb';
-
 const express = require("express");
 const app = express();
 
@@ -29,7 +27,6 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 app.listen(port, async() => {  
   console.log(`listening on port ${port}`);
-
   try {
     await configureFastSync();
     console.log("Configuration completed successfully");

@@ -59,36 +59,36 @@ class MyHomePage extends StatelessWidget {
   Future<void> testExecution() async {
     ISyncableRepository<Item> repository =
         FastSync.getInstance().getObjectRepository<Item>();
-    // var count = await repository.count();
-    // SyncMetadataModel metadata = SyncMetadataModel(
-    //     id: "id",
-    //     syncOperation: SyncOperationEnum.add.code,
-    //     syncZone: "user",
-    //     timestamp: 1,
-    //     type: 'Item',
-    //     version: 1);
-    // Item item = Item(
-    //     id: 'id',
-    //     metadata: metadata,
-    //     deleted: false,
-    //     name: 'name',
-    //     description: 'description');
-    // await repository.add(item);
-    // count = await repository.count();
+    var count = await repository.count();
+    SyncMetadataModel metadata = SyncMetadataModel(
+        id: "id",
+        syncOperation: SyncOperationEnum.add.code,
+        syncZone: "user",
+        timestamp: 1,
+        type: 'Item',
+        version: 1);
+    Item item = Item(
+        id: 'id',
+        metadata: metadata,
+        deleted: false,
+        name: 'name',
+        description: 'description');
+    await repository.add(item);
+    count = await repository.count();
 
-    // item.name = 'update name';
-    // item.description = 'update description';
+    item.name = 'update name';
+    item.description = 'update description';
 
-    // await repository.update(item.id, item);
-    // var updatedItem = await repository.findById(item.id);
+    await repository.update(item.id, item);
+    var updatedItem = await repository.findById(item.id);
 
-    // var allItems = await repository.getAll();
+    var allItems = await repository.getAll();
 
-    // item.name = 'update name 2';
-    // item.description = 'update description2';
+    item.name = 'update name 2';
+    item.description = 'update description2';
 
-    // await repository.updateMany([item], metadata);
-    // updatedItem = await repository.findById(item.id);
+    await repository.updateMany([item], metadata);
+    updatedItem = await repository.findById(item.id);
 
     SyncMetadataModel metadata2 = SyncMetadataModel(
         id: "id2",

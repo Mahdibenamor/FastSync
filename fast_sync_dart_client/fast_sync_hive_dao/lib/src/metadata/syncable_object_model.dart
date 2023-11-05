@@ -6,19 +6,22 @@ part 'syncable_object_model.g.dart';
 
 @JsonSerializable()
 class SyncableItemModel implements SyncableObject {
-  @HiveField(250)
+  @HiveField(249)
   @override
   final String id;
 
-  @HiveField(251)
+  @HiveField(250)
   @override
-  final bool deleted;
+  bool deleted;
 
-  @HiveField(253)
+  @HiveField(251)
   @override
   final SyncMetadataModel metadata;
 
-  const SyncableItemModel(
+  @HiveField(252)
+  bool dirty = false;
+
+  SyncableItemModel(
       {required this.id, required this.metadata, required this.deleted});
 
   factory SyncableItemModel.fromJson(Map<String, dynamic> json) =>
@@ -27,7 +30,7 @@ class SyncableItemModel implements SyncableObject {
   Map<String, dynamic> toJson() => _$SyncableItemModelToJson(this);
 
   @override
-  num getVersion() {
+  num? getVersion() {
     return metadata.version;
   }
 }

@@ -4,40 +4,34 @@ import 'package:fast_sync_client/src/absraction/models/sync_zone_restriction.dar
 
 class SyncMetadata implements ISyncMetadata {
   @override
-  final String id;
+  String id;
 
   @override
-  final String syncZone;
+  String? syncZone;
 
   @override
   final String type;
 
   @override
-  final num version;
+  num? version;
 
   @override
-  final num timestamp;
+  num timestamp;
 
   @override
-  final int syncOperation;
+  int? syncOperation;
 
-  const SyncMetadata(
-      {required this.id,
-      required this.syncZone,
-      required this.type,
-      required this.version,
-      required this.timestamp,
-      required this.syncOperation});
+  SyncMetadata({required this.id,required this.timestamp, required this.type});
 
   @override
-  String getSyncZone() {
+  String? getSyncZone() {
     return syncZone;
   }
 
   @override
   String computeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType) {
     if (syncZoneRestrictionType == SyncZoneRestrictionEnum.restricted) {
-      return syncZone;
+      return syncZone!;
     } else {
       return Constants.globalSyncZoneRestriction;
     }

@@ -10,11 +10,14 @@ class SyncableObject implements ISyncableObject {
   @override
   final bool deleted;
 
-  const SyncableObject(
+  @override
+  bool dirty = false;
+
+  SyncableObject(
       {required this.id, required this.metadata, required this.deleted});
 
   @override
-  num getVersion() {
+  num? getVersion() {
     return metadata.version;
   }
 }

@@ -2,13 +2,13 @@ import 'package:fast_sync_client/src/absraction/metadata/iwith_id.dart';
 import 'package:fast_sync_client/src/absraction/models/sync_zone_restriction.dart';
 
 abstract class ISyncMetadata extends IWithId {
-  final String syncZone;
+  String? syncZone;
   final String type;
-  final num version;
-  final num timestamp;
-  final int syncOperation;
+  num? version;
+  num timestamp;
+  int? syncOperation;
 
-  const ISyncMetadata(
+  ISyncMetadata(
       {required String id,
       required this.syncZone,
       required this.type,
@@ -17,6 +17,6 @@ abstract class ISyncMetadata extends IWithId {
       required this.syncOperation})
       : super(id: id);
 
-  String getSyncZone();
+  String? getSyncZone();
   void computeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType);
 }

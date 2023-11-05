@@ -5,5 +5,6 @@ abstract class ISyncableRepository<T> extends IBaseRepository<T> {
   Future<List<T>> updateMany(List<T> entities, ISyncMetadata metadata);
   Future<List<T>> addMany(List<T> entities, ISyncMetadata metadata);
   Future<List<T>> removeMany(List<T> entities, ISyncMetadata metadata);
-  Future<List<T>> fetchMany(ISyncMetadata metadata);
+  Future<List<T>> processSyncResultForType(
+      List<T> entities, ISyncMetadata metadata);
 }

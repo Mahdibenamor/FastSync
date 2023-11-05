@@ -8,11 +8,11 @@ part 'sync_metadata_model.g.dart';
 class SyncMetadataModel implements SyncMetadata {
   @override
   @HiveField(240)
-  final String id;
+  String id;
 
   @override
   @HiveField(241)
-  final String syncZone;
+  String? syncZone;
 
   @override
   @HiveField(242)
@@ -20,17 +20,17 @@ class SyncMetadataModel implements SyncMetadata {
 
   @override
   @HiveField(243)
-  final num version;
+  num? version;
 
   @override
   @HiveField(244)
-  final num timestamp;
+  num timestamp;
 
   @override
   @HiveField(255)
-  final int syncOperation;
+  int? syncOperation;
 
-  const SyncMetadataModel(
+  SyncMetadataModel(
       {required this.id,
       required this.syncZone,
       required this.type,
@@ -46,14 +46,14 @@ class SyncMetadataModel implements SyncMetadata {
   @override
   String computeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType) {
     if (syncZoneRestrictionType == SyncZoneRestrictionEnum.restricted) {
-      return syncZone;
+      return syncZone!;
     } else {
       return Constants.globalSyncZoneRestriction;
     }
   }
 
   @override
-  String getSyncZone() {
+  String? getSyncZone() {
     return syncZone;
   }
 }

@@ -4,10 +4,11 @@ import 'package:fast_sync_client/src/absraction/metadata/iwith_id.dart';
 abstract class ISyncableObject extends IWithId {
   final ISyncMetadata metadata;
   final bool deleted;
+  bool dirty = false;
 
-  const ISyncableObject(
+  ISyncableObject(
       {required String id, required this.metadata, required this.deleted})
       : super(id: id);
 
-  num getVersion();
+  num? getVersion();
 }

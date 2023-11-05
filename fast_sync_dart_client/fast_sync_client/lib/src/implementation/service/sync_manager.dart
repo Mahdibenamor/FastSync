@@ -4,14 +4,22 @@ import 'package:fast_sync_client/src/absraction/models/sync_payload.dart';
 
 class SyncManager implements ISyncManager {
   @override
-  Future<SyncPayload> processPull(SyncOperationMetadata metadata) {
-    // TODO: implement processPush
-    throw UnimplementedError();
+  Future<SyncPayload> push() async {
+    List<String> syncableTypes = FastSync.getSyncableTypes();
+    SyncPayload payload = SyncPayload();
+    for (String type in syncableTypes) {
+      ISyncableRepository<ISyncableObject> repository =
+          FastSync.getObjectRepository(type);
+      List<ISyncableObject> dirtyObjects =
+          await repository.query(_filterDirtyObjects);
+
+      payload.pushObjects(type, dirtyObjects);
+    }
+    return payload;
   }
 
   @override
-  void processPush(payload) {
-    // TODO: implement processPush
+  Future<SyncPayload> processPull(SyncOperationMetadata metadata) {
     throw UnimplementedError();
   }
 
@@ -19,5 +27,9 @@ class SyncManager implements ISyncManager {
   processSync(metadata) {
     // TODO: implement processSync
     throw UnimplementedError();
+  }
+
+  bool _filterDirtyObjects(ISyncableObject object) {
+    return object.dirty;
   }
 }

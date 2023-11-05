@@ -11,14 +11,80 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   @override
   Future<T> add(T entity) async {
     final Box<T> box = await boxInstance;
+    entity.metadata.syncOperation = SyncOperationEnum.add.code;
+    entity.dirty = true;
     await box.add(entity);
     return entity;
   }
 
   @override
   Future<List<T>> addMany(List<T> entities) async {
-    //final Box<T> box = await boxInstance;
-    List<T> test = await this.updateMany(entities);
+    Map<String, T> entitiesMap = {};
+    for (var entity in entities) {
+      entity.metadata.syncOperation = SyncOperationEnum.add.code;
+      entity.dirty = true;
+      entitiesMap[entity.id] = entity;
+    }
+    final Box<T> box = await boxInstance;
+    await box.putAll(entitiesMap);
+    return entities;
+  }
+
+  @override
+  Future<T> delete(T entity) async {
+    final Box<T> box = await boxInstance;
+    entity.deleted = true;
+    entity.metadata.syncOperation = SyncOperationEnum.delete.code;
+    entity.dirty = true;
+    await box.add(entity);
+    return entity;
+  }
+
+  @override
+  Future<List<T>> deleteMany(List<T> entities) async {
+    Map<String, T> entitiesMap = {};
+    for (var entity in entities) {
+      entity.deleted = true;
+      entity.metadata.syncOperation = SyncOperationEnum.delete.code;
+      entity.dirty = true;
+      entitiesMap[entity.id] = entity;
+    }
+    final Box<T> box = await boxInstance;
+    await box.putAll(entitiesMap);
+    return entities;
+  }
+
+  @override
+  Future<T> update(String query, T entity) async {
+    entity.metadata.syncOperation = SyncOperationEnum.update.code;
+    entity.dirty = true;
+    final Box<T> box = await boxInstance;
+    await box.put(query, entity);
+    return entity;
+  }
+
+  @override
+  Future<List<T>> updateMany(List<T> entities) async {
+    Map<String, T> entitiesMap = {};
+    for (var entity in entities) {
+      entity.metadata.syncOperation = SyncOperationEnum.update.code;
+      entity.dirty = true;
+      entitiesMap[entity.id] = entity;
+    }
+
+    final Box<T> box = await boxInstance;
+    await box.putAll(entitiesMap);
+    return entities;
+  }
+
+  @override
+  Future<List<T>> syncUpdate(List<T> entities) async {
+    Map<String, T> entitiesMap = {};
+    for (var entity in entities) {
+      entitiesMap[entity.id] = entity;
+    }
+    final Box<T> box = await boxInstance;
+    await box.putAll(entitiesMap);
     return entities;
   }
 
@@ -35,60 +101,45 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   }
 
   @override
-  Future<void> dispose() async {
-    final Box<T> box = await boxInstance;
-    await box.close();
-  }
-
-  @override
-  Future<List<T>> fetchMany(ISyncMetadata syncMetadata) {
-    throw Exception("");
-  }
-
-  @override
   Future<T?> findById(String id) async {
     final Box<T> box = await boxInstance;
     var item = box.get(id);
-    return item;
+    if (item != null) {
+      if (item.deleted) {
+        return null;
+      }
+      return item;
+    } else {
+      return null;
+    }
   }
 
   @override
   Future<List<T>> getAll() async {
     final Box<T> box = await boxInstance;
-    return box.toMap().values.toList();
+    return box.toMap().values.where(_undoRemovedEntities).toList();
   }
 
   @override
-  Future<List<T>> query(query) async {
-    if (query is! bool Function(T)) {
-      throw ArgumentError('query must be of type bool Function(T)');
-    }
+  Future<List<T>> query(bool Function(T) query) async {
     final Box<T> box = await boxInstance;
-    box.toMap().values.where(query);
     return box.toMap().values.where(query).toList();
   }
 
-  @override
-  Future<T> update(String query, T entity) async {
-    final Box<T> box = await boxInstance;
-    await box.put(query, entity);
-    return entity;
-  }
-
-  @override
-  Future<List<T>> updateMany(List<T> entities) async {
-    Map<String, T> entitiesMap = {
-      for (var entity in entities) entity.id: entity
-    };
-    final Box<T> box = await boxInstance;
-    await box.putAll(entitiesMap);
-    return entities;
+  bool _undoRemovedEntities(T entity) {
+    return !entity.deleted;
   }
 
   Future<void> _init() async {
     // HiveSyncConfiguration instance =
     //     FastSync.getSyncConfiguration<HiveSyncConfiguration>();
     _boxInstance = await Hive.openBox(T.toString());
+  }
+
+  @override
+  Future<void> dispose() async {
+    final Box<T> box = await boxInstance;
+    await box.close();
   }
 
   Future<Box<T>> _openBox() async {

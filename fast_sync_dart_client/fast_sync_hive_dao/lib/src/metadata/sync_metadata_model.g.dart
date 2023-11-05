@@ -18,11 +18,11 @@ class MetaDataAdapter extends TypeAdapter<SyncMetadataModel> {
     };
     return SyncMetadataModel(
       id: fields[240] as String,
-      syncZone: fields[241] as String,
+      syncZone: fields[241] as String?,
       type: fields[242] as String,
-      version: fields[243] as num,
+      version: fields[243] as num?,
       timestamp: fields[244] as num,
-      syncOperation: fields[255] as int,
+      syncOperation: fields[255] as int?,
     );
   }
 
@@ -62,11 +62,11 @@ class MetaDataAdapter extends TypeAdapter<SyncMetadataModel> {
 SyncMetadataModel _$SyncMetadataModelFromJson(Map<String, dynamic> json) =>
     SyncMetadataModel(
       id: json['id'] as String,
-      syncZone: json['syncZone'] as String,
+      syncZone: json['syncZone'] as String?,
       type: json['type'] as String,
-      version: json['version'] as num,
+      version: json['version'] as num?,
       timestamp: json['timestamp'] as num,
-      syncOperation: json['syncOperation'] as int,
+      syncOperation: json['syncOperation'] as int?,
     );
 
 Map<String, dynamic> _$SyncMetadataModelToJson(SyncMetadataModel instance) =>

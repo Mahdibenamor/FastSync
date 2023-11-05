@@ -1,5 +1,7 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
 import 'package:fast_sync_client/src/absraction/models/sync_operation_metadata.dart';
+import 'package:fast_sync_client/src/utils.dart';
+import 'package:uuid/uuid.dart';
 
 class SyncPayload {
   Map<String, List<dynamic>> data;
@@ -11,8 +13,15 @@ class SyncPayload {
       : data = data ?? {},
         operationMetadata = operationMetadata ?? SyncOperationMetadata();
 
-  Future<void> pushObjects<T extends ISyncableObject>(
-      String type, List<T> entities, String syncZone) async {}
+  void pushObjects<T extends ISyncableObject>(String type, List<T> entities) {
+    operationMetadata.setMetadata(
+        type,
+        SyncMetadata(
+            id: Uuid().v4(),
+            timestamp: DateTime.now().secondsSinceEpoch,
+            type: type));
+    data[type] = entities;
+  }
 
   List<dynamic> getObjectsForType(String type) {
     return data.containsKey(type) ? data[type]! : [];

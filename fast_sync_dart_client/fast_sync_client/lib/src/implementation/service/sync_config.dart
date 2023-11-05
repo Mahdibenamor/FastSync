@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 
 class SyncConfiguration implements ISyncConfiguration {
   final GetIt _container = GetIt.instance;
-
+  List<String> syncableTypes = [];
   SyncConfiguration() {
     init();
   }
@@ -18,6 +18,7 @@ class SyncConfiguration implements ISyncConfiguration {
       String entityType, ISyncableRepository<T> repository,
       [SyncZoneRestrictionEnum? syncZoneRestriction,
       IConflictsHandler? conflictsHandler]) {
+    syncableTypes.add(entityType);
     setSyncZoneTypeConfiguration(entityType, syncZoneRestriction);
     setObjectConflictsHandler(entityType, conflictsHandler);
     setObjectRepository(entityType, repository);

@@ -25,6 +25,10 @@ class FastSync<V extends SyncConfiguration> {
     return _instance!._syncConfiguration!;
   }
 
+  static getSyncableTypes() {
+    return _instance!._syncConfiguration!.syncableTypes;
+  }
+
   static void setSyncableObject<T extends ISyncableObject>(
       {required ISyncableRepository<T> repository,
       IConflictsHandler? conflictsHandler,
@@ -36,20 +40,20 @@ class FastSync<V extends SyncConfiguration> {
     setSyncConfiguration(syncConfiguration);
   }
 
-  IConflictsHandler getObjectConflictsHandler(String type) {
+  static IConflictsHandler getObjectConflictsHandler(String type) {
     return _instance!._syncConfiguration!.getObjectConflictsHandler(type);
   }
 
-  ISyncableRepository<T> getObjectRepository<T extends ISyncableObject>() {
-    return _instance!._syncConfiguration!
-        .getObjectRepository(T.runtimeType.toString());
+  static ISyncableRepository<T> getObjectRepository<T extends ISyncableObject>(
+      String type) {
+    return _instance!._syncConfiguration!.getObjectRepository(type);
   }
 
-  SyncZoneRestrictionEnum getSyncZoneConfiguration(String type) {
+  static SyncZoneRestrictionEnum getSyncZoneConfiguration(String type) {
     return _instance!._syncConfiguration!.getSyncZoneConfiguration(type);
   }
 
-  ISyncManager getSyncManager() {
+  static ISyncManager getSyncManager() {
     return _instance!._syncConfiguration!.getSyncManager();
   }
 }

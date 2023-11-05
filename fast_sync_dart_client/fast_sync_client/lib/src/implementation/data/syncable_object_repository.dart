@@ -27,11 +27,6 @@ class SyncalbeRepository<T extends ISyncableObject>
   }
 
   @override
-  Future<List<T>> fetchMany(ISyncMetadata metadata) async {
-    return await dataSource.fetchMany(metadata);
-  }
-
-  @override
   Future<T?> findById(String id) async {
     return await dataSource.findById(id);
   }
@@ -42,8 +37,8 @@ class SyncalbeRepository<T extends ISyncableObject>
   }
 
   @override
-  Future<List<T>> query(filter) async {
-    return await dataSource.query(filter);
+  Future<List<T>> query(bool Function(T) query) async {
+    return await dataSource.query(query);
   }
 
   @override
@@ -59,5 +54,12 @@ class SyncalbeRepository<T extends ISyncableObject>
   @override
   Future<List<T>> updateMany(List<T> entities, ISyncMetadata metadata) async {
     return await dataSource.updateMany(entities);
+  }
+
+  @override
+  Future<List<T>> processSyncResultForType(
+      List<T> entities, ISyncMetadata metadata) {
+    // TODO: implement processSyncResultForType
+    throw UnimplementedError();
   }
 }

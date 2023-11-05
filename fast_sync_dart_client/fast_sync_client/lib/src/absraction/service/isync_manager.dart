@@ -2,7 +2,7 @@ import 'package:fast_sync_client/src/absraction/models/sync_operation_metadata.d
 import 'package:fast_sync_client/src/absraction/models/sync_payload.dart';
 
 abstract class ISyncManager {
-  void processPush(SyncPayload payload);
+  Future<SyncPayload> push();
   Future<SyncPayload> processPull(SyncOperationMetadata metadata);
   SyncPayload processSync(SyncOperationMetadata metadata);
 }

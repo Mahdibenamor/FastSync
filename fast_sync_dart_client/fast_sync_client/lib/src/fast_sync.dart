@@ -1,4 +1,5 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
+import 'package:fast_sync_client/src/absraction/service/ihttp_manager.dart';
 
 class FastSync<V extends SyncConfiguration> {
   static FastSync? _instance;
@@ -55,5 +56,13 @@ class FastSync<V extends SyncConfiguration> {
 
   static ISyncManager getSyncManager() {
     return _instance!._syncConfiguration!.getSyncManager();
+  }
+
+  static void setHttpManager(IhttpManager httpManager) {
+    _instance!._syncConfiguration!.setHttpManager(httpManager);
+  }
+
+  static IhttpManager getHttpManager() {
+    return _instance!._syncConfiguration!.getHttpManager();
   }
 }

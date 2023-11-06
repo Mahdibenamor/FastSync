@@ -1,4 +1,5 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
+import 'package:fast_sync_client/src/absraction/service/ihttp_manager.dart';
 import 'package:fast_sync_client/src/absraction/service/isync_config.dart';
 import 'package:get_it/get_it.dart';
 
@@ -110,6 +111,22 @@ class SyncConfiguration implements ISyncConfiguration {
     } else {
       throw Exception(
           'Sync manager should not be null, be check your sync configuration class');
+    }
+  }
+
+  @override
+  void setHttpManager(IhttpManager httpManager) {
+    _container.registerSingleton<IhttpManager>(httpManager);
+  }
+
+  @override
+  IhttpManager getHttpManager() {
+    IhttpManager httpManager = _container<IhttpManager>();
+    if (httpManager != null) {
+      return httpManager;
+    } else {
+      throw Exception(
+          'httpManager should not be null, be check your sync configuration class');
     }
   }
 }

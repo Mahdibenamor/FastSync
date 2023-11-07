@@ -17,6 +17,7 @@ dependencies:
     path: ../../fast_sync_client
   fast_sync_hive_dao:
     path: ../../fast_sync_hive_dao
+  dio: ^5.3.3
 
 dev_dependencies:
   pedantic: ^1.11.1

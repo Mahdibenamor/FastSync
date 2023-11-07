@@ -23,5 +23,5 @@ class Item extends SyncableItemModel {
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ItemToJson(this);
+  static Map<String, dynamic> toJson(instance) => _$ItemToJson(instance);
 }

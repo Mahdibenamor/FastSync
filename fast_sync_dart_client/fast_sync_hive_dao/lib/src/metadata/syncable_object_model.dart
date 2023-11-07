@@ -27,7 +27,8 @@ class SyncableItemModel implements SyncableObject {
   factory SyncableItemModel.fromJson(Map<String, dynamic> json) =>
       _$SyncableItemModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SyncableItemModelToJson(this);
+  static Map<String, dynamic> toJson(instance) =>
+      _$SyncableItemModelToJson(instance);
 
   @override
   num? getVersion() {

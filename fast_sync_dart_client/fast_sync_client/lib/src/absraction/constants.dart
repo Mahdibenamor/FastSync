@@ -6,4 +6,6 @@ class Constants {
   static final String globalSyncZoneRestriction = "Global";
   static final String metadataTableName = "SyncMetadataTable";
   static final String syncDataBaseName = "'sync.db'";
+  static final String toJsonName = "'toJson'";
+  static final String fromJsonName = "'FromJson'";
 }

@@ -1,19 +1,16 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
-import 'package:fast_sync_client/src/absraction/models/sync_operation_metadata.dart';
-import 'package:fast_sync_client/src/utils.dart';
 import 'package:uuid/uuid.dart';
 
-class SyncPayload {
-  Map<String, List<dynamic>> data;
+class SyncPayload<T extends ISyncableObject> {
+  Map<String, List<T>> data;
   SyncOperationMetadata operationMetadata;
 
   SyncPayload(
-      {Map<String, List<dynamic>>? data,
-      SyncOperationMetadata? operationMetadata})
+      {Map<String, List<T>>? data, SyncOperationMetadata? operationMetadata})
       : data = data ?? {},
         operationMetadata = operationMetadata ?? SyncOperationMetadata();
 
-  void pushObjects<T extends ISyncableObject>(String type, List<T> entities) {
+  void pushObjects(String type, List<T> entities) {
     operationMetadata.setMetadata(
         type,
         SyncMetadata(
@@ -39,4 +36,31 @@ class SyncPayload {
     throw Exception(
         'Metadata of each synced type should be specified, please check how you build SyncPayload');
   }
+
+//  factory SyncPayload.fromJson(Map<String, dynamic> json) {
+//     final dataMap = json['data'] as Map<String, dynamic>;
+//     final operationMetadata = SyncOperationMetadata.fromJson(json['operationMetadata']);
+
+//     // Deserialize the data map
+//     final data = <String, List<T>>{};
+//     dataMap.forEach((key, value) {
+//       final list = (value as List).cast<Map<String, dynamic>>();
+//       final items = list.map((item) => SyncableObject.fromJson(item)).toList();
+//       data[key] = items;
+//     });
+
+//     return SyncPayload(
+//       data: data,
+//       operationMetadata: operationMetadata,
+//     );
+//   }
+
+  // Map<String, dynamic> toJson(SyncMetadataModel instance) => <String, dynamic>{
+  //       'id': instance.id,
+  //       'syncZone': instance.syncZone,
+  //       'type': instance.type,
+  //       'version': instance.version,
+  //       'timestamp': instance.timestamp,
+  //       'syncOperation': instance.syncOperation,
+  //     };
 }

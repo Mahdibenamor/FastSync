@@ -1,9 +1,8 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
-import 'package:fast_sync_client/src/absraction/service/ihttp_manager.dart';
 
 abstract class ISyncConfiguration {
-  void setSyncableObject<T extends ISyncableObject>(
-      String entityType, ISyncableRepository<T> repository,
+  void setSyncableObject<T extends ISyncableObject>(String entityType,
+      Function fromJson, Function toJson, ISyncableRepository<T> repository,
       [SyncZoneRestrictionEnum? syncZoneRestriction,
       IConflictsHandler? conflictsHandler]);
   void setObjectRepository<T extends ISyncableObject>(

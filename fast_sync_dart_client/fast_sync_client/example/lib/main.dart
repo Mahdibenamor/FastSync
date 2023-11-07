@@ -19,7 +19,10 @@ void main() async {
   IConflictsHandler conflictsHandler = ConflictsHandler(
       resolutionStrategy: ConflictsResolutionStrategyEnum.lastWriterWins);
   FastSync.setSyncableObject<Item>(
-      repository: repository, conflictsHandler: conflictsHandler);
+      fromJson: Item.fromJson,
+      toJson: Item.toJson,
+      repository: repository,
+      conflictsHandler: conflictsHandler);
   runApp(MyApp());
 }
 

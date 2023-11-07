@@ -1,7 +1,4 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
-import 'package:fast_sync_client/src/absraction/models/sync_operation_metadata.dart';
-import 'package:fast_sync_client/src/absraction/models/sync_payload.dart';
-import 'package:fast_sync_client/src/absraction/service/ihttp_manager.dart';
 
 class SyncManager implements ISyncManager {
   @override
@@ -13,7 +10,6 @@ class SyncManager implements ISyncManager {
           FastSync.getObjectRepository(type);
       List<ISyncableObject> dirtyObjects =
           await repository.query(_filterDirtyObjects);
-
       payload.pushObjects(type, dirtyObjects);
     }
     return payload;

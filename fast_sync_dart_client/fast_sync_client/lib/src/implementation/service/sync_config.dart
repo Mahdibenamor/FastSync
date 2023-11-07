@@ -1,6 +1,4 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
-import 'package:fast_sync_client/src/absraction/service/ihttp_manager.dart';
-import 'package:fast_sync_client/src/absraction/service/isync_config.dart';
 import 'package:get_it/get_it.dart';
 
 class SyncConfiguration implements ISyncConfiguration {
@@ -15,8 +13,8 @@ class SyncConfiguration implements ISyncConfiguration {
   }
 
   @override
-  void setSyncableObject<T extends ISyncableObject>(
-      String entityType, ISyncableRepository<T> repository,
+  void setSyncableObject<T extends ISyncableObject>(String entityType,
+      Function fromJson, Function toJson, ISyncableRepository<T> repository,
       [SyncZoneRestrictionEnum? syncZoneRestriction,
       IConflictsHandler? conflictsHandler]) {
     syncableTypes.add(entityType);
@@ -127,6 +125,36 @@ class SyncConfiguration implements ISyncConfiguration {
     } else {
       throw Exception(
           'httpManager should not be null, be check your sync configuration class');
+    }
+  }
+
+  void setTypeForToJsonFunction(String type, Function toJson) {
+    _container.registerSingleton(toJson,
+        instanceName: type + Constants.toJsonName);
+  }
+
+  void setTypeForFromJsonFunction(String type, Function fromJson) {
+    _container.registerSingleton(fromJson,
+        instanceName: type + Constants.fromJsonName);
+  }
+
+  Function getTypeForToJsonFunction(String type) {
+    Function toJson = _container(instanceName: type + Constants.toJsonName);
+    if (toJson != null) {
+      return toJson;
+    } else {
+      throw Exception(
+          'toJson of type: $type should not be null, be check your sync configuration class');
+    }
+  }
+
+  Function getTypeForFromJsonFunction(String type) {
+    Function fromJson = _container(instanceName: type + Constants.fromJsonName);
+    if (fromJson != null) {
+      return fromJson;
+    } else {
+      throw Exception(
+          'fromJson of type: $type should not be null, be check your sync configuration class');
     }
   }
 }

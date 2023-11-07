@@ -17,28 +17,30 @@ class ItemAdapter extends TypeAdapter<Item> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Item(
-      id: fields[250] as String,
-      metadata: fields[253] as SyncMetadataModel,
-      deleted: fields[251] as bool,
+      id: fields[249] as String,
+      metadata: fields[251] as SyncMetadataModel,
+      deleted: fields[250] as bool,
       name: fields[1] as String,
       description: fields[2] as String,
-    );
+    )..dirty = fields[252] as bool;
   }
 
   @override
   void write(BinaryWriter writer, Item obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
       ..write(obj.description)
-      ..writeByte(250)
+      ..writeByte(249)
       ..write(obj.id)
-      ..writeByte(251)
+      ..writeByte(250)
       ..write(obj.deleted)
-      ..writeByte(253)
-      ..write(obj.metadata);
+      ..writeByte(251)
+      ..write(obj.metadata)
+      ..writeByte(252)
+      ..write(obj.dirty);
   }
 
   @override
@@ -63,12 +65,13 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
       deleted: json['deleted'] as bool,
       name: json['name'] as String,
       description: json['description'] as String,
-    );
+    )..dirty = json['dirty'] as bool;
 
 Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
       'metadata': instance.metadata,
+      'dirty': instance.dirty,
       'name': instance.name,
       'description': instance.description,
     };

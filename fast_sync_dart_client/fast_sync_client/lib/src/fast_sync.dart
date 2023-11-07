@@ -1,5 +1,4 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
-import 'package:fast_sync_client/src/absraction/service/ihttp_manager.dart';
 
 class FastSync<V extends SyncConfiguration> {
   static FastSync? _instance;
@@ -31,13 +30,15 @@ class FastSync<V extends SyncConfiguration> {
   }
 
   static void setSyncableObject<T extends ISyncableObject>(
-      {required ISyncableRepository<T> repository,
+      {required Function fromJson,
+      required Function toJson,
+      required ISyncableRepository<T> repository,
       IConflictsHandler? conflictsHandler,
       SyncZoneRestrictionEnum syncZoneRestriction =
           SyncZoneRestrictionEnum.global}) {
     final syncConfiguration = _instance!._syncConfiguration!;
-    syncConfiguration.setSyncableObject(T.runtimeType.toString(), repository,
-        syncZoneRestriction, conflictsHandler);
+    syncConfiguration.setSyncableObject(T.runtimeType.toString(), fromJson,
+        toJson, repository, syncZoneRestriction, conflictsHandler);
     setSyncConfiguration(syncConfiguration);
   }
 

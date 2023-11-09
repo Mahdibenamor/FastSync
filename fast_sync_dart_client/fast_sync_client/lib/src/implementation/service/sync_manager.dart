@@ -12,6 +12,9 @@ class SyncManager implements ISyncManager {
           await repository.query(_filterDirtyObjects);
       payload.pushObjects(type, dirtyObjects);
     }
+
+    IhttpManager httpManager = FastSync.getHttpManager();
+    await httpManager.push(payload);
     return payload;
   }
 

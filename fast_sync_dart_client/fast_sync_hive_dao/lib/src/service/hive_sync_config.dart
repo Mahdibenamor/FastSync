@@ -11,6 +11,9 @@ class HiveSyncConfiguration extends SyncConfiguration {
   //HiveInterface get hiveInstance => _hiveInstance;
   @override
   Future<void> init() async {
+    super.init();
     Hive.registerAdapter(MetaDataAdapter());
+    setTypeForFromJsonFunction("SyncMetadataModel", SyncMetadataModel.fromJson);
+    setTypeForToJsonFunction("SyncMetadataModel", SyncMetadataModel.toJson);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:example/http/http_manager.dart';
 import 'package:example/item/item.dart';
 import 'package:example/item/item_data_source.dart';
 import 'package:example/item/item_repository.dart';
@@ -14,6 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
   FastSync.setSyncConfiguration<HiveSyncConfiguration>(HiveSyncConfiguration());
+  FastSync.setHttpManager(HttpManager());
   ItemDataSource datasource = ItemDataSource();
   ItemRepository repository = ItemRepository(dataSource: datasource);
   IConflictsHandler conflictsHandler = ConflictsHandler(

@@ -8,4 +8,9 @@ class ItemProvider with ChangeNotifier {
   Future<void> pullItems() async {
     ISyncManager syncManager = FastSync.getSyncManager();
   }
+
+  Future<void> push() async {
+    ISyncManager syncManager = FastSync.getSyncManager();
+    await syncManager.push();
+  }
 }

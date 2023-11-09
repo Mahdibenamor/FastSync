@@ -37,30 +37,31 @@ class SyncPayload<T extends ISyncableObject> {
         'Metadata of each synced type should be specified, please check how you build SyncPayload');
   }
 
-//  factory SyncPayload.fromJson(Map<String, dynamic> json) {
-//     final dataMap = json['data'] as Map<String, dynamic>;
-//     final operationMetadata = SyncOperationMetadata.fromJson(json['operationMetadata']);
+  factory SyncPayload.fromJson(Map<String, dynamic> json) {
+    SyncConfiguration configuration = FastSync.getSyncConfiguration();
+    final dataMap = json['data'] as Map<String, dynamic>;
+    final operationMetadata = configuration
+        .getTypeForFromJsonFunction("SyncMetadataModel")
+        .call(json['operationMetadata']);
 
-//     // Deserialize the data map
-//     final data = <String, List<T>>{};
-//     dataMap.forEach((key, value) {
-//       final list = (value as List).cast<Map<String, dynamic>>();
-//       final items = list.map((item) => SyncableObject.fromJson(item)).toList();
-//       data[key] = items;
-//     });
+    final data = <String, List<T>>{};
+    dataMap.forEach((key, value) {
+      final list = (value as List).cast<Map<String, dynamic>>();
+      Function typeFromJson = configuration.getTypeForFromJsonFunction(key);
 
-//     return SyncPayload(
-//       data: data,
-//       operationMetadata: operationMetadata,
-//     );
-//   }
+      final items =
+          list.map((item) => typeFromJson.call(item)).toList() as List<T>;
+      data[key] = items;
+    });
 
-  // Map<String, dynamic> toJson(SyncMetadataModel instance) => <String, dynamic>{
-  //       'id': instance.id,
-  //       'syncZone': instance.syncZone,
-  //       'type': instance.type,
-  //       'version': instance.version,
-  //       'timestamp': instance.timestamp,
-  //       'syncOperation': instance.syncOperation,
-  //     };
+    return SyncPayload(
+      data: data,
+      operationMetadata: operationMetadata,
+    );
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'operationMetadata': this.operationMetadata,
+        'data': this.data,
+      };
 }

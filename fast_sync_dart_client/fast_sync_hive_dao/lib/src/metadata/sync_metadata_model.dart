@@ -41,7 +41,8 @@ class SyncMetadataModel implements SyncMetadata {
   factory SyncMetadataModel.fromJson(Map<String, dynamic> json) =>
       _$SyncMetadataModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SyncMetadataModelToJson(this);
+  static Map<String, dynamic> toJson(instance) =>
+      _$SyncMetadataModelToJson(instance);
 
   @override
   String computeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType) {

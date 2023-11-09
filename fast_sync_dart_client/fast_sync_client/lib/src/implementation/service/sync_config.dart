@@ -1,9 +1,8 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
-import 'package:get_it/get_it.dart';
 
 class SyncConfiguration implements ISyncConfiguration {
-  final GetIt _container = GetIt.instance;
   List<String> syncableTypes = [];
+  Map<String, dynamic> namedInstances = {};
   SyncConfiguration() {
     init();
   }
@@ -21,14 +20,15 @@ class SyncConfiguration implements ISyncConfiguration {
     setSyncZoneTypeConfiguration(entityType, syncZoneRestriction);
     setObjectConflictsHandler(entityType, conflictsHandler);
     setObjectRepository(entityType, repository);
+    setTypeForFromJsonFunction(entityType, fromJson);
+    setTypeForToJsonFunction(entityType, toJson);
   }
 
   @override
   void setObjectRepository<T extends ISyncableObject>(
       String entityType, ISyncableRepository<T> repository) {
     if (repository != null) {
-      _container.registerSingleton(repository,
-          instanceName: entityType + Constants.repositoryName);
+      namedInstances[entityType + Constants.repositoryName] = repository;
     } else {
       throw Exception(
           'Repository of the $entityType is not configured well, please check the configuration');
@@ -39,8 +39,8 @@ class SyncConfiguration implements ISyncConfiguration {
   void setObjectConflictsHandler(
       String entityType, IConflictsHandler? conflictsHandler) {
     if (conflictsHandler != null) {
-      _container.registerSingleton(conflictsHandler,
-          instanceName: entityType + Constants.conflictsHandlerName);
+      namedInstances[entityType + Constants.conflictsHandlerName] =
+          conflictsHandler;
     } else {
       throw Exception(
           'ConflictsHandler of the $entityType is not configured well, please check the configuration');
@@ -50,7 +50,7 @@ class SyncConfiguration implements ISyncConfiguration {
   @override
   IConflictsHandler getObjectConflictsHandler(String type) {
     IConflictsHandler conflictsHandler =
-        _container(instanceName: type + Constants.conflictsHandlerName);
+        namedInstances[type + Constants.conflictsHandlerName];
     if (conflictsHandler != null) {
       return conflictsHandler;
     } else {
@@ -71,7 +71,7 @@ class SyncConfiguration implements ISyncConfiguration {
 
   SyncZoneRestrictionEnum getSyncZoneConfiguration(String type) {
     SyncZoneRestrictionEnum syncZoneRestriction =
-        _container(instanceName: type + Constants.syncZoneRestriction);
+        namedInstances[type + Constants.syncZoneRestriction];
     if (syncZoneRestriction != null) {
       return syncZoneRestriction;
     } else {
@@ -83,7 +83,7 @@ class SyncConfiguration implements ISyncConfiguration {
   ISyncableRepository<T> getObjectRepository<T extends ISyncableObject>(
       String type) {
     ISyncableRepository<T> repository =
-        _container(instanceName: type + Constants.repositoryName);
+        namedInstances[type + Constants.repositoryName];
     if (repository != null) {
       return repository;
     } else {
@@ -94,7 +94,7 @@ class SyncConfiguration implements ISyncConfiguration {
 
   @override
   ISyncManager getSyncManager() {
-    ISyncManager syncManager = _container<ISyncManager>();
+    ISyncManager syncManager = namedInstances['ISyncManager'];
     if (syncManager != null) {
       return syncManager;
     } else {
@@ -105,7 +105,7 @@ class SyncConfiguration implements ISyncConfiguration {
 
   void setSyncManager(ISyncManager syncManager) {
     if (syncManager != null) {
-      _container.registerSingleton<ISyncManager>(syncManager);
+      namedInstances['ISyncManager'] = syncManager;
     } else {
       throw Exception(
           'Sync manager should not be null, be check your sync configuration class');
@@ -114,12 +114,12 @@ class SyncConfiguration implements ISyncConfiguration {
 
   @override
   void setHttpManager(IhttpManager httpManager) {
-    _container.registerSingleton<IhttpManager>(httpManager);
+    namedInstances['IhttpManager'] = httpManager;
   }
 
   @override
   IhttpManager getHttpManager() {
-    IhttpManager httpManager = _container<IhttpManager>();
+    IhttpManager httpManager = namedInstances['IhttpManager'];
     if (httpManager != null) {
       return httpManager;
     } else {
@@ -129,17 +129,15 @@ class SyncConfiguration implements ISyncConfiguration {
   }
 
   void setTypeForToJsonFunction(String type, Function toJson) {
-    _container.registerSingleton(toJson,
-        instanceName: type + Constants.toJsonName);
+    namedInstances[type + Constants.toJsonName] = toJson;
   }
 
   void setTypeForFromJsonFunction(String type, Function fromJson) {
-    _container.registerSingleton(fromJson,
-        instanceName: type + Constants.fromJsonName);
+    namedInstances[type + Constants.fromJsonName] = fromJson;
   }
 
   Function getTypeForToJsonFunction(String type) {
-    Function toJson = _container(instanceName: type + Constants.toJsonName);
+    Function toJson = namedInstances[type + Constants.toJsonName];
     if (toJson != null) {
       return toJson;
     } else {
@@ -149,7 +147,7 @@ class SyncConfiguration implements ISyncConfiguration {
   }
 
   Function getTypeForFromJsonFunction(String type) {
-    Function fromJson = _container(instanceName: type + Constants.fromJsonName);
+    Function fromJson = namedInstances[type + Constants.fromJsonName];
     if (fromJson != null) {
       return fromJson;
     } else {

@@ -45,9 +45,20 @@ class ItemListPage extends StatelessWidget {
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
               onPressed: () async {
-                await testExecution();
+                await saveElement();
               },
-              child: Text('save elements'),
+              child: Text('Save element'),
+            ),
+          ),
+          Center(
+            child: TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () async {
+                await getCount();
+              },
+              child: Text('get count'),
             ),
           ),
           Consumer<ItemProvider>(builder: (context, itemProvider, child) {
@@ -60,7 +71,7 @@ class ItemListPage extends StatelessWidget {
                 onPressed: () async {
                   await itemProvider.push();
                 },
-                child: Text('save elements'),
+                child: Text('push'),
               ),
             );
           }),
@@ -80,7 +91,13 @@ class ItemListPage extends StatelessWidget {
     );
   }
 
-  Future<void> testExecution() async {
+  Future<void> getCount() async {
+    ISyncableRepository<Item> repository = FastSync.getObjectRepository("Item");
+    var count = await repository.count();
+    var count2 = 1 + 1;
+  }
+
+  Future<void> saveElement() async {
     ISyncableRepository<Item> repository = FastSync.getObjectRepository("Item");
     var count = await repository.count();
     SyncMetadataModel metadata = SyncMetadataModel(
@@ -98,6 +115,8 @@ class ItemListPage extends StatelessWidget {
         description: 'description');
     await repository.add(item);
     count = await repository.count();
+
+    var count2 = 1 + 1;
 
     // item.name = 'update name';
     // item.description = 'update description';

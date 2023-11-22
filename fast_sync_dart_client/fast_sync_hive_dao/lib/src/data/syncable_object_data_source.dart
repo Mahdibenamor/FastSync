@@ -131,8 +131,6 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   }
 
   Future<void> _init() async {
-    // HiveSyncConfiguration instance =
-    //     FastSync.getSyncConfiguration<HiveSyncConfiguration>();
     _boxInstance = await Hive.openBox(T.toString());
   }
 

@@ -11,6 +11,8 @@ class ItemProvider with ChangeNotifier {
 
   Future<void> push() async {
     ISyncManager syncManager = FastSync.getSyncManager();
-    await syncManager.push();
+    SyncZoneTypeConfiguration conf = SyncZoneTypeConfiguration();
+    conf.pushTypeSyncZone('Item', 'Global');
+    await syncManager.push(conf);
   }
 }

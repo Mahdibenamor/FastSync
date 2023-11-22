@@ -2,7 +2,8 @@ import 'package:fast_sync_client/fast_sync_client.dart';
 
 class SyncManager implements ISyncManager {
   @override
-  Future<SyncPayload> push() async {
+  Future<SyncPayload> push(
+      SyncZoneTypeConfiguration syncZoneConfiguration) async {
     List<String> syncableTypes = FastSync.getSyncableTypes();
     SyncPayload payload = SyncPayload();
     for (String type in syncableTypes) {
@@ -10,7 +11,8 @@ class SyncManager implements ISyncManager {
           FastSync.getObjectRepository(type);
       List<ISyncableObject> dirtyObjects =
           await repository.query(_filterDirtyObjects);
-      payload.pushObjects(type, dirtyObjects);
+      payload.pushObjects(
+          type, dirtyObjects, syncZoneConfiguration.getTypeSyncZone(type));
     }
 
     IhttpManager httpManager = FastSync.getHttpManager();

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:fast_sync_client/fast_sync_client.dart';
 
@@ -15,8 +17,12 @@ class HttpManager implements IhttpManager {
 
   @override
   Future<void> push(SyncPayload payload) async {
-    var json = payload.toJson();
-    print(json);
+    var payloadJson = payload.toJson();
+    print(payloadJson);
+    print(json.encode(payloadJson));
+    // Response response = await dio.post(
+    //     'https://fast-sync.onrender.com/express/push',
+    //     data: json.encode(payloadJson));
   }
 
   @override

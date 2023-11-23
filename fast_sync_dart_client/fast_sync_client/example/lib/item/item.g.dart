@@ -70,7 +70,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
 Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
-      'metadata': instance.metadata,
+      'metadata': SyncMetadataModel.toJson(instance.metadata),
       'dirty': instance.dirty,
       'name': instance.name,
       'description': instance.description,

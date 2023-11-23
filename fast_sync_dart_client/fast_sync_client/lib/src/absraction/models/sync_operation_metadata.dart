@@ -22,8 +22,8 @@ class SyncOperationMetadata {
 
   Map<String, dynamic> toJson() {
     SyncConfiguration configuration = FastSync.getSyncConfiguration();
-    Map<String, dynamic> Function(dynamic json) syncMetadataToJson =
-        configuration.getTypeForToJsonFunction("SyncMetadataModel");
+    ToJsonFunction syncMetadataToJson =
+        configuration.getTypeForToJsonFunction(Constants.syncMetadataModelName);
 
     Map<String, dynamic> jsonMap = {
       'metadata': metadata
@@ -39,8 +39,8 @@ class SyncOperationMetadata {
       throw FormatException("Invalid JSON. 'metadata' field is missing.");
     }
     SyncConfiguration configuration = FastSync.getSyncConfiguration();
-    Function syncMetadataFromJson =
-        configuration.getTypeForFromJsonFunction("SyncMetadataModel");
+    Function syncMetadataFromJson = configuration
+        .getTypeForFromJsonFunction(Constants.syncMetadataModelName);
     var syncOperationMetadata = SyncOperationMetadata();
     metadataJson.forEach((key, value) {
       var type = key;

@@ -136,10 +136,8 @@ class SyncConfiguration implements ISyncConfiguration {
     namedInstances[type + Constants.fromJsonName] = fromJson;
   }
 
-  Map<String, dynamic> Function(dynamic json) getTypeForToJsonFunction(
-      String type) {
-    Map<String, dynamic> Function(dynamic json) toJson =
-        namedInstances[type + Constants.toJsonName];
+  ToJsonFunction getTypeForToJsonFunction(String type) {
+    ToJsonFunction toJson = namedInstances[type + Constants.toJsonName];
     if (toJson != null) {
       return toJson;
     } else {

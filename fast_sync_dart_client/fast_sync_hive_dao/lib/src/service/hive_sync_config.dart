@@ -9,7 +9,9 @@ class HiveSyncConfiguration extends SyncConfiguration {
   Future<void> init() async {
     super.init();
     Hive.registerAdapter(MetaDataAdapter());
-    setTypeForFromJsonFunction("SyncMetadataModel", SyncMetadataModel.fromJson);
-    setTypeForToJsonFunction("SyncMetadataModel", SyncMetadataModel.toJson);
+    setTypeForFromJsonFunction(
+        Constants.syncMetadataModelName, SyncMetadataModel.fromJson);
+    setTypeForToJsonFunction(
+        Constants.syncMetadataModelName, SyncMetadataModel.toJson);
   }
 }

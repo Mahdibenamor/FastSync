@@ -11,8 +11,8 @@ class SyncPayload<T extends ISyncableObject> {
 
   void pushObjects(String type, List<T> entities, String syncZone) {
     SyncConfiguration configuration = FastSync.getSyncConfiguration();
-    Function syncMetadataFromJson =
-        configuration.getTypeForFromJsonFunction("SyncMetadataModel");
+    Function syncMetadataFromJson = configuration
+        .getTypeForFromJsonFunction(Constants.syncMetadataModelName);
     Map<String, dynamic> typeMetadataJson = {
       "syncZone": syncZone,
       "type": type,
@@ -76,7 +76,7 @@ class SyncPayload<T extends ISyncableObject> {
       jsonDataMap[key] = itemsTypeJson;
     });
     return {
-      'operationMetadata': this.operationMetadata.toJson(),
+      //'operationMetadata': this.operationMetadata.toJson(),
       'data': jsonDataMap,
     };
   }

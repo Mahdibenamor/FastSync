@@ -8,4 +8,7 @@ class Constants {
   static final String syncDataBaseName = "'sync.db'";
   static final String toJsonName = "'toJson'";
   static final String fromJsonName = "'FromJson'";
+  static final String syncMetadataModelName = "'SyncMetadataModel'";
 }
+
+typedef ToJsonFunction = Map<String, dynamic> Function(dynamic value);

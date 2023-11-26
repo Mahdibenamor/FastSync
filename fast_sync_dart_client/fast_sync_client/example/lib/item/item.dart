@@ -1,10 +1,11 @@
+import 'package:fast_sync_client/fast_sync_client.dart';
 import 'package:fast_sync_hive_dao/fast_sync_hive_dao.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'item.g.dart';
 
 @HiveType(typeId: 1, adapterName: "ItemAdapter")
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Item extends SyncableItemModel {
   @HiveField(1)
   String name;
@@ -23,5 +24,7 @@ class Item extends SyncableItemModel {
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 
   @override
-  static Map<String, dynamic> toJson(instance) => _$ItemToJson(instance);
+  Map<String, dynamic> toJson() => _$ItemToJson(this);
+
+  static ToJsonFunction<Item> get intoJson => _$ItemToJson;
 }

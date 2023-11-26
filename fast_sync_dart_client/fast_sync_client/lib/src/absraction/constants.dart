@@ -11,4 +11,4 @@ class Constants {
   static final String syncMetadataModelName = "'SyncMetadataModel'";
 }
 
-typedef ToJsonFunction = Map<String, dynamic> Function(dynamic value);
+typedef ToJsonFunction<T> = Map<String, dynamic> Function(T value);

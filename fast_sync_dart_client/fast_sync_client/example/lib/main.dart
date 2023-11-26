@@ -22,7 +22,7 @@ void main() async {
       resolutionStrategy: ConflictsResolutionStrategyEnum.lastWriterWins);
   FastSync.setSyncableObject<Item>(
       fromJson: Item.fromJson,
-      toJson: Item.toJson,
+      toJson: Item.intoJson,
       repository: repository,
       conflictsHandler: conflictsHandler);
   runApp(MyApp());

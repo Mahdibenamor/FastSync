@@ -18,6 +18,6 @@ Map<String, dynamic> _$SyncableItemModelToJson(SyncableItemModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
-      'metadata': instance.metadata,
+      'metadata': instance.metadata.toJson(),
       'dirty': instance.dirty,
     };

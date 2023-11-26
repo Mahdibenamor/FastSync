@@ -12,6 +12,6 @@ class HiveSyncConfiguration extends SyncConfiguration {
     setTypeForFromJsonFunction(
         Constants.syncMetadataModelName, SyncMetadataModel.fromJson);
     setTypeForToJsonFunction(
-        Constants.syncMetadataModelName, SyncMetadataModel.toJson);
+        Constants.syncMetadataModelName, SyncMetadataModel.intoJson);
   }
 }

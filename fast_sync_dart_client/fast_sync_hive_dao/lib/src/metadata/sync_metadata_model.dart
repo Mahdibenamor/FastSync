@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'sync_metadata_model.g.dart';
 
 @HiveType(typeId: 223, adapterName: "MetaDataAdapter")
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SyncMetadataModel implements SyncMetadata {
   @override
   @HiveField(240)
@@ -41,8 +41,10 @@ class SyncMetadataModel implements SyncMetadata {
   factory SyncMetadataModel.fromJson(Map<String, dynamic> json) =>
       _$SyncMetadataModelFromJson(json);
 
-  static Map<String, dynamic> toJson(instance) =>
-      _$SyncMetadataModelToJson(instance);
+  Map<String, dynamic> toJson() => _$SyncMetadataModelToJson(this);
+
+  static ToJsonFunction<SyncMetadataModel> get intoJson =>
+      _$SyncMetadataModelToJson;
 
   @override
   String computeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType) {

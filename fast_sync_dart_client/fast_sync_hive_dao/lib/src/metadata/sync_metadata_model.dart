@@ -43,8 +43,7 @@ class SyncMetadataModel implements SyncMetadata {
 
   Map<String, dynamic> toJson() => _$SyncMetadataModelToJson(this);
 
-  static ToJsonFunction<SyncMetadataModel> get intoJson =>
-      _$SyncMetadataModelToJson;
+  static Function get intoJson => _$SyncMetadataModelToJson;
 
   @override
   String computeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType) {

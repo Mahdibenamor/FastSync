@@ -69,14 +69,14 @@ class SyncPayload<T extends ISyncableObject> {
     Map<String, List<Map<String, dynamic>>> jsonDataMap = {};
 
     data.forEach((key, value) {
-      Map<String, dynamic> Function(T) typeToJson =
-          configuration.getTypeForToJsonFunction(key);
-      List<Map<String, dynamic>> itemsTypeJson =
-          value.map((item) => typeToJson(item)).toList();
+      Function typeToJson = configuration.getTypeForToJsonFunction(key);
+      List<Map<String, dynamic>> itemsTypeJson = value
+          .map((item) => typeToJson.call(item) as Map<String, dynamic>)
+          .toList();
       jsonDataMap[key] = itemsTypeJson;
     });
     return {
-      //'operationMetadata': this.operationMetadata.toJson(),
+      'operationMetadata': this.operationMetadata.toJson(),
       'data': jsonDataMap,
     };
   }

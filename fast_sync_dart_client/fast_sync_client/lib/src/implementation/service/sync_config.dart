@@ -136,8 +136,8 @@ class SyncConfiguration implements ISyncConfiguration {
     namedInstances[type + Constants.fromJsonName] = fromJson;
   }
 
-  ToJsonFunction<T> getTypeForToJsonFunction<T>(String type) {
-    ToJsonFunction<T> toJson = namedInstances[type + Constants.toJsonName];
+  Function getTypeForToJsonFunction<T>(String type) {
+    Function toJson = namedInstances[type + Constants.toJsonName];
     if (toJson != null) {
       return toJson;
     } else {

@@ -22,7 +22,7 @@ class SyncOperationMetadata {
 
   Map<String, dynamic> toJson() {
     SyncConfiguration configuration = FastSync.getSyncConfiguration();
-    ToJsonFunction syncMetadataToJson =
+    Function syncMetadataToJson =
         configuration.getTypeForToJsonFunction(Constants.syncMetadataModelName);
 
     Map<String, dynamic> jsonMap = {

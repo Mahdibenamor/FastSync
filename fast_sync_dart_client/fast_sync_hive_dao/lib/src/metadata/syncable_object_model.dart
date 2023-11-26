@@ -29,8 +29,7 @@ class SyncableItemModel implements SyncableObject {
 
   Map<String, dynamic> toJson() => _$SyncableItemModelToJson(this);
 
-  static ToJsonFunction<SyncableItemModel> get intoJson =>
-      _$SyncableItemModelToJson;
+  static Function get intoJson => _$SyncableItemModelToJson;
 
   @override
   num? getVersion() {

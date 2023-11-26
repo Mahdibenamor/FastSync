@@ -1,4 +1,3 @@
-import 'package:fast_sync_client/fast_sync_client.dart';
 import 'package:fast_sync_hive_dao/fast_sync_hive_dao.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -26,5 +25,5 @@ class Item extends SyncableItemModel {
   @override
   Map<String, dynamic> toJson() => _$ItemToJson(this);
 
-  static ToJsonFunction<Item> get intoJson => _$ItemToJson;
+  static Function get intoJson => _$ItemToJson;
 }

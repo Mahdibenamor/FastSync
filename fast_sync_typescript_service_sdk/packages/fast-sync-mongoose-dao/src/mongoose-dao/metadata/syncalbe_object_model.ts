@@ -4,7 +4,7 @@ export class SyncableSchemaItemBuilder{
 
   static baseSchema : mongoose.Schema = new mongoose.Schema({
     id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.String,
       required: true,
       auto: true,
     },
@@ -15,6 +15,7 @@ export class SyncableSchemaItemBuilder{
       type: mongoose.Schema.Types.Boolean
     },
   }); 
+
   static plugMetadataSchema(obj: mongoose.Schema){
     let schema = new mongoose.Schema();
     schema.add(this.baseSchema)

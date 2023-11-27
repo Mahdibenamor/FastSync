@@ -18,8 +18,8 @@ useExpressServer(app, {
   middlewares: [],
 });
 
-//"mongodb://localhost:27017/sync"
-const uri = "mongodb+srv://FastSync:FastSyncForAll@fastsync.6o4fi9y.mongodb.net/sync?retryWrites=true&w=majority";
+const uri =  "mongodb://localhost:27017/sync"
+//const uri = "mongodb+srv://FastSync:FastSyncForAll@fastsync.6o4fi9y.mongodb.net/sync?retryWrites=true&w=majority";
 
 mongoose.connect(uri);
 

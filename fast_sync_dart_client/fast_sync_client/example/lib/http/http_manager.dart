@@ -10,7 +10,7 @@ class HttpManager implements IhttpManager {
   @override
   Future<SyncPayload> pull(SyncOperationMetadata metadata) async {
     // Response response = await dio
-    //     .post('https://fast-sync.onrender.com/express/pull', data: metadata);
+    //     .post('https://localhost:3000/express/pull', data: metadata);
 
     return SyncPayload();
   }
@@ -20,9 +20,10 @@ class HttpManager implements IhttpManager {
     var payloadJson = payload.toJson();
     print(payloadJson);
     print(json.encode(payloadJson));
-    // Response response = await dio.post(
-    //     'https://fast-sync.onrender.com/express/push',
-    //     data: json.encode(payloadJson));
+    Response response = await dio.post(
+        'http://192.168.178.24:3000/express/push',
+        data: json.encode(payloadJson));
+    var test = 1 + 1;
   }
 
   @override

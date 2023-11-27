@@ -2,8 +2,7 @@ import * as mongoose from 'mongoose';
 
 export  const SyncMetadataSchema = new mongoose.Schema({
     id: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        type: mongoose.Schema.Types.String,
         auto: true,
     },
     syncZone: {

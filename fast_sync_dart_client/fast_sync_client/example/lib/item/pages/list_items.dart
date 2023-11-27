@@ -1,6 +1,5 @@
 import 'package:example/item/pages/add_item.dart';
 import 'package:example/item/pages/item_provider.dart';
-import 'package:example/item/pages/update_item.dart';
 import 'package:fast_sync_client/fast_sync_client.dart';
 import 'package:fast_sync_hive_dao/fast_sync_hive_dao.dart';
 import 'package:flutter/material.dart';

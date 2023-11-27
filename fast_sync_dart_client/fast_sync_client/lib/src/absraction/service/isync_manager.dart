@@ -11,7 +11,7 @@ class SyncZoneTypeConfiguration {
   final Map<String, String> _typesSyncZones = {};
   SyncZoneTypeConfiguration();
 
-  pushTypeSyncZone(String type, String syncZone) {
+  setTypeSyncZone(String type, String syncZone) {
     _typesSyncZones[type] = syncZone;
   }
 

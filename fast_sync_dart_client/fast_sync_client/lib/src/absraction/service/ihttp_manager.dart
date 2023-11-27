@@ -2,7 +2,7 @@ import 'package:fast_sync_client/src/absraction/models/sync_operation_metadata.d
 import 'package:fast_sync_client/src/absraction/models/sync_payload.dart';
 
 abstract class IhttpManager {
-  Future<dynamic> push(SyncPayload payload);
-  Future<SyncPayload> pull(SyncOperationMetadata metadata);
+  Future<bool> push(SyncPayload payload);
+  Future<bool> pull(SyncOperationMetadata metadata);
   Future<SyncPayload> sync(SyncOperationMetadata metadata);
 }

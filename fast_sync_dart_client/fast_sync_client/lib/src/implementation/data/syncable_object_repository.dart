@@ -57,6 +57,11 @@ class SyncalbeRepository<T extends ISyncableObject>
   }
 
   @override
+  Future<List<T>> undirtyList(List<T> entities) async {
+    return await dataSource.syncUpdate(entities);
+  }
+
+  @override
   Future<List<T>> processSyncResultForType(
       List<T> entities, ISyncMetadata metadata) {
     // TODO: implement processSyncResultForType

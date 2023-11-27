@@ -81,6 +81,7 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   Future<List<T>> syncUpdate(List<T> entities) async {
     Map<String, T> entitiesMap = {};
     for (var entity in entities) {
+      entity.dirty = false;
       entitiesMap[entity.id] = entity;
     }
     final Box<T> box = await boxInstance;

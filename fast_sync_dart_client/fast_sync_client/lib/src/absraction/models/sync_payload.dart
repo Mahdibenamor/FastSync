@@ -1,37 +1,41 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
 
 class SyncPayload<T extends ISyncableObject> {
-  Map<String, List<T>> data;
+  Map<String, List<T>> _data;
   SyncOperationMetadata operationMetadata;
+  bool hasData = false;
 
   SyncPayload(
       {Map<String, List<T>>? data, SyncOperationMetadata? operationMetadata})
-      : data = data ?? {},
+      : _data = data ?? {},
         operationMetadata = operationMetadata ?? SyncOperationMetadata();
 
   void pushObjects(String type, List<T> entities, String syncZone) {
-    SyncConfiguration configuration = FastSync.getSyncConfiguration();
-    Function syncMetadataFromJson = configuration
-        .getTypeForFromJsonFunction(Constants.syncMetadataModelName);
-    Map<String, dynamic> typeMetadataJson = {
-      "syncZone": syncZone,
-      "type": type,
-      'id': "id",
-      'version': 999,
-      'timestamp': 999,
-      'syncOperation': 999,
-    };
-    operationMetadata.setMetadata(
-        type, syncMetadataFromJson.call(typeMetadataJson));
-    data[type] = entities;
+    if (entities.isNotEmpty) {
+      SyncConfiguration configuration = FastSync.getSyncConfiguration();
+      Function syncMetadataFromJson = configuration
+          .getTypeForFromJsonFunction(Constants.syncMetadataModelName);
+      Map<String, dynamic> typeMetadataJson = {
+        "syncZone": syncZone,
+        "type": type,
+        'id': "id",
+        'version': 999,
+        'timestamp': 999,
+        'syncOperation': 999,
+      };
+      operationMetadata.setMetadata(
+          type, syncMetadataFromJson.call(typeMetadataJson));
+      _data[type] = entities;
+      hasData = true;
+    }
   }
 
-  List<dynamic> getObjectsForType(String type) {
-    return data.containsKey(type) ? data[type]! : [];
+  List<T> getObjectsForType(String type) {
+    return _data.containsKey(type) ? _data[type]! : [];
   }
 
   List<String> getSyncedTypes() {
-    return data.keys.toList();
+    return _data.keys.toList();
   }
 
   ISyncMetadata getTypeMetadata(String type) {
@@ -68,7 +72,7 @@ class SyncPayload<T extends ISyncableObject> {
     SyncConfiguration configuration = FastSync.getSyncConfiguration();
     Map<String, List<Map<String, dynamic>>> jsonDataMap = {};
 
-    data.forEach((key, value) {
+    _data.forEach((key, value) {
       Function typeToJson = configuration.getTypeForToJsonFunction(key);
       List<Map<String, dynamic>> itemsTypeJson = value
           .map((item) => typeToJson.call(item) as Map<String, dynamic>)

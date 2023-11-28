@@ -8,7 +8,7 @@ class SyncableObject implements ISyncableObject {
   final ISyncMetadata metadata;
 
   @override
-  final bool deleted;
+  bool deleted;
 
   @override
   bool dirty = false;

@@ -3,7 +3,7 @@ import 'package:fast_sync_client/src/absraction/metadata/iwith_id.dart';
 
 abstract class ISyncableObject extends IWithId {
   final ISyncMetadata metadata;
-  final bool deleted;
+  bool deleted;
   bool dirty = false;
 
   ISyncableObject(

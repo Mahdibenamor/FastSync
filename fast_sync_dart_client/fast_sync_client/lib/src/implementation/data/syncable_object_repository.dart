@@ -89,8 +89,8 @@ class SyncalbeRepository<T extends ISyncableObject>
   }
 
   @override
-  Future<List<T>> undirtyList(List<T> entities) async {
-    List<T> entitiesToSave = [];
+  Future<List> undirtyList(List entities) async {
+    List entitiesToSave = [];
     for (var entity in entities) {
       entity.dirty = false;
       entitiesToSave.add(entity);

@@ -9,13 +9,12 @@ class ItemProvider with ChangeNotifier {
   ISyncableRepository<Item> repository = FastSync.getObjectRepository("Item");
   ISyncManager syncManager = FastSync.getSyncManager();
 
-  Future<void> pullItems() async {}
+  Future<void> pullItems() async {
+    await syncManager.pull();
+  }
 
   Future<void> push() async {
-    SyncZoneTypeConfiguration syncZoneConfiguration =
-        SyncZoneTypeConfiguration();
-    syncZoneConfiguration.setTypeSyncZone('Item', 'Global');
-    await syncManager.push(syncZoneConfiguration);
+    await syncManager.push();
   }
 
   Future<Item> saveElement() async {

@@ -2,7 +2,7 @@ import 'package:fast_sync_client/fast_sync_client.dart';
 
 class SyncableObject implements ISyncableObject {
   @override
-  final String id;
+  String id;
 
   @override
   final ISyncMetadata metadata;

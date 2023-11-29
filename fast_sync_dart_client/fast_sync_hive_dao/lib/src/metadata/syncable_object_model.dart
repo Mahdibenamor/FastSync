@@ -8,7 +8,7 @@ part 'syncable_object_model.g.dart';
 class SyncableItemModel implements SyncableObject {
   @HiveField(249)
   @override
-  final String id;
+  String id;
 
   @HiveField(250)
   @override
@@ -19,6 +19,7 @@ class SyncableItemModel implements SyncableObject {
   final SyncMetadataModel metadata;
 
   @HiveField(252)
+  @JsonKey(defaultValue: false)
   bool dirty = false;
 
   SyncableItemModel(

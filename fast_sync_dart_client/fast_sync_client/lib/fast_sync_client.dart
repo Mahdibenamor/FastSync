@@ -28,5 +28,6 @@ export "src/implementation/metadata/syncable_object.dart";
 export "src/implementation/service/conflicts_handler.dart";
 export "src/implementation/service/sync_config.dart";
 export "src/implementation/service/sync_manager.dart";
+export "src/implementation/service/sync_version_manger.dart";
 export "src/utils.dart";
 export "src/fast_sync.dart";

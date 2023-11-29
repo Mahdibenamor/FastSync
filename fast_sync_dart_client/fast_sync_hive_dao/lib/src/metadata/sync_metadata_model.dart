@@ -20,7 +20,7 @@ class SyncMetadataModel implements SyncMetadata {
 
   @override
   @HiveField(243)
-  num? version;
+  num version;
 
   @override
   @HiveField(244)

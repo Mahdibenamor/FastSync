@@ -74,6 +74,20 @@ class ItemListPage extends StatelessWidget {
               ),
             );
           }),
+          Consumer<ItemProvider>(builder: (context, itemProvider, child) {
+            return Center(
+              child: TextButton(
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue),
+                ),
+                onPressed: () async {
+                  await itemProvider.pullItems();
+                },
+                child: Text('pull'),
+              ),
+            );
+          }),
         ]),
       ),
       floatingActionButton: FloatingActionButton(

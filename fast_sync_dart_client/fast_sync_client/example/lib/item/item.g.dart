@@ -65,7 +65,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
       deleted: json['deleted'] as bool,
       name: json['name'] as String,
       description: json['description'] as String,
-    )..dirty = json['dirty'] as bool;
+    )..dirty = json['dirty'] as bool? ?? false;
 
 Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'id': instance.id,

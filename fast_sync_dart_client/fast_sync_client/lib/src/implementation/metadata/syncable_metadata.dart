@@ -13,7 +13,7 @@ class SyncMetadata implements ISyncMetadata {
   final String type;
 
   @override
-  num? version;
+  num version;
 
   @override
   num timestamp;
@@ -21,7 +21,11 @@ class SyncMetadata implements ISyncMetadata {
   @override
   int? syncOperation;
 
-  SyncMetadata({required this.id,required this.timestamp, required this.type});
+  SyncMetadata(
+      {required this.id,
+      required this.version,
+      required this.timestamp,
+      required this.type});
 
   @override
   String? getSyncZone() {

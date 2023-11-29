@@ -9,6 +9,9 @@ class Constants {
   static final String toJsonName = "'toJson'";
   static final String fromJsonName = "'FromJson'";
   static final String syncMetadataModelName = "'SyncMetadataModel'";
+  static final String syncManagerName = "'ISyncManager'";
+  static final String httpManagerName = "'IhttpManager'";
+  static final String syncVersionManagerName = "'SyncVersionManager'";
 }
 
 typedef ToJsonFunction = Map<String, dynamic> Function(dynamic value);

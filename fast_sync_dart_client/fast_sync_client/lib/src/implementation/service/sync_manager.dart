@@ -1,12 +1,11 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
 
 class SyncManager implements ISyncManager {
-  IhttpManager httpManager = FastSync.getHttpManager();
-
   @override
-  Future<SyncPayload> push(
-      SyncZoneTypeConfiguration syncZoneConfiguration) async {
-    SyncPayload payload = await _buildPayload(syncZoneConfiguration);
+  Future<SyncPayload> push() async {
+    IhttpManager httpManager = FastSync.getHttpManager();
+
+    SyncPayload payload = await _buildPayload();
     bool isSucced = false;
 
     if (payload.hasData) {
@@ -19,9 +18,21 @@ class SyncManager implements ISyncManager {
   }
 
   @override
-  Future<SyncPayload> processPull(SyncOperationMetadata metadata) async {
-    bool payload = await httpManager.pull(metadata);
-    return SyncPayload();
+  Future<SyncPayload> pull() async {
+    IhttpManager httpManager = FastSync.getHttpManager();
+    SyncOperationMetadata operationMetadata = SyncOperationMetadata();
+    List<String> syncableTypes = FastSync.getSyncableTypes();
+    for (String type in syncableTypes) {
+      SyncVersionManager syncVersionManager = FastSync.getSyncVersionManager();
+      ISyncMetadata typeLocalMetadata =
+          await syncVersionManager.getTypeSyncMetadata(type);
+      operationMetadata.setMetadata(type, typeLocalMetadata);
+    }
+
+    SyncPayload payload = await httpManager.pull(operationMetadata);
+    await _undirtyList(payload);
+    await _processPayloadMetadata(payload);
+    return payload;
   }
 
   @override
@@ -34,8 +45,7 @@ class SyncManager implements ISyncManager {
     return object.dirty;
   }
 
-  Future<SyncPayload> _buildPayload(
-      SyncZoneTypeConfiguration syncZoneConfiguration) async {
+  Future<SyncPayload> _buildPayload() async {
     List<String> syncableTypes = FastSync.getSyncableTypes();
     SyncPayload payload = SyncPayload();
     for (String type in syncableTypes) {
@@ -43,8 +53,7 @@ class SyncManager implements ISyncManager {
           FastSync.getObjectRepository(type);
       List<ISyncableObject> dirtyObjects =
           await repository.query(_filterDirtyObjects);
-      payload.pushObjects(
-          type, dirtyObjects, syncZoneConfiguration.getTypeSyncZone(type));
+      payload.pushObjects(type, dirtyObjects, FastSync.getTypeSyncZone(type));
     }
     return payload;
   }
@@ -56,6 +65,16 @@ class SyncManager implements ISyncManager {
           FastSync.getObjectRepository(type);
       List<ISyncableObject> pushedItems = payload.getObjectsForType(type);
       await repository.undirtyList(pushedItems);
+      num test = 1 + 1;
+    }
+  }
+
+  Future<void> _processPayloadMetadata(SyncPayload payload) async {
+    List<String> syncableTypes = payload.getSyncedTypes();
+    SyncVersionManager syncVersionManager = FastSync.getSyncVersionManager();
+    for (String type in syncableTypes) {
+      ISyncMetadata metadata = payload.getTypeMetadata(type);
+      await syncVersionManager.updateTypeSyncVersion(metadata);
     }
   }
 }

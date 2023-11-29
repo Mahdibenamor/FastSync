@@ -3,6 +3,8 @@ import 'package:fast_sync_client/fast_sync_client.dart';
 class SyncConfiguration implements ISyncConfiguration {
   List<String> syncableTypes = [];
   Map<String, dynamic> namedInstances = {};
+  final Map<String, String> _typesSyncZones = {};
+
   SyncConfiguration() {
     init();
   }
@@ -62,14 +64,15 @@ class SyncConfiguration implements ISyncConfiguration {
   void setSyncZoneTypeConfiguration(
       String entityType, SyncZoneRestrictionEnum? syncZoneRestriction) {
     if (syncZoneRestriction != null) {
-      //Container.set(entityType + Constants.syncZoneRestriction, syncZoneRestriction);
+      namedInstances[entityType + Constants.syncZoneRestriction] =
+          syncZoneRestriction;
     } else {
       throw Exception(
           'SyncZoneRestriction of the $entityType is not be undefined');
     }
   }
 
-  SyncZoneRestrictionEnum getSyncZoneConfiguration(String type) {
+  SyncZoneRestrictionEnum getTypeSyncZoneRestriction(String type) {
     SyncZoneRestrictionEnum syncZoneRestriction =
         namedInstances[type + Constants.syncZoneRestriction];
     if (syncZoneRestriction != null) {
@@ -94,7 +97,7 @@ class SyncConfiguration implements ISyncConfiguration {
 
   @override
   ISyncManager getSyncManager() {
-    ISyncManager syncManager = namedInstances['ISyncManager'];
+    ISyncManager syncManager = namedInstances[Constants.syncManagerName];
     if (syncManager != null) {
       return syncManager;
     } else {
@@ -105,7 +108,7 @@ class SyncConfiguration implements ISyncConfiguration {
 
   void setSyncManager(ISyncManager syncManager) {
     if (syncManager != null) {
-      namedInstances['ISyncManager'] = syncManager;
+      namedInstances[Constants.syncManagerName] = syncManager;
     } else {
       throw Exception(
           'Sync manager should not be null, be check your sync configuration class');
@@ -114,12 +117,12 @@ class SyncConfiguration implements ISyncConfiguration {
 
   @override
   void setHttpManager(IhttpManager httpManager) {
-    namedInstances['IhttpManager'] = httpManager;
+    namedInstances[Constants.httpManagerName] = httpManager;
   }
 
   @override
   IhttpManager getHttpManager() {
-    IhttpManager httpManager = namedInstances['IhttpManager'];
+    IhttpManager httpManager = namedInstances[Constants.httpManagerName];
     if (httpManager != null) {
       return httpManager;
     } else {
@@ -154,5 +157,35 @@ class SyncConfiguration implements ISyncConfiguration {
       throw Exception(
           'fromJson of type: $type should not be null, be check your sync configuration class');
     }
+  }
+
+  @override
+  SyncVersionManager getSyncVersionManager() {
+    SyncVersionManager syncVersionManager =
+        namedInstances[Constants.syncVersionManagerName];
+    if (syncVersionManager != null) {
+      return syncVersionManager;
+    } else {
+      throw Exception(
+          'syncVersionManager should not be null, be check your sync configuration class');
+    }
+  }
+
+  @override
+  void setSyncVersionManager(SyncVersionManager syncVersionManager) {
+    namedInstances[Constants.syncVersionManagerName] = syncVersionManager;
+  }
+
+  setTypeSyncZone(String type, String syncZone) {
+    _typesSyncZones[type] = syncZone;
+  }
+
+  String getTypeSyncZone(String type) {
+    String? syncZone = _typesSyncZones[type];
+    if (syncZone == null) {
+      throw Exception(
+          'SyncZone for type $type is not configured well, please check the configuration before using syncManager');
+    }
+    return syncZone;
   }
 }

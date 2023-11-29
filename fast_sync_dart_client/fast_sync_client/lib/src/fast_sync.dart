@@ -51,8 +51,8 @@ class FastSync<V extends SyncConfiguration> {
     return _instance!._syncConfiguration!.getObjectRepository(type);
   }
 
-  static SyncZoneRestrictionEnum getSyncZoneConfiguration(String type) {
-    return _instance!._syncConfiguration!.getSyncZoneConfiguration(type);
+  static SyncZoneRestrictionEnum getTypeSyncZoneRestriction(String type) {
+    return _instance!._syncConfiguration!.getTypeSyncZoneRestriction(type);
   }
 
   static ISyncManager getSyncManager() {
@@ -65,5 +65,17 @@ class FastSync<V extends SyncConfiguration> {
 
   static IhttpManager getHttpManager() {
     return _instance!._syncConfiguration!.getHttpManager();
+  }
+
+  static SyncVersionManager getSyncVersionManager() {
+    return _instance!._syncConfiguration!.getSyncVersionManager();
+  }
+
+  static setTypeSyncZone(String type, String syncZone) {
+    _instance!._syncConfiguration!.setTypeSyncZone(type, syncZone);
+  }
+
+  static String getTypeSyncZone(String type) {
+    return _instance!._syncConfiguration!.getTypeSyncZone(type);
   }
 }

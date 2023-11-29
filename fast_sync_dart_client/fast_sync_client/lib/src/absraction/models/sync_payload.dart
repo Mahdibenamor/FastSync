@@ -12,9 +12,6 @@ class SyncPayload<T extends ISyncableObject> {
 
   void pushObjects(String type, List<T> entities, String syncZone) {
     if (entities.isNotEmpty) {
-      SyncConfiguration configuration = FastSync.getSyncConfiguration();
-      Function syncMetadataFromJson = configuration
-          .getTypeForFromJsonFunction(Constants.syncMetadataModelName);
       Map<String, dynamic> typeMetadataJson = {
         "syncZone": syncZone,
         "type": type,
@@ -23,8 +20,7 @@ class SyncPayload<T extends ISyncableObject> {
         'timestamp': 999,
         'syncOperation': 999,
       };
-      operationMetadata.setMetadata(
-          type, syncMetadataFromJson.call(typeMetadataJson));
+      operationMetadata.setMetadata(type, buildMetadata(typeMetadataJson));
       _data[type] = entities;
       hasData = true;
     }
@@ -57,8 +53,7 @@ class SyncPayload<T extends ISyncableObject> {
     dataMap.forEach((key, value) {
       final list = (value as List).cast<Map<String, dynamic>>();
       Function typeFromJson = configuration.getTypeForFromJsonFunction(key);
-      final items =
-          list.map((item) => typeFromJson.call(item)).toList() as List<T>;
+      List<T> items = List<T>.from(list.map((item) => typeFromJson.call(item)));
       data[key] = items;
     });
 

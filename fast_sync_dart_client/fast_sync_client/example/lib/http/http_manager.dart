@@ -8,10 +8,14 @@ class HttpManager implements IhttpManager {
   HttpManager();
 
   @override
-  Future<bool> pull(SyncOperationMetadata metadata) async {
-    // Response response = await dio
-    //     .post('https://localhost:3000/express/pull', data: metadata);
-    return true;
+  Future<SyncPayload> pull(SyncOperationMetadata metadata) async {
+    Response response = await dio.post(
+        'http://192.168.178.24:3000/express/pull',
+        data: json.encode(metadata.toJson()));
+    if (response.data["success"] == true) {
+      return SyncPayload.fromJson(response.data["data"]);
+    }
+    return throw Exception('pull failed');
   }
 
   @override
@@ -22,7 +26,7 @@ class HttpManager implements IhttpManager {
     if (response.data["success"] == true) {
       return true;
     }
-    return false;
+    return throw Exception('push failed');
   }
 
   @override

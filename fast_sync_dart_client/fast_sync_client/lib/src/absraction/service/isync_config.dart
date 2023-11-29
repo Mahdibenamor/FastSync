@@ -15,4 +15,6 @@ abstract class ISyncConfiguration {
   ISyncManager getSyncManager();
   IhttpManager getHttpManager();
   void setHttpManager(IhttpManager httpManager);
+  void setSyncVersionManager(SyncVersionManager syncVersionManager);
+  SyncVersionManager getSyncVersionManager();
 }

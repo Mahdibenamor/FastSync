@@ -56,7 +56,7 @@ class SyncalbeObjectDataSource<T extends IWithId>
   }
 
   @override
-  Future<List<T>> syncUpdate(List<T> entities) async {
+  Future<List> syncUpdate(List entities) async {
     Map<String, T> entitiesMap = {};
     for (var entity in entities) {
       entitiesMap[entity.id] = entity;

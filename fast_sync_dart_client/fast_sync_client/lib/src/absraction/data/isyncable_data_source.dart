@@ -3,7 +3,7 @@ abstract class ISyncableDataSource<T> {
   Future<T> add(T entity);
   Future<List<T>> deleteMany(List<T> entities);
   Future<List<T>> updateMany(List<T> entities);
-  Future<List<T>> syncUpdate(List<T> entities);
+  Future<List> syncUpdate(List entities);
   Future<T> update(String id, T entity);
   Future<List<T>> getAll();
   Future<T?> findById(String id);

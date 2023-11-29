@@ -26,6 +26,7 @@ class HttpManager implements IhttpManager {
     if (response.data["success"] == true) {
       return true;
     }
+    print(response);
     return throw Exception('push failed');
   }
 

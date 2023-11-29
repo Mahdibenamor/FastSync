@@ -10,14 +10,16 @@ class SyncableItemModel implements SyncableObject {
   @override
   String id;
 
+  @JsonKey(defaultValue: false)
   @HiveField(250)
   @override
-  bool deleted;
+  bool deleted = false;
 
   @HiveField(251)
   @override
   final SyncMetadataModel metadata;
 
+  @override
   @HiveField(252)
   @JsonKey(defaultValue: false)
   bool dirty = false;

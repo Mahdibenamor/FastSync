@@ -5,18 +5,18 @@ import { SyncMetadata } from "../../implementation/metadata/syncable_metadata";
 import { ISyncMetadata } from "../metadata/ISync_metadata";
 
 export class SyncPayload {
-   
-    constructor(public data: Record<string, any[]> = {}, public operationMetadata: SyncOperationMetadata = new SyncOperationMetadata()) {}
 
-    static create(syncPayload:SyncPayload){
-        let payload =  new SyncPayload()
+    constructor(public data: Record<string, any[]> = {}, public operationMetadata: SyncOperationMetadata = new SyncOperationMetadata()) { }
+
+    static create(syncPayload: SyncPayload) {
+        let payload = new SyncPayload()
         payload.data = syncPayload.data;
         payload.operationMetadata = SyncOperationMetadata.create(syncPayload.operationMetadata);
         return payload;
     }
-    
+
     public async pushObjects<T extends ISyncableObject>(type: string, entities: T[], syncZone: string) {
-        if(entities.length > 0){
+        if (entities.length > 0) {
             if (!(type in this.data)) {
                 this.data[type] = [];
             }
@@ -26,34 +26,33 @@ export class SyncPayload {
         }
     }
 
-    public getObjectsForType(type: string){
-        if(this.data.hasOwnProperty(type) && !isNullOrUndefined(this.data[type])){
+    public getObjectsForType(type: string) {
+        if (this.data.hasOwnProperty(type) && !isNullOrUndefined(this.data[type])) {
             return this.data[type];
         }
-        else{
+        else {
             return [];
         }
     }
 
-    public getSynckedTypes(): string[]{
+    public getSynckedTypes(): string[] {
         return Object.keys(this.data);
     }
 
-    public getTypeMetadata(type:string): ISyncMetadata{
+    public getTypeMetadata(type: string): ISyncMetadata {
         let metadata = this.operationMetadata.getTypeMetadata(type)
-        if(!isNullOrUndefined(metadata)){
+        if (!isNullOrUndefined(metadata)) {
             return metadata;
         }
         throw new Error("metadata of each syncked type should specified, please check how you build SyncPayload")
     }
 
     private async buildTypeMetadata(type: string, syncZone: string): Promise<SyncMetadata> {
-    
+
         let objects = this.getObjectsForType(type);
         const newVersion = Math.max(...objects.map(obj => obj.metadata.version));
         let syncMetadata = new SyncMetadata(type, newVersion, syncZone);
         syncMetadata.id = type;
-        syncMetadata.timestamp = new Date().getTime() / 1000;
         return syncMetadata;
     }
 }

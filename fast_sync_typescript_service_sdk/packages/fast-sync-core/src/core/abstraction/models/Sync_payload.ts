@@ -16,12 +16,14 @@ export class SyncPayload {
     }
     
     public async pushObjects<T extends ISyncableObject>(type: string, entities: T[], syncZone: string) {
-        if (!(type in this.data)) {
-            this.data[type] = [];
+        if(entities.length > 0){
+            if (!(type in this.data)) {
+                this.data[type] = [];
+            }
+            this.data[type].push(...entities);
+            let globalSyncVersion = await this.buildTypeMetadata(type, syncZone)
+            this.operationMetadata.setMetadata(type, globalSyncVersion)
         }
-        this.data[type].push(...entities);
-        let globalSyncVersion = await this.buildTypeMetadata(type, syncZone)
-        this.operationMetadata.setMetadata(type, globalSyncVersion)
     }
 
     public getObjectsForType(type: string){
@@ -49,6 +51,9 @@ export class SyncPayload {
     
         let objects = this.getObjectsForType(type);
         const newVersion = Math.max(...objects.map(obj => obj.metadata.version));
-        return new SyncMetadata(type, newVersion, syncZone);
+        let syncMetadata = new SyncMetadata(type, newVersion, syncZone);
+        syncMetadata.id = type;
+        syncMetadata.timestamp = new Date().getTime() / 1000;
+        return syncMetadata;
     }
 }

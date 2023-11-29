@@ -1,6 +1,5 @@
 import 'package:example/item/pages/add_item.dart';
 import 'package:example/item/pages/item_provider.dart';
-import 'package:example/item/pages/update_item.dart';
 import 'package:fast_sync_client/fast_sync_client.dart';
 import 'package:fast_sync_hive_dao/fast_sync_hive_dao.dart';
 import 'package:flutter/material.dart';
@@ -17,27 +16,38 @@ class ItemListPage extends StatelessWidget {
       body: RefreshIndicator(
         onRefresh: () async {},
         child: Column(children: [
-          Consumer<ItemProvider>(
-            builder: (context, itemProvider, child) {
-              return ListView.builder(
-                itemCount: itemProvider.items.length,
-                itemBuilder: (context, index) {
-                  Item item = itemProvider.items[index];
-                  return ListTile(
-                    title: Text(item.name),
-                    subtitle: Text(item.description),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UpdateItemPage(item: item),
-                        ),
-                      );
-                    },
-                  );
-                },
-              );
-            },
+          // Consumer<ItemProvider>(
+          //   builder: (context, itemProvider, child) {
+          //     return ListView.builder(
+          //       itemCount: itemProvider.items.length,
+          //       itemBuilder: (context, index) {
+          //         Item item = itemProvider.items[index];
+          //         return ListTile(
+          //           title: Text(item.name),
+          //           subtitle: Text(item.description),
+          //           onTap: () {
+          //             Navigator.push(
+          //               context,
+          //               MaterialPageRoute(
+          //                 builder: (context) => UpdateItemPage(item: item),
+          //               ),
+          //             );
+          //           },
+          //         );
+          //       },
+          //     );
+          //   },
+          // ),
+          Center(
+            child: TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
+              onPressed: () async {
+                await saveElement();
+              },
+              child: Text('Save element'),
+            ),
           ),
           Center(
             child: TextButton(
@@ -45,11 +55,39 @@ class ItemListPage extends StatelessWidget {
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
               onPressed: () async {
-                await testExecution();
+                await getCount();
               },
-              child: Text('TextButton'),
+              child: Text('get count'),
             ),
-          )
+          ),
+          Consumer<ItemProvider>(builder: (context, itemProvider, child) {
+            return Center(
+              child: TextButton(
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue),
+                ),
+                onPressed: () async {
+                  await itemProvider.push();
+                },
+                child: Text('push'),
+              ),
+            );
+          }),
+          Consumer<ItemProvider>(builder: (context, itemProvider, child) {
+            return Center(
+              child: TextButton(
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue),
+                ),
+                onPressed: () async {
+                  await itemProvider.pullItems();
+                },
+                child: Text('pull'),
+              ),
+            );
+          }),
         ]),
       ),
       floatingActionButton: FloatingActionButton(
@@ -66,7 +104,13 @@ class ItemListPage extends StatelessWidget {
     );
   }
 
-  Future<void> testExecution() async {
+  Future<void> getCount() async {
+    ISyncableRepository<Item> repository = FastSync.getObjectRepository("Item");
+    var count = await repository.count();
+    var count2 = 1 + 1;
+  }
+
+  Future<void> saveElement() async {
     ISyncableRepository<Item> repository = FastSync.getObjectRepository("Item");
     var count = await repository.count();
     SyncMetadataModel metadata = SyncMetadataModel(
@@ -85,40 +129,42 @@ class ItemListPage extends StatelessWidget {
     await repository.add(item);
     count = await repository.count();
 
-    item.name = 'update name';
-    item.description = 'update description';
+    var count2 = 1 + 1;
 
-    await repository.update(item.id, item);
-    var updatedItem = await repository.findById(item.id);
+    // item.name = 'update name';
+    // item.description = 'update description';
 
-    var allItems = await repository.getAll();
+    // await repository.update(item.id, item);
+    // var updatedItem = await repository.findById(item.id);
 
-    item.name = 'update name 2';
-    item.description = 'update description2';
+    // var allItems = await repository.getAll();
 
-    await repository.updateMany([item], metadata);
-    updatedItem = await repository.findById(item.id);
+    // item.name = 'update name 2';
+    // item.description = 'update description2';
 
-    SyncMetadataModel metadata2 = SyncMetadataModel(
-        id: "id2",
-        syncOperation: SyncOperationEnum.add.code,
-        syncZone: "user2",
-        timestamp: 1,
-        type: 'Item2',
-        version: 1);
-    Item item2 = Item(
-        id: 'id2',
-        metadata: metadata2,
-        deleted: false,
-        name: 'name2',
-        description: 'description2');
+    // await repository.updateMany([item], metadata);
+    // updatedItem = await repository.findById(item.id);
 
-    await repository.addMany([item2], metadata2);
-    var updatedItem2 = await repository.findById(item2.id);
+    // SyncMetadataModel metadata2 = SyncMetadataModel(
+    //     id: "id2",
+    //     syncOperation: SyncOperationEnum.add.code,
+    //     syncZone: "user2",
+    //     timestamp: 1,
+    //     type: 'Item2',
+    //     version: 1);
+    // Item item2 = Item(
+    //     id: 'id2',
+    //     metadata: metadata2,
+    //     deleted: false,
+    //     name: 'name2',
+    //     description: 'description2');
 
-    item2.name = "name2 updated";
-    item2.description = "description2 updated";
-    await repository.addMany([item2], metadata2);
-    var test = 1 + 1;
+    // await repository.addMany([item2], metadata2);
+    // var updatedItem2 = await repository.findById(item2.id);
+
+    // item2.name = "name2 updated";
+    // item2.description = "description2 updated";
+    // await repository.addMany([item2], metadata2);
+    // var test = 1 + 1;
   }
 }

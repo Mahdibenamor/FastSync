@@ -4,11 +4,11 @@ import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'syncable_object_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SyncableItemModel implements SyncableObject {
   @HiveField(249)
   @override
-  final String id;
+  String id;
 
   @HiveField(250)
   @override
@@ -19,6 +19,7 @@ class SyncableItemModel implements SyncableObject {
   final SyncMetadataModel metadata;
 
   @HiveField(252)
+  @JsonKey(defaultValue: false)
   bool dirty = false;
 
   SyncableItemModel(
@@ -28,6 +29,8 @@ class SyncableItemModel implements SyncableObject {
       _$SyncableItemModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$SyncableItemModelToJson(this);
+
+  static Function get intoJson => _$SyncableItemModelToJson;
 
   @override
   num? getVersion() {

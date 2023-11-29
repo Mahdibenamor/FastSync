@@ -10,5 +10,5 @@ export interface ISyncMetadata extends IWithId {
     timestamp: number;
     syncOperation: SyncOperationEnum;
     getSyncZone();
-    computeSyncZone(syncZoneRestrictionType: SyncZoneRestrictionEnum)
+    computeSyncZone(syncZoneRestrictionType: SyncZoneRestrictionEnum);
 }

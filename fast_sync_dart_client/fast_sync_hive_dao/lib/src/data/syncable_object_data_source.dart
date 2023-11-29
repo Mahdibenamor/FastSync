@@ -1,8 +1,7 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
-import 'package:fast_sync_hive_dao/fast_sync_hive_dao.dart';
 import 'package:hive/hive.dart';
 
-class SyncalbeObjectDataSource<T extends SyncableItemModel>
+class SyncalbeObjectDataSource<T extends IWithId>
     implements ISyncableDataSource<T> {
   Box<T>? _boxInstance;
 
@@ -11,8 +10,6 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   @override
   Future<T> add(T entity) async {
     final Box<T> box = await boxInstance;
-    entity.metadata.syncOperation = SyncOperationEnum.add.code;
-    entity.dirty = true;
     await box.add(entity);
     return entity;
   }
@@ -21,32 +18,17 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   Future<List<T>> addMany(List<T> entities) async {
     Map<String, T> entitiesMap = {};
     for (var entity in entities) {
-      entity.metadata.syncOperation = SyncOperationEnum.add.code;
-      entity.dirty = true;
       entitiesMap[entity.id] = entity;
     }
     final Box<T> box = await boxInstance;
     await box.putAll(entitiesMap);
     return entities;
-  }
-
-  @override
-  Future<T> delete(T entity) async {
-    final Box<T> box = await boxInstance;
-    entity.deleted = true;
-    entity.metadata.syncOperation = SyncOperationEnum.delete.code;
-    entity.dirty = true;
-    await box.add(entity);
-    return entity;
   }
 
   @override
   Future<List<T>> deleteMany(List<T> entities) async {
     Map<String, T> entitiesMap = {};
     for (var entity in entities) {
-      entity.deleted = true;
-      entity.metadata.syncOperation = SyncOperationEnum.delete.code;
-      entity.dirty = true;
       entitiesMap[entity.id] = entity;
     }
     final Box<T> box = await boxInstance;
@@ -55,11 +37,9 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   }
 
   @override
-  Future<T> update(String query, T entity) async {
-    entity.metadata.syncOperation = SyncOperationEnum.update.code;
-    entity.dirty = true;
+  Future<T> update(String id, T entity) async {
     final Box<T> box = await boxInstance;
-    await box.put(query, entity);
+    await box.put(id, entity);
     return entity;
   }
 
@@ -67,8 +47,6 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   Future<List<T>> updateMany(List<T> entities) async {
     Map<String, T> entitiesMap = {};
     for (var entity in entities) {
-      entity.metadata.syncOperation = SyncOperationEnum.update.code;
-      entity.dirty = true;
       entitiesMap[entity.id] = entity;
     }
 
@@ -78,7 +56,7 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   }
 
   @override
-  Future<List<T>> syncUpdate(List<T> entities) async {
+  Future<List> syncUpdate(List entities) async {
     Map<String, T> entitiesMap = {};
     for (var entity in entities) {
       entitiesMap[entity.id] = entity;
@@ -103,21 +81,13 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
   @override
   Future<T?> findById(String id) async {
     final Box<T> box = await boxInstance;
-    var item = box.get(id);
-    if (item != null) {
-      if (item.deleted) {
-        return null;
-      }
-      return item;
-    } else {
-      return null;
-    }
+    return box.get(id);
   }
 
   @override
   Future<List<T>> getAll() async {
     final Box<T> box = await boxInstance;
-    return box.toMap().values.where(_undoRemovedEntities).toList();
+    return box.toMap().values.toList();
   }
 
   @override
@@ -126,13 +96,7 @@ class SyncalbeObjectDataSource<T extends SyncableItemModel>
     return box.toMap().values.where(query).toList();
   }
 
-  bool _undoRemovedEntities(T entity) {
-    return !entity.deleted;
-  }
-
   Future<void> _init() async {
-    // HiveSyncConfiguration instance =
-    //     FastSync.getSyncConfiguration<HiveSyncConfiguration>();
     _boxInstance = await Hive.openBox(T.toString());
   }
 

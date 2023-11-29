@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'item.g.dart';
 
 @HiveType(typeId: 1, adapterName: "ItemAdapter")
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Item extends SyncableItemModel {
   @HiveField(1)
   String name;
@@ -24,4 +24,6 @@ class Item extends SyncableItemModel {
 
   @override
   Map<String, dynamic> toJson() => _$ItemToJson(this);
+
+  static Function get intoJson => _$ItemToJson;
 }

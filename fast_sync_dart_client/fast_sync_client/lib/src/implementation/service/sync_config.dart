@@ -1,10 +1,10 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
-import 'package:fast_sync_client/src/absraction/service/isync_config.dart';
-import 'package:get_it/get_it.dart';
 
 class SyncConfiguration implements ISyncConfiguration {
-  final GetIt _container = GetIt.instance;
   List<String> syncableTypes = [];
+  Map<String, dynamic> namedInstances = {};
+  final Map<String, String> _typesSyncZones = {};
+
   SyncConfiguration() {
     init();
   }
@@ -14,22 +14,23 @@ class SyncConfiguration implements ISyncConfiguration {
   }
 
   @override
-  void setSyncableObject<T extends ISyncableObject>(
-      String entityType, ISyncableRepository<T> repository,
+  void setSyncableObject<T extends ISyncableObject>(String entityType,
+      Function fromJson, Function toJson, ISyncableRepository<T> repository,
       [SyncZoneRestrictionEnum? syncZoneRestriction,
       IConflictsHandler? conflictsHandler]) {
     syncableTypes.add(entityType);
     setSyncZoneTypeConfiguration(entityType, syncZoneRestriction);
     setObjectConflictsHandler(entityType, conflictsHandler);
     setObjectRepository(entityType, repository);
+    setTypeForFromJsonFunction(entityType, fromJson);
+    setTypeForToJsonFunction(entityType, toJson);
   }
 
   @override
   void setObjectRepository<T extends ISyncableObject>(
       String entityType, ISyncableRepository<T> repository) {
     if (repository != null) {
-      _container.registerSingleton(repository,
-          instanceName: entityType + Constants.repositoryName);
+      namedInstances[entityType + Constants.repositoryName] = repository;
     } else {
       throw Exception(
           'Repository of the $entityType is not configured well, please check the configuration');
@@ -40,8 +41,8 @@ class SyncConfiguration implements ISyncConfiguration {
   void setObjectConflictsHandler(
       String entityType, IConflictsHandler? conflictsHandler) {
     if (conflictsHandler != null) {
-      _container.registerSingleton(conflictsHandler,
-          instanceName: entityType + Constants.conflictsHandlerName);
+      namedInstances[entityType + Constants.conflictsHandlerName] =
+          conflictsHandler;
     } else {
       throw Exception(
           'ConflictsHandler of the $entityType is not configured well, please check the configuration');
@@ -51,7 +52,7 @@ class SyncConfiguration implements ISyncConfiguration {
   @override
   IConflictsHandler getObjectConflictsHandler(String type) {
     IConflictsHandler conflictsHandler =
-        _container(instanceName: type + Constants.conflictsHandlerName);
+        namedInstances[type + Constants.conflictsHandlerName];
     if (conflictsHandler != null) {
       return conflictsHandler;
     } else {
@@ -63,16 +64,17 @@ class SyncConfiguration implements ISyncConfiguration {
   void setSyncZoneTypeConfiguration(
       String entityType, SyncZoneRestrictionEnum? syncZoneRestriction) {
     if (syncZoneRestriction != null) {
-      //Container.set(entityType + Constants.syncZoneRestriction, syncZoneRestriction);
+      namedInstances[entityType + Constants.syncZoneRestriction] =
+          syncZoneRestriction;
     } else {
       throw Exception(
           'SyncZoneRestriction of the $entityType is not be undefined');
     }
   }
 
-  SyncZoneRestrictionEnum getSyncZoneConfiguration(String type) {
+  SyncZoneRestrictionEnum getTypeSyncZoneRestriction(String type) {
     SyncZoneRestrictionEnum syncZoneRestriction =
-        _container(instanceName: type + Constants.syncZoneRestriction);
+        namedInstances[type + Constants.syncZoneRestriction];
     if (syncZoneRestriction != null) {
       return syncZoneRestriction;
     } else {
@@ -84,7 +86,7 @@ class SyncConfiguration implements ISyncConfiguration {
   ISyncableRepository<T> getObjectRepository<T extends ISyncableObject>(
       String type) {
     ISyncableRepository<T> repository =
-        _container(instanceName: type + Constants.repositoryName);
+        namedInstances[type + Constants.repositoryName];
     if (repository != null) {
       return repository;
     } else {
@@ -95,7 +97,7 @@ class SyncConfiguration implements ISyncConfiguration {
 
   @override
   ISyncManager getSyncManager() {
-    ISyncManager syncManager = _container<ISyncManager>();
+    ISyncManager syncManager = namedInstances[Constants.syncManagerName];
     if (syncManager != null) {
       return syncManager;
     } else {
@@ -106,10 +108,84 @@ class SyncConfiguration implements ISyncConfiguration {
 
   void setSyncManager(ISyncManager syncManager) {
     if (syncManager != null) {
-      _container.registerSingleton<ISyncManager>(syncManager);
+      namedInstances[Constants.syncManagerName] = syncManager;
     } else {
       throw Exception(
           'Sync manager should not be null, be check your sync configuration class');
     }
+  }
+
+  @override
+  void setHttpManager(IhttpManager httpManager) {
+    namedInstances[Constants.httpManagerName] = httpManager;
+  }
+
+  @override
+  IhttpManager getHttpManager() {
+    IhttpManager httpManager = namedInstances[Constants.httpManagerName];
+    if (httpManager != null) {
+      return httpManager;
+    } else {
+      throw Exception(
+          'httpManager should not be null, be check your sync configuration class');
+    }
+  }
+
+  void setTypeForToJsonFunction(String type, Function toJson) {
+    namedInstances[type + Constants.toJsonName] = toJson;
+  }
+
+  void setTypeForFromJsonFunction(String type, Function fromJson) {
+    namedInstances[type + Constants.fromJsonName] = fromJson;
+  }
+
+  Function getTypeForToJsonFunction<T>(String type) {
+    Function toJson = namedInstances[type + Constants.toJsonName];
+    if (toJson != null) {
+      return toJson;
+    } else {
+      throw Exception(
+          'toJson of type: $type should not be null, be check your sync configuration class');
+    }
+  }
+
+  Function getTypeForFromJsonFunction(String type) {
+    Function fromJson = namedInstances[type + Constants.fromJsonName];
+    if (fromJson != null) {
+      return fromJson;
+    } else {
+      throw Exception(
+          'fromJson of type: $type should not be null, be check your sync configuration class');
+    }
+  }
+
+  @override
+  SyncVersionManager getSyncVersionManager() {
+    SyncVersionManager syncVersionManager =
+        namedInstances[Constants.syncVersionManagerName];
+    if (syncVersionManager != null) {
+      return syncVersionManager;
+    } else {
+      throw Exception(
+          'syncVersionManager should not be null, be check your sync configuration class');
+    }
+  }
+
+  @override
+  void setSyncVersionManager(SyncVersionManager syncVersionManager) {
+    namedInstances[Constants.syncVersionManagerName] = syncVersionManager;
+  }
+
+  setTypeSyncZone(String type, String syncZone) {
+    _typesSyncZones[type] = syncZone;
+  }
+
+  String getTypeSyncZone(String type) {
+    String? syncZone = _typesSyncZones[type];
+    if (syncZone == null) {
+      throw Exception(
+          'SyncZone for type $type is not configured well, please check the configuration before using syncManager');
+    }
+    return syncZone;
   }
 }

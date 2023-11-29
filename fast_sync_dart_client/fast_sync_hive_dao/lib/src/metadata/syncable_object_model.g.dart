@@ -11,7 +11,7 @@ SyncableItemModel _$SyncableItemModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       metadata:
           SyncMetadataModel.fromJson(json['metadata'] as Map<String, dynamic>),
-      deleted: json['deleted'] as bool,
+      deleted: json['deleted'] as bool? ?? false,
     )..dirty = json['dirty'] as bool? ?? false;
 
 Map<String, dynamic> _$SyncableItemModelToJson(SyncableItemModel instance) =>

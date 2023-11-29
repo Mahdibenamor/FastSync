@@ -62,7 +62,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
       id: json['id'] as String,
       metadata:
           SyncMetadataModel.fromJson(json['metadata'] as Map<String, dynamic>),
-      deleted: json['deleted'] as bool,
+      deleted: json['deleted'] as bool? ?? false,
       name: json['name'] as String,
       description: json['description'] as String,
     )..dirty = json['dirty'] as bool? ?? false;

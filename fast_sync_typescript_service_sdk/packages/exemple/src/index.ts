@@ -9,7 +9,7 @@ import * as mongoose from 'mongoose';
 const express = require("express");
 const app = express();
 
-useExpressServer(app, { 
+useExpressServer(app, {
   routePrefix: "/express",
   cors: true,
   controllers: [
@@ -18,14 +18,14 @@ useExpressServer(app, {
   middlewares: [],
 });
 
-const uri =  "mongodb://localhost:27017/sync"
+const uri = "mongodb://localhost:27017/sync"
 //const uri = "mongodb+srv://FastSync:FastSyncForAll@fastsync.6o4fi9y.mongodb.net/sync?retryWrites=true&w=majority";
 
 mongoose.connect(uri);
 
 app.use(express.json());
 const port = process.env.PORT || 3000;
-app.listen(port, async() => {  
+app.listen(port, async () => {
   console.log(`listening on port ${port}`);
   try {
     await configureFastSync();
@@ -36,16 +36,16 @@ app.listen(port, async() => {
 
 });
 
-async function configureFastSync(){
-  let fastSync : FastSync = FastSync.getInstance(new MongooseSyncConfiguration());
-  let conflictsHandler: IConflictsHandler = new  ConflictsHandler(ConflictsResolutionStrategyEnum.PredefinedRules, conflictsResolutionFunction)
-  let repo =  new ItemRepository();
-  await fastSync.setSyncalbeObject(Item.name, repo , conflictsHandler);
+async function configureFastSync() {
+  let fastSync: FastSync = FastSync.getInstance(new MongooseSyncConfiguration());
+  let conflictsHandler: IConflictsHandler = new ConflictsHandler(ConflictsResolutionStrategyEnum.PredefinedRules, conflictsResolutionFunction)
+  let repo = new ItemRepository();
+  await fastSync.setSyncalbeObject(Item.name, repo, conflictsHandler);
 
 }
 
 
-async function conflictsResolutionFunction (oldObject: Item, newObject: Item): Promise<ISyncableObject>{
+async function conflictsResolutionFunction(oldObject: Item, newObject: Item): Promise<ISyncableObject> {
   newObject.name = 'from conflicts resolving function'
   return newObject;
 }

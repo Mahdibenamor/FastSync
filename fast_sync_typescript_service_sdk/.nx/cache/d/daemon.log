@@ -1,0 +1,88 @@
+[NX Daemon Server] - 2023-11-29T14:46:11.256Z - Started listening on: \\.\pipe\nx\C:\Users\User\AppData\Local\Temp\576b194544f3a5555178\d.sock
+[NX Daemon Server] - 2023-11-29T14:46:11.265Z - [WATCHER]: Subscribed to changes within: C:\Users\User\Desktop\FastSync\fast_sync_typescript_service_sdk (native)
+[NX Daemon Server] - 2023-11-29T14:46:11.273Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2023-11-29T14:46:11.280Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2023-11-29T14:46:11.283Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2023-11-29T14:46:11.286Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2023-11-29T14:46:11.626Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-11-29T14:46:11.627Z - [REQUEST]: 
+[NX Daemon Server] - 2023-11-29T14:46:11.627Z - [REQUEST]: 
+[NX Daemon Server] - 2023-11-29T14:46:11.801Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2023-11-29T14:46:11.805Z - Time taken for 'total for creating and serializing project graph' 514.5992000102997ms
+[NX Daemon Server] - 2023-11-29T14:46:11.808Z - Done responding to the client project-graph
+[NX Daemon Server] - 2023-11-29T14:46:11.808Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 515. Response time: 7.
+[NX Daemon Server] - 2023-11-29T14:46:11.817Z - [REQUEST]: Responding to the client. handleRequestFileData
+[NX Daemon Server] - 2023-11-29T14:46:11.818Z - Done responding to the client handleRequestFileData
+[NX Daemon Server] - 2023-11-29T14:46:11.818Z - Handled REQUEST_FILE_DATA. Handling time: 1. Response time: 1.
+[NX Daemon Server] - 2023-11-29T14:46:31.959Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-11-29T14:46:31.960Z - [WATCHER]: Stopping the watcher for C:\Users\User\Desktop\FastSync\fast_sync_typescript_service_sdk (sources)
+[NX Daemon Server] - 2023-11-29T14:46:31.960Z - [WATCHER]: Stopping the watcher for C:\Users\User\Desktop\FastSync\fast_sync_typescript_service_sdk (outputs)
+[NX Daemon Server] - 2023-11-29T14:46:31.961Z - Server stopped because: "Lock file changed"
+[NX Daemon Server] - 2023-11-29T14:56:36.165Z - Started listening on: \\.\pipe\nx\C:\Users\User\AppData\Local\Temp\576b194544f3a5555178\d.sock
+[NX Daemon Server] - 2023-11-29T14:56:36.185Z - [WATCHER]: Subscribed to changes within: C:\Users\User\Desktop\FastSync\fast_sync_typescript_service_sdk (native)
+[NX Daemon Server] - 2023-11-29T14:56:36.190Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2023-11-29T14:56:36.194Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2023-11-29T14:56:36.205Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2023-11-29T14:56:36.209Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2023-11-29T14:56:36.396Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-11-29T14:56:36.396Z - [REQUEST]: 
+[NX Daemon Server] - 2023-11-29T14:56:36.397Z - [REQUEST]: 
+[NX Daemon Server] - 2023-11-29T14:56:36.568Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2023-11-29T14:56:36.570Z - Time taken for 'total for creating and serializing project graph' 358.70899999141693ms
+[NX Daemon Server] - 2023-11-29T14:56:36.572Z - Done responding to the client project-graph
+[NX Daemon Server] - 2023-11-29T14:56:36.572Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 359. Response time: 4.
+[NX Daemon Server] - 2023-11-29T14:56:36.580Z - [REQUEST]: Responding to the client. handleRequestFileData
+[NX Daemon Server] - 2023-11-29T14:56:36.581Z - Done responding to the client handleRequestFileData
+[NX Daemon Server] - 2023-11-29T14:56:36.581Z - Handled REQUEST_FILE_DATA. Handling time: 1. Response time: 1.
+[NX Daemon Server] - 2023-11-29T14:56:46.872Z - [WATCHER]: package-lock.json was modified
+[NX Daemon Server] - 2023-11-29T14:56:46.873Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-11-29T14:56:46.951Z - [WATCHER]: package-lock.json was modified
+[NX Daemon Server] - 2023-11-29T14:56:46.951Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-11-29T14:56:47.028Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-11-29T14:56:47.028Z - [REQUEST]: package-lock.json
+[NX Daemon Server] - 2023-11-29T14:56:47.028Z - [REQUEST]: 
+[NX Daemon Server] - 2023-11-29T14:56:47.158Z - Time taken for 'hash changed files from watcher' 1.2842999696731567ms
+[NX Daemon Server] - 2023-11-29T14:56:49.038Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2023-11-29T14:57:17.315Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-11-29T14:57:17.317Z - [WATCHER]: packages/fast-sync-core/package-lock.json was deleted
+[NX Daemon Server] - 2023-11-29T14:57:17.545Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-11-29T14:57:17.546Z - [REQUEST]: 
+[NX Daemon Server] - 2023-11-29T14:57:17.546Z - [REQUEST]: packages/fast-sync-core/package-lock.json
+[NX Daemon Server] - 2023-11-29T14:57:17.610Z - Time taken for 'hash changed files from watcher' 0.2379000186920166ms
+[NX Daemon Server] - 2023-11-29T14:57:27.029Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-11-29T14:57:27.031Z - [WATCHER]: package-lock.json was modified
+[NX Daemon Server] - 2023-11-29T14:57:27.471Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-11-29T14:57:27.471Z - [REQUEST]: package-lock.json
+[NX Daemon Server] - 2023-11-29T14:57:27.471Z - [REQUEST]: 
+[NX Daemon Server] - 2023-11-29T14:57:27.539Z - Time taken for 'hash changed files from watcher' 1.2713000774383545ms
+[NX Daemon Server] - 2023-11-29T14:58:28.392Z - [WATCHER]: packages/fast-sync-mongoose-dao/package-lock.json was deleted
+[NX Daemon Server] - 2023-11-29T14:58:28.394Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-11-29T14:58:29.217Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-11-29T14:58:29.217Z - [REQUEST]: 
+[NX Daemon Server] - 2023-11-29T14:58:29.217Z - [REQUEST]: packages/fast-sync-mongoose-dao/package-lock.json
+[NX Daemon Server] - 2023-11-29T14:58:29.325Z - Time taken for 'hash changed files from watcher' 0.15390002727508545ms
+[NX Daemon Server] - 2023-11-29T14:58:37.832Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-11-29T14:58:37.834Z - [WATCHER]: package-lock.json was modified
+[NX Daemon Server] - 2023-11-29T14:58:39.491Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-11-29T14:58:39.491Z - [REQUEST]: package-lock.json
+[NX Daemon Server] - 2023-11-29T14:58:39.491Z - [REQUEST]: 
+[NX Daemon Server] - 2023-11-29T14:58:39.533Z - Time taken for 'hash changed files from watcher' 1.6933999061584473ms
+[NX Daemon Server] - 2023-11-29T14:59:05.536Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-11-29T14:59:05.541Z - [WATCHER]: packages/exemple/__tests__ was deleted
+[NX Daemon Server] - 2023-11-29T14:59:08.033Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-11-29T14:59:08.040Z - [WATCHER]: packages/exemple/lib was deleted
+[NX Daemon Server] - 2023-11-29T14:59:08.776Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-11-29T14:59:08.776Z - [REQUEST]: 
+[NX Daemon Server] - 2023-11-29T14:59:08.776Z - [REQUEST]: packages/exemple/__tests__,packages/exemple/lib
+[NX Daemon Server] - 2023-11-29T14:59:08.844Z - Time taken for 'hash changed files from watcher' 0.2315000295639038ms
+[NX Daemon Server] - 2023-11-29T14:59:14.216Z - [WATCHER]: packages/exemple/README.md was deleted
+[NX Daemon Server] - 2023-11-29T14:59:14.216Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-11-29T14:59:20.647Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-11-29T14:59:20.647Z - [REQUEST]: 
+[NX Daemon Server] - 2023-11-29T14:59:20.648Z - [REQUEST]: packages/exemple/README.md
+[NX Daemon Server] - 2023-11-29T14:59:20.707Z - Time taken for 'hash changed files from watcher' 0.20490002632141113ms
+[NX Daemon Server] - 2023-11-29T14:59:40.562Z - [WATCHER]: 8 file(s) created or restored, 0 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-11-29T14:59:40.563Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-11-29T14:59:40.563Z - [WATCHER]: Stopping the watcher for C:\Users\User\Desktop\FastSync\fast_sync_typescript_service_sdk (sources)
+[NX Daemon Server] - 2023-11-29T14:59:40.563Z - [WATCHER]: Stopping the watcher for C:\Users\User\Desktop\FastSync\fast_sync_typescript_service_sdk (outputs)
+[NX Daemon Server] - 2023-11-29T14:59:40.564Z - Server stopped because: "Stopping the daemon the set of ignored files changed (native)"

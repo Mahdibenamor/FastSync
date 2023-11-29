@@ -20,110 +20,110 @@ export class SyncConfiguration implements ISyncConfiguration {
     }
 
     public get syncVersionManager(): SyncVersionManager {
-        try{
-            if(!isNullOrUndefined(this._syncVersionManager)){
+        try {
+            if (!isNullOrUndefined(this._syncVersionManager)) {
                 return this._syncVersionManager
             }
         }
-        catch(e){
+        catch (e) {
             throw Error("Please init the SyncVersionManager, FastSync.getInstance(configuration)")
         }
     }
 
-    constructor(){
+    constructor() {
         this.init();
     }
-    
-    protected init(){
+
+    protected init() {
         this.setSyncManager(new SyncManager());
     }
-    
-    
-    public async setSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, syncZoneRestriction: SyncZoneRestrictionEnum,conflictsHandler?: IConflictsHandler){
-       this.setSyncZoneTypeConfiguration(entityType, syncZoneRestriction)
-       this.setObjectConflictsHandler(entityType,conflictsHandler);
-       this.setObjectRepository(entityType, repository);
+
+
+    public async setSyncalbeObject<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>, syncZoneRestriction: SyncZoneRestrictionEnum, conflictsHandler?: IConflictsHandler) {
+        this.setSyncZoneTypeConfiguration(entityType, syncZoneRestriction)
+        this.setObjectConflictsHandler(entityType, conflictsHandler);
+        this.setObjectRepository(entityType, repository);
     }
 
-    public setObjectRepository<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>){
-        if(!isNullOrUndefined(repository)){
-            Container.set(entityType +  Constants.repositoryName, repository)
+    public setObjectRepository<T extends ISyncableObject>(entityType: string, repository: ISyncableRepository<T>) {
+        if (!isNullOrUndefined(repository)) {
+            Container.set(entityType + Constants.repositoryName, repository)
         }
-        else {     
-            throw Error("repository of the " +entityType+" is not configured well, please check the configuration")
-        }
-    }
-    
-    
-    public setObjectConflictsHandler(entityType: string,  conflictsHandler: IConflictsHandler){
-        if(!isNullOrUndefined(conflictsHandler)){
-            Container.set(entityType +  Constants.conflictsHandlerName, conflictsHandler)
-        }
-        else {     
-            throw Error("conflictsHandler of the " +entityType+" is not configured well, please check the configuration")
-        }
-    }
-    
-    
-    public getObjectConflictsHandler(type:string): IConflictsHandler{
-        let conflictsHandler  = Container.get(type +  Constants.conflictsHandlerName);
-        if(!isNullOrUndefined(conflictsHandler)){
-             return conflictsHandler as IConflictsHandler;
-        }
-        else {     
-            throw Error("conflictsHandler of the " +type+" is not configured well, please check the configuration")
+        else {
+            throw Error("repository of the " + entityType + " is not configured well, please check the configuration")
         }
     }
 
-    public setSyncZoneTypeConfiguration(entityType: string,  syncZoneRestriction: SyncZoneRestrictionEnum){
-        if(!isNullOrUndefined(syncZoneRestriction)){
-            Container.set(entityType +  Constants.syncZoneRestriction, syncZoneRestriction)
+
+    public setObjectConflictsHandler(entityType: string, conflictsHandler: IConflictsHandler) {
+        if (!isNullOrUndefined(conflictsHandler)) {
+            Container.set(entityType + Constants.conflictsHandlerName, conflictsHandler)
         }
-        else {  
-            throw Error("syncZoneRestriction of the " +entityType+" is not be undefined")
+        else {
+            throw Error("conflictsHandler of the " + entityType + " is not configured well, please check the configuration")
+        }
+    }
+
+
+    public getObjectConflictsHandler(type: string): IConflictsHandler {
+        let conflictsHandler = Container.get(type + Constants.conflictsHandlerName);
+        if (!isNullOrUndefined(conflictsHandler)) {
+            return conflictsHandler as IConflictsHandler;
+        }
+        else {
+            throw Error("conflictsHandler of the " + type + " is not configured well, please check the configuration")
+        }
+    }
+
+    public setSyncZoneTypeConfiguration(entityType: string, syncZoneRestriction: SyncZoneRestrictionEnum) {
+        if (!isNullOrUndefined(syncZoneRestriction)) {
+            Container.set(entityType + Constants.syncZoneRestriction, syncZoneRestriction)
+        }
+        else {
+            throw Error("syncZoneRestriction of the " + entityType + " is not be undefined")
 
         }
     }
-    
-    
-    public getSyncZoneConfiguration(type:string): SyncZoneRestrictionEnum{
-        let syncZoneRestriction  = Container.get(type +  Constants.syncZoneRestriction);
-        if(!isNullOrUndefined(syncZoneRestriction)){
-             return syncZoneRestriction as SyncZoneRestrictionEnum;
+
+
+    public getSyncZoneConfiguration(type: string): SyncZoneRestrictionEnum {
+        let syncZoneRestriction = Container.get(type + Constants.syncZoneRestriction);
+        if (!isNullOrUndefined(syncZoneRestriction)) {
+            return syncZoneRestriction as SyncZoneRestrictionEnum;
         }
-        else {     
-            throw Error("syncZoneRestriction of the " +type+" is not be undefined")
+        else {
+            throw Error("syncZoneRestriction of the " + type + " is not be undefined")
         }
     }
-    
-    public getObjectRepository<T extends ISyncableObject>(type: string): ISyncableRepository<T>{
-        let repository = Container.get(type +  Constants.repositoryName);
-        if(!isNullOrUndefined(repository)){
+
+    public getObjectRepository<T extends ISyncableObject>(type: string): ISyncableRepository<T> {
+        let repository = Container.get(type + Constants.repositoryName);
+        if (!isNullOrUndefined(repository)) {
             return repository as ISyncableRepository<T>;;
         }
-        else {     
-            throw Error("repository of the " +type+" is not configured well, please check the configuration")
+        else {
+            throw Error("repository of the " + type + " is not configured well, please check the configuration")
         }
     }
 
-   public getSyncManager(): ISyncManager {
-        let syncManager  = Container.get(SyncManager.name);
-        if(!isNullOrUndefined(syncManager)){
+    public getSyncManager(): ISyncManager {
+        let syncManager = Container.get(SyncManager.name);
+        if (!isNullOrUndefined(syncManager)) {
             return syncManager as ISyncManager;
         }
-        else {     
+        else {
             throw Error("Sync manager should not be null, be check your sync configuration class")
-        }    
+        }
     }
 
-    public setSyncManager(syncManager: ISyncManager){
-        if(!isNullOrUndefined(syncManager)){
+    public setSyncManager(syncManager: ISyncManager) {
+        if (!isNullOrUndefined(syncManager)) {
             Container.set(SyncManager.name, syncManager)
         }
-        else {  
+        else {
             throw Error("Sync manager should not be null, be check your sync configuration class")
 
         }
     }
-    
+
 }

@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import { ISyncalbeDataSource } from "fast-sync-core"
 import { IWithId } from "fast-sync-core"
-import { ISyncMetadata } from"fast-sync-core"
+import { ISyncMetadata } from "fast-sync-core"
 
 export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDataSource<T> {
   model: mongoose.Model<T & mongoose.Document>;
@@ -20,8 +20,8 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
     )?.toObject();
   }
 
-  async delete(query: any): Promise<T | null> {
-    return (await this.model.findOneAndDelete(query).exec())?.toObject();
+  async delete(query: any): Promise<void> {
+    await this.model.findOneAndDelete(query).exec();
   }
 
   async findById(id: string): Promise<T> {
@@ -32,7 +32,7 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
     let array: mongoose.Document<T>[] = await this.model.find().exec();
     return array.map((item) => item.toObject());
   }
-  
+
 
   async getById(id: string): Promise<T> {
     return (await this.model.findById(id))?.toObject();
@@ -43,7 +43,7 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
     return count;
   }
 
-  async  query(query: any): Promise<T[]> {
+  async query(query: any): Promise<T[]> {
     let array: mongoose.Document<T>[] = await this.model.find(query).exec();
     return array.map((item) => item.toObject());
   }
@@ -53,10 +53,10 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
     return createdEntities;
   }
 
-  
+
   async updateMany(entities: T[]): Promise<T[]> {
     let bulk = [];
-    entities.forEach(entity =>{
+    entities.forEach(entity => {
       bulk.push({
         updateOne: {
           filter: { id: Object(entity.id) },
@@ -69,13 +69,14 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
   }
 
   async fetchMany(syncMetadata: ISyncMetadata): Promise<T[]> {
-    let array: mongoose.Document<T>[] = await this.model.find({ 
-      'metadata.version': { $gt: syncMetadata.version } ,
-      'metadata.syncZone': syncMetadata.getSyncZone()}).exec();
-    return array.map((item) => item.toObject()); 
+    let array: mongoose.Document<T>[] = await this.model.find({
+      'metadata.version': { $gt: syncMetadata.version },
+      'metadata.syncZone': syncMetadata.getSyncZone()
+    }).exec();
+    return array.map((item) => item.toObject());
   }
-  
-  
+
+
   dispose(): void {
     // No specific disposal needed for Mongoose
   }

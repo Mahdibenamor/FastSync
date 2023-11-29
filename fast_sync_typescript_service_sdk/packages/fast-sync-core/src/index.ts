@@ -1,5 +1,3 @@
-// export the abstraction folder
-
 // export the data folder
 export * from './core/abstraction/data/ISyncable_Repository';
 export * from './core/abstraction/data/ISyncable_data_source';
@@ -24,7 +22,7 @@ export * from './core/abstraction/service/IConflicts_handler'
 export * from './core/abstraction/service/ISync_config'
 export * from './core/abstraction/service/ISync_manager'
 export * from './core/abstraction/service/ISync_version_manager'
-export * from './core/abstraction/constants' 
+export * from './core/abstraction/constants'
 
 
 // export the implementation folder

@@ -10,10 +10,10 @@ class SyncPayload<T extends ISyncableObject> {
       : _data = data ?? {},
         operationMetadata = operationMetadata ?? SyncOperationMetadata();
 
-  void pushObjects(String type, List<T> entities, String syncZone) {
+  void pushObjects(String type, List<T> entities) {
     if (entities.isNotEmpty) {
       Map<String, dynamic> typeMetadataJson = {
-        "syncZone": syncZone,
+        "syncZone": FastSync.getTypeSyncZone(type),
         "type": type,
         'id': "id",
         'version': 999,

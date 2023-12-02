@@ -53,7 +53,7 @@ class SyncManager implements ISyncManager {
           FastSync.getObjectRepository(type);
       List<ISyncableObject> dirtyObjects =
           await repository.query(_filterDirtyObjects);
-      payload.pushObjects(type, dirtyObjects, FastSync.getTypeSyncZone(type));
+      payload.pushObjects(type, dirtyObjects);
     }
     return payload;
   }

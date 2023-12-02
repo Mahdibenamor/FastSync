@@ -36,6 +36,24 @@ class SyncManager implements ISyncManager {
   }
 
   @override
+  Future<SyncPayload<ISyncableObject>> hardReset({List<Type>? types}) async {
+    List<String> syncableTypes = [];
+    if (types != null && types.isNotEmpty) {
+      for (Type type in types) {
+        syncableTypes.add(type.toString());
+      }
+    } else {
+      syncableTypes = FastSync.getSyncableTypes();
+    }
+    for (String type in syncableTypes) {
+      ISyncableRepository<ISyncableObject> repository =
+          FastSync.getObjectRepository(type: type);
+      await repository.hardDelete();
+    }
+    return await pull();
+  }
+
+  @override
   processSync(metadata) {
     // TODO: implement processSync
     throw UnimplementedError();

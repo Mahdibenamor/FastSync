@@ -18,7 +18,7 @@ class ItemProvider with ChangeNotifier {
   }
 
   Future<void> pullItems() async {
-    await syncManager.pull();
+    await syncManager.hardReset(types: [Item]);
   }
 
   Future<void> push() async {

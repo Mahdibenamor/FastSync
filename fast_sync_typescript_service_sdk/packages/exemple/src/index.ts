@@ -38,7 +38,7 @@ app.listen(port, async () => {
 
 async function configureFastSync() {
   let fastSync: FastSync = FastSync.getInstance(new MongooseSyncConfiguration());
-  let conflictsHandler: IConflictsHandler = new ConflictsHandler(ConflictsResolutionStrategyEnum.LastWriterWins, conflictsResolutionFunction)
+  let conflictsHandler: IConflictsHandler = new ConflictsHandler(ConflictsResolutionStrategyEnum.PredefinedRules, conflictsResolutionFunction)
   let repo = new ItemRepository();
   await fastSync.setSyncalbeObject(Item.name, repo, conflictsHandler);
 

@@ -34,6 +34,7 @@ class ItemListPageState extends State<ItemListPage> {
                   return ListTile(
                     title: Text(item.name),
                     subtitle: Text(item.description),
+                    trailing: Text("version : ${item.metadata.version}"),
                     onTap: () {
                       Navigator.push(
                         context,

@@ -17,24 +17,26 @@ export class ConflictsHandler implements IConflictsHandler {
         return this.resolutionStrategy;
     }
 
-    public async resolveConflicts(oblObject: ISyncableObject, newObject: ISyncableObject): Promise<ISyncableObject> {
+    public async resolveConflicts(serverObject: ISyncableObject, clientObject: ISyncableObject): Promise<ISyncableObject> {
         if (ConflictsResolutionStrategyEnum.LastWriterWins == this.resolutionStrategy) {
-            return newObject;
+            return clientObject;
         }
 
         if (ConflictsResolutionStrategyEnum.TimestampOrdering == this.resolutionStrategy) {
-            return oblObject.metadata.timestamp > newObject.metadata.timestamp ? oblObject : newObject;
+            return serverObject.metadata.timestamp > clientObject.metadata.timestamp ? serverObject : clientObject;
         }
 
         if (ConflictsResolutionStrategyEnum.PredefinedRules == this.resolutionStrategy) {
             // check if there is other then client increment, ==> some one else did change the objct
             // ==> the client is late ==> conflict
-            if (Math.abs(newObject.metadata.version - oblObject.metadata.version) > 1) {
-                let resolvedobject = await this.conflictsResolutionFunction(oblObject, newObject);
-                resolvedobject.metadata = newObject.metadata;
+            let clientVersion: number = clientObject.metadata.version;
+            let serverVersion: number = serverObject.metadata.version;
+            if (Math.abs(clientVersion - serverVersion) != 1 && serverVersion >= clientVersion) {
+                let resolvedobject = await this.conflictsResolutionFunction(serverObject, clientObject);
+                resolvedobject.metadata = clientObject.metadata;
                 return resolvedobject
             }
-            return newObject;
+            return clientObject;
 
         }
     }

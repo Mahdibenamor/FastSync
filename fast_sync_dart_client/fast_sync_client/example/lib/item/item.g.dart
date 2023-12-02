@@ -17,18 +17,18 @@ class ItemAdapter extends TypeAdapter<Item> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Item(
-      id: fields[249] as String,
-      metadata: fields[251] as SyncMetadataModel,
-      deleted: fields[250] as bool,
       name: fields[1] as String,
       description: fields[2] as String,
-    )..dirty = fields[252] as bool;
+    )
+      ..id = fields[249] as String
+      ..deleted = fields[250] as bool
+      ..metadata = fields[251] as SyncMetadataModel;
   }
 
   @override
   void write(BinaryWriter writer, Item obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(5)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
@@ -38,9 +38,7 @@ class ItemAdapter extends TypeAdapter<Item> {
       ..writeByte(250)
       ..write(obj.deleted)
       ..writeByte(251)
-      ..write(obj.metadata)
-      ..writeByte(252)
-      ..write(obj.dirty);
+      ..write(obj.metadata);
   }
 
   @override
@@ -59,19 +57,20 @@ class ItemAdapter extends TypeAdapter<Item> {
 // **************************************************************************
 
 Item _$ItemFromJson(Map<String, dynamic> json) => Item(
-      id: json['id'] as String,
-      metadata:
-          SyncMetadataModel.fromJson(json['metadata'] as Map<String, dynamic>),
-      deleted: json['deleted'] as bool? ?? false,
       name: json['name'] as String,
       description: json['description'] as String,
-    )..dirty = json['dirty'] as bool? ?? false;
+    )
+      ..id = json['id'] as String
+      ..deleted = json['deleted'] as bool? ?? false
+      ..dirty = json['dirty'] as bool? ?? false
+      ..metadata =
+          SyncMetadataModel.fromJson(json['metadata'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'id': instance.id,
       'deleted': instance.deleted,
-      'metadata': instance.metadata.toJson(),
       'dirty': instance.dirty,
+      'metadata': instance.metadata.toJson(),
       'name': instance.name,
       'description': instance.description,
     };

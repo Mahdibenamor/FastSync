@@ -16,14 +16,13 @@ class MetaDataAdapter extends TypeAdapter<SyncMetadataModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SyncMetadataModel(
-      id: fields[240] as String,
-      syncZone: fields[241] as String?,
-      type: fields[242] as String,
-      version: fields[243] as num,
-      timestamp: fields[244] as num,
-      syncOperation: fields[255] as int?,
-    );
+    return SyncMetadataModel()
+      ..id = fields[240] as String
+      ..syncZone = fields[241] as String?
+      ..type = fields[242] as String
+      ..version = fields[243] as num
+      ..timestamp = fields[244] as num
+      ..syncOperation = fields[255] as int?;
   }
 
   @override
@@ -60,14 +59,13 @@ class MetaDataAdapter extends TypeAdapter<SyncMetadataModel> {
 // **************************************************************************
 
 SyncMetadataModel _$SyncMetadataModelFromJson(Map<String, dynamic> json) =>
-    SyncMetadataModel(
-      id: json['id'] as String,
-      syncZone: json['syncZone'] as String?,
-      type: json['type'] as String,
-      version: json['version'] as num,
-      timestamp: json['timestamp'] as num,
-      syncOperation: json['syncOperation'] as int?,
-    );
+    SyncMetadataModel()
+      ..id = json['id'] as String
+      ..syncZone = json['syncZone'] as String?
+      ..type = json['type'] as String
+      ..version = json['version'] as num
+      ..timestamp = json['timestamp'] as num
+      ..syncOperation = json['syncOperation'] as int?;
 
 Map<String, dynamic> _$SyncMetadataModelToJson(SyncMetadataModel instance) =>
     <String, dynamic>{

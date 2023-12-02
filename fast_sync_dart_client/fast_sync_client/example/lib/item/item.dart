@@ -12,12 +12,7 @@ class Item extends SyncableItemModel {
   @HiveField(2)
   String description;
 
-  Item(
-      {required super.id,
-      required super.metadata,
-      required super.deleted,
-      required this.name,
-      required this.description});
+  Item({required this.name, required this.description});
 
   @override
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);

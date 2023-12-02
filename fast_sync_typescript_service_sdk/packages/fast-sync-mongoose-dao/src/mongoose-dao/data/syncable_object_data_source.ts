@@ -61,6 +61,7 @@ export class SyncalbeObjectDataSource<T extends IWithId> implements ISyncalbeDat
         updateOne: {
           filter: { id: Object(entity.id) },
           update: { $set: entity },
+          upsert: true
         },
       })
     })

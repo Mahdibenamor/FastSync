@@ -32,4 +32,9 @@ class SyncVersionManager {
   Future<void> initTypeSyncMetaData(String type) async {
     await getTypeSyncMetadata(type);
   }
+
+  Future<void> resetTypeSyncVersion(String type) async {
+    await syncMetadataDataSource.hardDelete();
+    await initTypeSyncMetaData(type);
+  }
 }

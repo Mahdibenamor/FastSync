@@ -10,7 +10,7 @@ class SyncalbeObjectDataSource<T extends IWithId>
   @override
   Future<T> add(T entity) async {
     final Box<T> box = await boxInstance;
-    await box.add(entity);
+    await box.put(entity.id, entity);
     return entity;
   }
 
@@ -53,6 +53,12 @@ class SyncalbeObjectDataSource<T extends IWithId>
     final Box<T> box = await boxInstance;
     await box.putAll(entitiesMap);
     return entities;
+  }
+
+  @override
+  Future<void> hardDelete() async {
+    final Box<T> box = await boxInstance;
+    box.clear();
   }
 
   @override

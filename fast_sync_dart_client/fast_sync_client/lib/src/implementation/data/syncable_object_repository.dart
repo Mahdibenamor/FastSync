@@ -9,7 +9,9 @@ class SyncalbeRepository<T extends ISyncableObject>
   @override
   Future<T> add(T entity) async {
     entity.metadata.syncOperation = SyncOperationEnum.add.code;
-    entity.dirty = true;
+    entity.metadata.type = T.toString();
+    entity.metadata.syncZone = FastSync.getTypeSyncZone(T.toString());
+    entity = _dirtyObject(entity);
     return await dataSource.add(entity);
   }
 
@@ -18,7 +20,9 @@ class SyncalbeRepository<T extends ISyncableObject>
     List<T> entitiesToSave = [];
     for (var entity in entities) {
       entity.metadata.syncOperation = SyncOperationEnum.add.code;
-      entity.dirty = true;
+      entity.metadata.type = T.toString();
+      entity.metadata.syncZone = FastSync.getTypeSyncZone(T.toString());
+      entity = _dirtyObject(entity);
       entitiesToSave.add(entity);
     }
     return await dataSource.addMany(entitiesToSave);
@@ -64,17 +68,19 @@ class SyncalbeRepository<T extends ISyncableObject>
     for (var entity in entities) {
       entity.deleted = true;
       entity.metadata.syncOperation = SyncOperationEnum.delete.code;
-      entity.dirty = true;
+      entity.metadata.type = T.toString();
+      entity = _dirtyObject(entity);
       entitiesToSave.add(entity);
     }
     return await this.dataSource.deleteMany(entitiesToSave);
   }
 
   @override
-  Future<T> update(String id, T entity) async {
+  Future<T> update(T entity) async {
     entity.metadata.syncOperation = SyncOperationEnum.update.code;
-    entity.dirty = true;
-    return await dataSource.update(id, entity);
+    entity.metadata.type = T.toString();
+    entity = _dirtyObject(entity);
+    return await dataSource.update(entity.id, entity);
   }
 
   @override
@@ -82,7 +88,8 @@ class SyncalbeRepository<T extends ISyncableObject>
     List<T> entitiesToSave = [];
     for (var entity in entities) {
       entity.metadata.syncOperation = SyncOperationEnum.update.code;
-      entity.dirty = true;
+      entity.metadata.type = T.toString();
+      entity = _dirtyObject(entity);
       entitiesToSave.add(entity);
     }
     return await dataSource.updateMany(entitiesToSave);
@@ -99,6 +106,13 @@ class SyncalbeRepository<T extends ISyncableObject>
   }
 
   @override
+  Future<void> hardDelete() async {
+    SyncVersionManager versionManager = FastSync.getSyncVersionManager();
+    await dataSource.hardDelete();
+    versionManager.resetTypeSyncVersion(T.toString());
+  }
+
+  @override
   Future<List<T>> processSyncResultForType(
       List<T> entities, ISyncMetadata metadata) {
     // TODO: implement processSyncResultForType
@@ -107,5 +121,13 @@ class SyncalbeRepository<T extends ISyncableObject>
 
   bool _undoRemovedEntities(T entity) {
     return !entity.deleted;
+  }
+
+  T _dirtyObject(T object) {
+    if (!object.dirty) {
+      object.dirty = true;
+      object.metadata.version++;
+    }
+    return object;
   }
 }

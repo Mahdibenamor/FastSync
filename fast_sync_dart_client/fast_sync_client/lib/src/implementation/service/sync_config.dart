@@ -16,11 +16,9 @@ class SyncConfiguration implements ISyncConfiguration {
   @override
   void setSyncableObject<T extends ISyncableObject>(String entityType,
       Function fromJson, Function toJson, ISyncableRepository<T> repository,
-      [SyncZoneRestrictionEnum? syncZoneRestriction,
-      IConflictsHandler? conflictsHandler]) {
+      [SyncZoneRestrictionEnum? syncZoneRestriction]) {
     syncableTypes.add(entityType);
     setSyncZoneTypeConfiguration(entityType, syncZoneRestriction);
-    setObjectConflictsHandler(entityType, conflictsHandler);
     setObjectRepository(entityType, repository);
     setTypeForFromJsonFunction(entityType, fromJson);
     setTypeForToJsonFunction(entityType, toJson);
@@ -34,30 +32,6 @@ class SyncConfiguration implements ISyncConfiguration {
     } else {
       throw Exception(
           'Repository of the $entityType is not configured well, please check the configuration');
-    }
-  }
-
-  @override
-  void setObjectConflictsHandler(
-      String entityType, IConflictsHandler? conflictsHandler) {
-    if (conflictsHandler != null) {
-      namedInstances[entityType + Constants.conflictsHandlerName] =
-          conflictsHandler;
-    } else {
-      throw Exception(
-          'ConflictsHandler of the $entityType is not configured well, please check the configuration');
-    }
-  }
-
-  @override
-  IConflictsHandler getObjectConflictsHandler(String type) {
-    IConflictsHandler conflictsHandler =
-        namedInstances[type + Constants.conflictsHandlerName];
-    if (conflictsHandler != null) {
-      return conflictsHandler;
-    } else {
-      throw Exception(
-          'ConflictsHandler of the $type is not configured well, please check the configuration');
     }
   }
 

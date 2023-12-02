@@ -50,7 +50,7 @@ class SyncManager implements ISyncManager {
     SyncPayload payload = SyncPayload();
     for (String type in syncableTypes) {
       ISyncableRepository<ISyncableObject> repository =
-          FastSync.getObjectRepository(type);
+          FastSync.getObjectRepository(type: type);
       List<ISyncableObject> dirtyObjects =
           await repository.query(_filterDirtyObjects);
       payload.pushObjects(type, dirtyObjects);
@@ -62,7 +62,7 @@ class SyncManager implements ISyncManager {
     List<String> syncableTypes = payload.getSyncedTypes();
     for (String type in syncableTypes) {
       ISyncableRepository<ISyncableObject> repository =
-          FastSync.getObjectRepository(type);
+          FastSync.getObjectRepository(type: type);
       List<ISyncableObject> pushedItems = payload.getObjectsForType(type);
       await repository.undirtyList(pushedItems);
       num test = 1 + 1;

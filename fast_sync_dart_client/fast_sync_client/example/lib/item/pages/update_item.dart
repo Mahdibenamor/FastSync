@@ -1,4 +1,6 @@
 import 'package:example/item/item.dart';
+import 'package:example/item/pages/item_provider.dart';
+import 'package:fast_sync_client/fast_sync_client.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,34 +11,37 @@ class UpdateItemPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Update Item'),
-      ),
-      body: Column(
-        children: [
-          TextField(
-            controller: TextEditingController(text: item.name),
-            onChanged: (value) {
-              // Update the name of the item
-            },
-            decoration: InputDecoration(labelText: 'Name'),
-          ),
-          TextField(
-            controller: TextEditingController(text: item.description),
-            onChanged: (value) {
-              // Update the description of the item
-            },
-            decoration: InputDecoration(labelText: 'Description'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              // Save the updated item and navigate back to the item list
-            },
-            child: Text('Save'),
-          ),
-        ],
-      ),
-    );
+    return Consumer<ItemProvider>(builder: (context, itemProvider, child) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Update Item'),
+        ),
+        body: Column(
+          children: [
+            TextField(
+              controller: TextEditingController(text: item.name),
+              onChanged: (value) {
+                item.name = value;
+              },
+              decoration: InputDecoration(labelText: 'Name'),
+            ),
+            TextField(
+              controller: TextEditingController(text: item.description),
+              onChanged: (value) {
+                item.description = value;
+              },
+              decoration: InputDecoration(labelText: 'Description'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await itemProvider.updateElement(item);
+                Navigator.pop(context);
+              },
+              child: Text('update'),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

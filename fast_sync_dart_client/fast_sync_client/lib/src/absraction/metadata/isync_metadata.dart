@@ -3,7 +3,7 @@ import 'package:fast_sync_client/src/absraction/models/sync_zone_restriction.dar
 
 abstract class ISyncMetadata extends IWithId {
   String? syncZone;
-  final String type;
+  String type;
   num version;
   num timestamp;
   int? syncOperation;

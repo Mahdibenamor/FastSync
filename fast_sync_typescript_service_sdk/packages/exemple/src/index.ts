@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { ConflictsHandler, ConflictsResolutionStrategyEnum, FastSync, IConflictsHandler, ISyncableObject } from "fast-sync-core";
+import { ConflictsHandler, ConflictsResolutionStrategyEnum, FastSync, IConflictsHandler, ISyncableObject, SyncOperationEnum, SyncZoneRestrictionEnum } from "fast-sync-core";
 import { MongooseSyncConfiguration } from "fast-sync-mongoose-dao";
 import { useExpressServer } from "routing-controllers";
 import { Item } from './item';
@@ -40,7 +40,7 @@ async function configureFastSync() {
   let fastSync: FastSync = FastSync.getInstance(new MongooseSyncConfiguration());
   let conflictsHandler: IConflictsHandler = new ConflictsHandler(ConflictsResolutionStrategyEnum.LastWriterWins, conflictsResolutionFunction)
   let repo = new ItemRepository();
-  await fastSync.setSyncalbeObject(Item.name, repo, conflictsHandler);
+  await fastSync.setSyncalbeObject(Item.name, repo, conflictsHandler, SyncZoneRestrictionEnum.restricted);
 
 }
 

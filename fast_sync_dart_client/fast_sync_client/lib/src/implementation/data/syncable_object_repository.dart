@@ -109,14 +109,7 @@ class SyncalbeRepository<T extends ISyncableObject>
   Future<void> hardDelete() async {
     SyncVersionManager versionManager = FastSync.getSyncVersionManager();
     await dataSource.hardDelete();
-    versionManager.resetTypeSyncVersion(T.toString());
-  }
-
-  @override
-  Future<List<T>> processSyncResultForType(
-      List<T> entities, ISyncMetadata metadata) {
-    // TODO: implement processSyncResultForType
-    throw UnimplementedError();
+    await versionManager.resetTypeSyncVersion(T.toString());
   }
 
   bool _undoRemovedEntities(T entity) {

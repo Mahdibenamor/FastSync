@@ -53,12 +53,6 @@ class SyncManager implements ISyncManager {
     return await pull();
   }
 
-  @override
-  processSync(metadata) {
-    // TODO: implement processSync
-    throw UnimplementedError();
-  }
-
   bool _filterDirtyObjects(ISyncableObject object) {
     return object.dirty;
   }
@@ -83,7 +77,6 @@ class SyncManager implements ISyncManager {
           FastSync.getObjectRepository(type: type);
       List<ISyncableObject> pushedItems = payload.getObjectsForType(type);
       await repository.undirtyList(pushedItems);
-      num test = 1 + 1;
     }
   }
 

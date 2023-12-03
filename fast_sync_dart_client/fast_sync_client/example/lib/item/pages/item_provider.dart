@@ -17,12 +17,16 @@ class ItemProvider with ChangeNotifier {
     return localItems;
   }
 
-  Future<void> pullItems() async {
-    await syncManager.hardReset(types: [Item]);
+  Future<void> pull() async {
+    await syncManager.pull();
   }
 
   Future<void> push() async {
     await syncManager.push();
+  }
+
+  Future<void> hardReset() async {
+    await syncManager.hardReset();
   }
 
   Future<Item> saveElement(Item item) async {

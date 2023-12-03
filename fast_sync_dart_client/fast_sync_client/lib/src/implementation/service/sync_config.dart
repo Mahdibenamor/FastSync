@@ -15,10 +15,8 @@ class SyncConfiguration implements ISyncConfiguration {
 
   @override
   void setSyncableObject<T extends ISyncableObject>(String entityType,
-      Function fromJson, Function toJson, ISyncableRepository<T> repository,
-      [SyncZoneRestrictionEnum? syncZoneRestriction]) {
+      Function fromJson, Function toJson, ISyncableRepository<T> repository) {
     syncableTypes.add(entityType);
-    setSyncZoneTypeConfiguration(entityType, syncZoneRestriction);
     setObjectRepository(entityType, repository);
     setTypeForFromJsonFunction(entityType, fromJson);
     setTypeForToJsonFunction(entityType, toJson);
@@ -35,7 +33,7 @@ class SyncConfiguration implements ISyncConfiguration {
     }
   }
 
-  void setSyncZoneTypeConfiguration(
+  void setSyncZoneRestriction(
       String entityType, SyncZoneRestrictionEnum? syncZoneRestriction) {
     if (syncZoneRestriction != null) {
       namedInstances[entityType + Constants.syncZoneRestriction] =
@@ -150,8 +148,17 @@ class SyncConfiguration implements ISyncConfiguration {
     namedInstances[Constants.syncVersionManagerName] = syncVersionManager;
   }
 
-  setTypeSyncZone(String type, String syncZone) {
-    _typesSyncZones[type] = syncZone;
+  setTypeSyncZone<T>(String type, SyncZoneRestrictionEnum syncZoneRestriction,
+      [String? syncZone]) {
+    if (syncZoneRestriction == SyncZoneRestrictionEnum.restricted &&
+        syncZone == null) {
+      throw Exception(
+          "if you put syncZoneRestriction to restricted, you need to provide syncZone");
+    }
+    if (syncZoneRestriction == SyncZoneRestrictionEnum.global) {
+      syncZone = Constants.globalSyncZoneRestriction;
+    }
+    _typesSyncZones[type] = syncZone!;
   }
 
   String getTypeSyncZone(String type) {

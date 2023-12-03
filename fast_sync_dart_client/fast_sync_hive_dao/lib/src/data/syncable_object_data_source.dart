@@ -58,7 +58,7 @@ class SyncalbeObjectDataSource<T extends IWithId>
   @override
   Future<void> hardDelete() async {
     final Box<T> box = await boxInstance;
-    box.clear();
+    await box.clear();
   }
 
   @override

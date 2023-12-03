@@ -3,7 +3,6 @@ import 'package:example/item/pages/item_provider.dart';
 import 'package:example/item/pages/update_item.dart';
 import 'package:flutter/material.dart';
 import 'package:example/item/item.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class ItemListPage extends StatefulWidget {
@@ -22,19 +21,23 @@ class ItemListPageState extends State<ItemListPage> {
       body: Consumer<ItemProvider>(builder: (context, itemProvider, child) {
         return RefreshIndicator(
           onRefresh: () async {
-            await itemProvider.loadLocalItems();
+            List<Item> loadedItems = await itemProvider.loadLocalItems();
+            setState(() {
+              widget.items = loadedItems;
+            });
           },
           child: Column(children: [
             Container(
               height: 500,
               child: ListView.builder(
-                itemCount: itemProvider.items.length,
+                itemCount: widget.items.length,
                 itemBuilder: (context, index) {
-                  Item item = itemProvider.items[index];
+                  Item item = widget.items[index];
                   return ListTile(
                     title: Text(item.name),
                     subtitle: Text(item.description),
                     trailing: Text("version : ${item.metadata.version}"),
+                    leading: Text("sync zone : ${item.metadata.syncZone}"),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -56,6 +59,7 @@ class ItemListPageState extends State<ItemListPage> {
                   ),
                   onPressed: () async {
                     await itemProvider.push();
+                    setState(() {});
                   },
                   child: Text('push'),
                 ),
@@ -69,7 +73,8 @@ class ItemListPageState extends State<ItemListPage> {
                         MaterialStateProperty.all<Color>(Colors.blue),
                   ),
                   onPressed: () async {
-                    await itemProvider.pullItems();
+                    await itemProvider.pull();
+                    setState(() {});
                   },
                   child: Text('pull'),
                 ),
@@ -83,7 +88,23 @@ class ItemListPageState extends State<ItemListPage> {
                         MaterialStateProperty.all<Color>(Colors.blue),
                   ),
                   onPressed: () async {
+                    await itemProvider.hardReset();
+                    setState(() {});
+                  },
+                  child: Text('hardReset'),
+                ),
+              );
+            }),
+            Consumer<ItemProvider>(builder: (context, itemProvider, child) {
+              return Center(
+                child: TextButton(
+                  style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.blue),
+                  ),
+                  onPressed: () async {
                     await itemProvider.resetItemRepo();
+                    setState(() {});
                   },
                   child: Text('delete local database'),
                 ),

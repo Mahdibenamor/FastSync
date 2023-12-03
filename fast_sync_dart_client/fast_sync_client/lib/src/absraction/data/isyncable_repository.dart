@@ -7,6 +7,4 @@ abstract class ISyncableRepository<T> extends IBaseRepository<T> {
   Future<List<T>> removeMany(List<T> entities, ISyncMetadata metadata);
   Future<void> hardDelete();
   Future<List> undirtyList(List entities);
-  Future<List<T>> processSyncResultForType(
-      List<T> entities, ISyncMetadata metadata);
 }

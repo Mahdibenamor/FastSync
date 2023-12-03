@@ -37,7 +37,7 @@ class FastSync<V extends SyncConfiguration> {
           SyncZoneRestrictionEnum.global}) {
     final syncConfiguration = _instance!._syncConfiguration!;
     syncConfiguration.setSyncableObject(
-        T.toString(), fromJson, toJson, repository, syncZoneRestriction);
+        T.toString(), fromJson, toJson, repository);
     setSyncConfiguration(syncConfiguration);
   }
 
@@ -67,8 +67,10 @@ class FastSync<V extends SyncConfiguration> {
     return _instance!._syncConfiguration!.getSyncVersionManager();
   }
 
-  static setTypeSyncZone<T>(String syncZone) {
-    _instance!._syncConfiguration!.setTypeSyncZone(T.toString(), syncZone);
+  static setTypeSyncZone<T>(SyncZoneRestrictionEnum syncZoneRestriction,
+      {String? syncZone}) {
+    _instance!._syncConfiguration!
+        .setTypeSyncZone(T.toString(), syncZoneRestriction, syncZone!);
   }
 
   static String getTypeSyncZone(String type) {

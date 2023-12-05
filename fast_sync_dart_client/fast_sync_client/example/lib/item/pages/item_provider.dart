@@ -21,6 +21,10 @@ class ItemProvider with ChangeNotifier {
     await syncManager.pull();
   }
 
+  Future<void> sync() async {
+    await syncManager.sync();
+  }
+
   Future<void> push() async {
     await syncManager.push();
   }

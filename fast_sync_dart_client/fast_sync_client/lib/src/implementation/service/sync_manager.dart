@@ -36,6 +36,12 @@ class SyncManager implements ISyncManager {
   }
 
   @override
+  Future<SyncPayload> sync() async {
+    await push();
+    return await pull();
+  }
+
+  @override
   Future<SyncPayload<ISyncableObject>> hardReset({List<Type>? types}) async {
     List<String> syncableTypes = [];
     if (types != null && types.isNotEmpty) {

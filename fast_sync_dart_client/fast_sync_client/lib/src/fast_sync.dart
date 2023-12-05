@@ -33,22 +33,18 @@ class FastSync<V extends SyncConfiguration> {
       {required Function fromJson,
       required Function toJson,
       required ISyncableRepository<T> repository,
-      IConflictsHandler? conflictsHandler,
       SyncZoneRestrictionEnum syncZoneRestriction =
           SyncZoneRestrictionEnum.global}) {
     final syncConfiguration = _instance!._syncConfiguration!;
-    syncConfiguration.setSyncableObject(T.toString(), fromJson, toJson,
-        repository, syncZoneRestriction, conflictsHandler);
+    syncConfiguration.setSyncableObject(
+        T.toString(), fromJson, toJson, repository);
     setSyncConfiguration(syncConfiguration);
   }
 
-  static IConflictsHandler getObjectConflictsHandler(String type) {
-    return _instance!._syncConfiguration!.getObjectConflictsHandler(type);
-  }
-
   static ISyncableRepository<T> getObjectRepository<T extends ISyncableObject>(
-      String type) {
-    return _instance!._syncConfiguration!.getObjectRepository(type);
+      {String? type}) {
+    String selectedType = type ?? T.toString();
+    return _instance!._syncConfiguration!.getObjectRepository(selectedType);
   }
 
   static SyncZoneRestrictionEnum getTypeSyncZoneRestriction(String type) {
@@ -71,8 +67,10 @@ class FastSync<V extends SyncConfiguration> {
     return _instance!._syncConfiguration!.getSyncVersionManager();
   }
 
-  static setTypeSyncZone(String type, String syncZone) {
-    _instance!._syncConfiguration!.setTypeSyncZone(type, syncZone);
+  static setTypeSyncZone<T>(SyncZoneRestrictionEnum syncZoneRestriction,
+      {String? syncZone}) {
+    _instance!._syncConfiguration!
+        .setTypeSyncZone(T.toString(), syncZoneRestriction, syncZone!);
   }
 
   static String getTypeSyncZone(String type) {

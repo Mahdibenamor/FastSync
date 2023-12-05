@@ -1,7 +1,7 @@
 {
   "name": "fast-sync-core",
-  "version": "1.0.7",
-  "description": "core version of fast sync, synchro service between 2 services distante(backend, mobile app)  ",
+  "version": "1.0.8",
+  "description": "core version of fast sync, synchro service between 2 services distante (backend, mobile app)  ",
   "author": "Mahdibenamor <mahdi.benamor@supcom.tn>",
   "homepage": "https://github.com/Mahdibenamor/FastSync#readme",
   "license": "MIT",

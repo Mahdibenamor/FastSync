@@ -36,9 +36,21 @@ class SyncManager implements ISyncManager {
   }
 
   @override
-  processSync(metadata) {
-    // TODO: implement processSync
-    throw UnimplementedError();
+  Future<SyncPayload<ISyncableObject>> hardReset({List<Type>? types}) async {
+    List<String> syncableTypes = [];
+    if (types != null && types.isNotEmpty) {
+      for (Type type in types) {
+        syncableTypes.add(type.toString());
+      }
+    } else {
+      syncableTypes = FastSync.getSyncableTypes();
+    }
+    for (String type in syncableTypes) {
+      ISyncableRepository<ISyncableObject> repository =
+          FastSync.getObjectRepository(type: type);
+      await repository.hardDelete();
+    }
+    return await pull();
   }
 
   bool _filterDirtyObjects(ISyncableObject object) {
@@ -50,10 +62,10 @@ class SyncManager implements ISyncManager {
     SyncPayload payload = SyncPayload();
     for (String type in syncableTypes) {
       ISyncableRepository<ISyncableObject> repository =
-          FastSync.getObjectRepository(type);
+          FastSync.getObjectRepository(type: type);
       List<ISyncableObject> dirtyObjects =
           await repository.query(_filterDirtyObjects);
-      payload.pushObjects(type, dirtyObjects, FastSync.getTypeSyncZone(type));
+      payload.pushObjects(type, dirtyObjects);
     }
     return payload;
   }
@@ -62,10 +74,9 @@ class SyncManager implements ISyncManager {
     List<String> syncableTypes = payload.getSyncedTypes();
     for (String type in syncableTypes) {
       ISyncableRepository<ISyncableObject> repository =
-          FastSync.getObjectRepository(type);
+          FastSync.getObjectRepository(type: type);
       List<ISyncableObject> pushedItems = payload.getObjectsForType(type);
       await repository.undirtyList(pushedItems);
-      num test = 1 + 1;
     }
   }
 

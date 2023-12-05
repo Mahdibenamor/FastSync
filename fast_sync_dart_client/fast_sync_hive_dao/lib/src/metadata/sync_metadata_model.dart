@@ -1,6 +1,7 @@
 import 'package:fast_sync_client/fast_sync_client.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
 part 'sync_metadata_model.g.dart';
 
 @HiveType(typeId: 223, adapterName: "MetaDataAdapter")
@@ -8,7 +9,7 @@ part 'sync_metadata_model.g.dart';
 class SyncMetadataModel implements SyncMetadata {
   @override
   @HiveField(240)
-  String id;
+  String id = Uuid().v4();
 
   @override
   @HiveField(241)
@@ -16,27 +17,21 @@ class SyncMetadataModel implements SyncMetadata {
 
   @override
   @HiveField(242)
-  final String type;
+  String type = Constants.emptyString;
 
   @override
   @HiveField(243)
-  num version;
+  num version = 0;
 
   @override
   @HiveField(244)
-  num timestamp;
+  num timestamp = DateTime.now().secondsSinceEpoch;
 
   @override
   @HiveField(255)
-  int? syncOperation;
+  int? syncOperation = 999;
 
-  SyncMetadataModel(
-      {required this.id,
-      required this.syncZone,
-      required this.type,
-      required this.version,
-      required this.timestamp,
-      required this.syncOperation});
+  SyncMetadataModel();
 
   factory SyncMetadataModel.fromJson(Map<String, dynamic> json) =>
       _$SyncMetadataModelFromJson(json);

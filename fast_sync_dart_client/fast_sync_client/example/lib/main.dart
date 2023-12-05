@@ -15,17 +15,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
   FastSync.setSyncConfiguration<HiveSyncConfiguration>(HiveSyncConfiguration());
-  FastSync.setTypeSyncZone('Item', 'Global');
+  FastSync.setTypeSyncZone<Item>(SyncZoneRestrictionEnum.restricted,
+      syncZone: "user2");
   FastSync.setHttpManager(HttpManager());
   ItemDataSource datasource = ItemDataSource();
   ItemRepository repository = ItemRepository(dataSource: datasource);
-  IConflictsHandler conflictsHandler = ConflictsHandler(
-      resolutionStrategy: ConflictsResolutionStrategyEnum.lastWriterWins);
   FastSync.setSyncableObject<Item>(
-      fromJson: Item.fromJson,
-      toJson: Item.intoJson,
-      repository: repository,
-      conflictsHandler: conflictsHandler);
+      fromJson: Item.fromJson, toJson: Item.intoJson, repository: repository);
   runApp(MyApp());
 }
 

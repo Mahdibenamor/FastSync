@@ -10,7 +10,7 @@ class SyncMetadata implements ISyncMetadata {
   String? syncZone;
 
   @override
-  final String type;
+  String type;
 
   @override
   num version;

@@ -15,12 +15,8 @@ class SyncConfiguration implements ISyncConfiguration {
 
   @override
   void setSyncableObject<T extends ISyncableObject>(String entityType,
-      Function fromJson, Function toJson, ISyncableRepository<T> repository,
-      [SyncZoneRestrictionEnum? syncZoneRestriction,
-      IConflictsHandler? conflictsHandler]) {
+      Function fromJson, Function toJson, ISyncableRepository<T> repository) {
     syncableTypes.add(entityType);
-    setSyncZoneTypeConfiguration(entityType, syncZoneRestriction);
-    setObjectConflictsHandler(entityType, conflictsHandler);
     setObjectRepository(entityType, repository);
     setTypeForFromJsonFunction(entityType, fromJson);
     setTypeForToJsonFunction(entityType, toJson);
@@ -37,31 +33,7 @@ class SyncConfiguration implements ISyncConfiguration {
     }
   }
 
-  @override
-  void setObjectConflictsHandler(
-      String entityType, IConflictsHandler? conflictsHandler) {
-    if (conflictsHandler != null) {
-      namedInstances[entityType + Constants.conflictsHandlerName] =
-          conflictsHandler;
-    } else {
-      throw Exception(
-          'ConflictsHandler of the $entityType is not configured well, please check the configuration');
-    }
-  }
-
-  @override
-  IConflictsHandler getObjectConflictsHandler(String type) {
-    IConflictsHandler conflictsHandler =
-        namedInstances[type + Constants.conflictsHandlerName];
-    if (conflictsHandler != null) {
-      return conflictsHandler;
-    } else {
-      throw Exception(
-          'ConflictsHandler of the $type is not configured well, please check the configuration');
-    }
-  }
-
-  void setSyncZoneTypeConfiguration(
+  void setSyncZoneRestriction(
       String entityType, SyncZoneRestrictionEnum? syncZoneRestriction) {
     if (syncZoneRestriction != null) {
       namedInstances[entityType + Constants.syncZoneRestriction] =
@@ -176,8 +148,17 @@ class SyncConfiguration implements ISyncConfiguration {
     namedInstances[Constants.syncVersionManagerName] = syncVersionManager;
   }
 
-  setTypeSyncZone(String type, String syncZone) {
-    _typesSyncZones[type] = syncZone;
+  setTypeSyncZone<T>(String type, SyncZoneRestrictionEnum syncZoneRestriction,
+      [String? syncZone]) {
+    if (syncZoneRestriction == SyncZoneRestrictionEnum.restricted &&
+        syncZone == null) {
+      throw Exception(
+          "if you put syncZoneRestriction to restricted, you need to provide syncZone");
+    }
+    if (syncZoneRestriction == SyncZoneRestrictionEnum.global) {
+      syncZone = Constants.globalSyncZoneRestriction;
+    }
+    _typesSyncZones[type] = syncZone!;
   }
 
   String getTypeSyncZone(String type) {

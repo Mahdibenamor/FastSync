@@ -14,7 +14,6 @@ export "src/absraction/models/sync_operation_metadata.dart";
 export "src/absraction/models/sync_payload.dart";
 
 export "src/absraction/service/conflicts_resolution_strategie.dart";
-export "src/absraction/service/iconflicts_handler.dart";
 export "src/absraction/service/isync_config.dart";
 export "src/absraction/service/isync_manager.dart";
 export "src/absraction/service/ihttp_manager.dart";
@@ -25,7 +24,6 @@ export "src/absraction/constants.dart";
 export "src/implementation/data/syncable_object_repository.dart";
 export "src/implementation/metadata/syncable_metadata.dart";
 export "src/implementation/metadata/syncable_object.dart";
-export "src/implementation/service/conflicts_handler.dart";
 export "src/implementation/service/sync_config.dart";
 export "src/implementation/service/sync_manager.dart";
 export "src/implementation/service/sync_version_manger.dart";

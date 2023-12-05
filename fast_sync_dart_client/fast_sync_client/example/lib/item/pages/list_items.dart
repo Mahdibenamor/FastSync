@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:example/item/item.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class ItemListPage extends StatefulWidget {
   List<Item> items = [];
   @override

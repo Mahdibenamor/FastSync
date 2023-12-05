@@ -46,9 +46,9 @@ class ItemProvider with ChangeNotifier {
     return item;
   }
 
-  Future<void> getCount() async {
+  Future<int> getCount() async {
     int count = await repository.count();
-    int test = 1 + 1;
+    return count;
   }
 
   Future<void> resetItemRepo() async {

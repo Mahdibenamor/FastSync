@@ -77,7 +77,7 @@ class SyncalbeObjectDataSource<T extends IWithId>
     final Box<T> box = await boxInstance;
     int count = 0;
     try {
-      count = await box.toMap().values.length;
+      count = box.toMap().values.length;
     } catch (err) {
       count = 0;
     }

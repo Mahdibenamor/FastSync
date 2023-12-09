@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:example/item/item.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class ItemListPage extends StatefulWidget {
   List<Item> items = [];
   @override
@@ -28,7 +29,7 @@ class ItemListPageState extends State<ItemListPage> {
           },
           child: Column(children: [
             Container(
-              height: 500,
+              height: 400,
               child: ListView.builder(
                 itemCount: widget.items.length,
                 itemBuilder: (context, index) {
@@ -77,6 +78,21 @@ class ItemListPageState extends State<ItemListPage> {
                     setState(() {});
                   },
                   child: Text('pull'),
+                ),
+              );
+            }),
+            Consumer<ItemProvider>(builder: (context, itemProvider, child) {
+              return Center(
+                child: TextButton(
+                  style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.blue),
+                  ),
+                  onPressed: () async {
+                    await itemProvider.sync();
+                    setState(() {});
+                  },
+                  child: Text('sync'),
                 ),
               );
             }),

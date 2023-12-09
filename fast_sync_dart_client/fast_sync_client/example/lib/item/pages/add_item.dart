@@ -3,6 +3,7 @@ import 'package:example/item/pages/item_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class CreateItemPage extends StatelessWidget {
   String name = "";
   String description = "";

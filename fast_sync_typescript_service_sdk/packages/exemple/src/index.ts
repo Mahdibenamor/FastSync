@@ -40,7 +40,7 @@ async function configureFastSync() {
   let fastSync: FastSync = FastSync.getInstance(new MongooseSyncConfiguration());
   let conflictsHandler: IConflictsHandler = new ConflictsHandler(ConflictsResolutionStrategyEnum.LastWriterWins, conflictsResolutionFunction)
   let repo = new ItemRepository();
-  await fastSync.setSyncalbeObject(Item.name, repo, conflictsHandler, SyncZoneRestrictionEnum.restricted);
+  await fastSync.setSyncalbeObject(Item.name, repo, conflictsHandler, SyncZoneRestrictionEnum.global);
 
 }
 

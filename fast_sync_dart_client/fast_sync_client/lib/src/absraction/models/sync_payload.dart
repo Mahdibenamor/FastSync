@@ -36,11 +36,7 @@ class SyncPayload<T extends ISyncableObject> {
 
   ISyncMetadata getTypeMetadata(String type) {
     final metadata = operationMetadata.getTypeMetadata(type);
-    if (metadata != null) {
-      return metadata;
-    }
-    throw Exception(
-        'Metadata of each synced type should be specified, please check how you build SyncPayload');
+    return metadata;
   }
 
   factory SyncPayload.fromJson(Map<String, dynamic> json) {

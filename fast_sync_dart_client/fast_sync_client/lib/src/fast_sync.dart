@@ -70,7 +70,7 @@ class FastSync<V extends SyncConfiguration> {
   static setTypeSyncZone<T>(SyncZoneRestrictionEnum syncZoneRestriction,
       {String? syncZone}) {
     _instance!._syncConfiguration!
-        .setTypeSyncZone(T.toString(), syncZoneRestriction, syncZone!);
+        .setTypeSyncZone(T.toString(), syncZoneRestriction, syncZone);
   }
 
   static String getTypeSyncZone(String type) {

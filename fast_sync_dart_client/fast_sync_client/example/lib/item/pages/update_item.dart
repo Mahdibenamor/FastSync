@@ -1,6 +1,5 @@
 import 'package:example/item/item.dart';
 import 'package:example/item/pages/item_provider.dart';
-import 'package:fast_sync_client/fast_sync_client.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -12,8 +12,12 @@ dependencies:
   path_provider: ^2.1.1
   json_annotation: ^4.8.1
   provider: ^6.0.5
-  fast_sync_client: ^1.0.0
-  fast_sync_hive_dao: ^1.0.0
+  fast_sync_client:
+    path: ../../fast_sync_client
+  fast_sync_hive_dao:
+    path: ../../fast_sync_hive_dao
+  # fast_sync_client: ^1.0.0
+  # fast_sync_hive_dao: ^1.0.0
 
   dio: ^5.3.3
   uuid: ^4.2.1

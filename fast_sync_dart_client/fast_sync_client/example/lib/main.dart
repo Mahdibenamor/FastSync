@@ -15,8 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initHive();
   FastSync.setSyncConfiguration<HiveSyncConfiguration>(HiveSyncConfiguration());
-  FastSync.setTypeSyncZone<Item>(SyncZoneRestrictionEnum.restricted,
-      syncZone: "user2");
+  FastSync.setTypeSyncZone<Item>(SyncZoneRestrictionEnum.global);
   FastSync.setHttpManager(HttpManager());
   ItemDataSource datasource = ItemDataSource();
   ItemRepository repository = ItemRepository(dataSource: datasource);

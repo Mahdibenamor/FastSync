@@ -4,12 +4,170 @@
   "deps": {
     "@types/express": "^4.17.18",
     "express": "^4.18.2",
+    "uuid": "^9.0.1",
     "lerna": "^7.4.2"
   },
   "pathMappings": {},
   "nxJsonPlugins": [],
   "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".gitignore",
+        "hash": "8587836968507943632"
+      },
+      {
+        "file": ".nx/cache/d/daemon.log",
+        "hash": "1801106091551163341"
+      },
+      {
+        "file": ".nx/cache/d/server-process.json",
+        "hash": "1889313100493101098"
+      },
+      {
+        "file": ".nx/cache/file-map.json",
+        "hash": "4943959223270542478"
+      },
+      {
+        "file": ".nx/cache/lockfile.hash",
+        "hash": "15411634943886506425"
+      },
+      {
+        "file": ".nx/cache/parsed-lock-file.json",
+        "hash": "5225333045554150012"
+      },
+      {
+        "file": ".nx/cache/project-graph.json",
+        "hash": "903605009486055589"
+      },
+      {
+        "file": ".vscode/launch.json",
+        "hash": "6968077586256326598"
+      },
+      {
+        "file": "README.md",
+        "hash": "7397856135297222718"
+      },
+      {
+        "file": "lerna.json",
+        "hash": "2707002024283892729"
+      },
+      {
+        "file": "nx.json",
+        "hash": "5718771193186346223"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "13240694841655936500"
+      },
+      {
+        "file": "package.json",
+        "hash": "5407741723294918569"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "9575720240111896854"
+      },
+      {
+        "file": ".nx/cache/terminalOutputs/14012877456929526671",
+        "hash": "12725007760655368824"
+      },
+      {
+        "file": ".nx/cache/terminalOutputs/9457964411840299861",
+        "hash": "13152492374873960231"
+      },
+      {
+        "file": ".nx/cache/terminalOutputs/201129458091968706",
+        "hash": "11092085086154775106"
+      },
+      {
+        "file": ".nx/cache/run.json",
+        "hash": "16589853897948468301"
+      },
+      {
+        "file": ".nx/cache/terminalOutputs/11075756940574947195",
+        "hash": "12535907333252691332"
+      },
+      {
+        "file": ".nx/cache/terminalOutputs/18224960266451789027",
+        "hash": "11092085086154775106"
+      },
+      {
+        "file": ".nx/cache/project-graph.json~8c19ebe1",
+        "hash": "903605009486055589"
+      },
+      {
+        "file": ".nx/cache/project-graph.json~1e684d5f",
+        "hash": "903605009486055589"
+      }
+    ],
     "projectFileMap": {
+      "exemple": [
+        {
+          "file": "packages/exemple/.gitignore",
+          "hash": "4370246014622247520"
+        },
+        {
+          "file": "packages/exemple/README.md",
+          "hash": "7397856135297222718"
+        },
+        {
+          "file": "packages/exemple/package.json",
+          "hash": "496301321544588023",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/node",
+            "npm:body-parser",
+            "npm:cors",
+            "npm:typedi",
+            "npm:express",
+            "npm:class-transformer",
+            "npm:class-validator",
+            "fast-sync-core",
+            "fast-sync-mongoose-dao",
+            "npm:module-alias",
+            "npm:mongoose",
+            "npm:multer",
+            "npm:reflect-metadata",
+            "npm:routing-controllers",
+            "npm:ts-loader",
+            "npm:ts-node",
+            "npm:tsconfig-paths",
+            "npm:typescript"
+          ]
+        },
+        {
+          "file": "packages/exemple/src/index.ts",
+          "hash": "10926512631441867793"
+        },
+        {
+          "file": "packages/exemple/src/item.ts",
+          "hash": "1389312069033022678"
+        },
+        {
+          "file": "packages/exemple/src/item_datasource.ts",
+          "hash": "10226427003937152508"
+        },
+        {
+          "file": "packages/exemple/src/item_repository.ts",
+          "hash": "11385598494795717824"
+        },
+        {
+          "file": "packages/exemple/src/sync.controller.ts",
+          "hash": "8778776019246645814"
+        },
+        {
+          "file": "packages/exemple/src/utils/base_controller.ts",
+          "hash": "3641015318597490936"
+        },
+        {
+          "file": "packages/exemple/src/utils/sync_payload_exemple.ts",
+          "hash": "4521182649202056058"
+        },
+        {
+          "file": "packages/exemple/tsconfig.json",
+          "hash": "9575720240111896854"
+        }
+      ],
       "fast-sync-core": [
         {
           "file": "packages/fast-sync-core/.gitignore",
@@ -21,16 +179,17 @@
         },
         {
           "file": "packages/fast-sync-core/README.md",
-          "hash": "14739324881026719773"
+          "hash": "7397856135297222718"
         },
         {
           "file": "packages/fast-sync-core/package.json",
-          "hash": "1579884948929471353",
+          "hash": "15877954714329516012",
           "deps": [
             "npm:@types/node",
             "npm:reflect-metadata",
             "npm:typedi",
             "npm:typescript",
+            "npm:uuid",
             "npm:mongoose"
           ]
         },
@@ -68,11 +227,11 @@
         },
         {
           "file": "packages/fast-sync-core/src/core/abstraction/models/Sync_operation_metadata.ts",
-          "hash": "8964263975921363648"
+          "hash": "8257962932625729333"
         },
         {
           "file": "packages/fast-sync-core/src/core/abstraction/models/Sync_payload.ts",
-          "hash": "11873583840132794715"
+          "hash": "7796402754207128905"
         },
         {
           "file": "packages/fast-sync-core/src/core/abstraction/models/Sync_zone_restriction.ts",
@@ -112,7 +271,7 @@
         },
         {
           "file": "packages/fast-sync-core/src/core/implementation/metadata/syncable_metadata.ts",
-          "hash": "158443817531861869"
+          "hash": "5480421653689637013"
         },
         {
           "file": "packages/fast-sync-core/src/core/implementation/metadata/syncable_object.ts",
@@ -120,7 +279,7 @@
         },
         {
           "file": "packages/fast-sync-core/src/core/implementation/service/conflicts_handler.ts",
-          "hash": "2185178580419222068"
+          "hash": "13322878072866575483"
         },
         {
           "file": "packages/fast-sync-core/src/core/implementation/service/sync_config.ts",
@@ -158,11 +317,11 @@
         },
         {
           "file": "packages/fast-sync-mongoose-dao/README.md",
-          "hash": "6908208870268560059"
+          "hash": "7397856135297222718"
         },
         {
           "file": "packages/fast-sync-mongoose-dao/package.json",
-          "hash": "5184783317644315692",
+          "hash": "13001381970409691068",
           "deps": [
             "npm:@types/node",
             "npm:reflect-metadata",
@@ -182,7 +341,7 @@
         },
         {
           "file": "packages/fast-sync-mongoose-dao/src/mongoose-dao/data/syncable_object_data_source.ts",
-          "hash": "12123686181096996359"
+          "hash": "7862254409123323365"
         },
         {
           "file": "packages/fast-sync-mongoose-dao/src/mongoose-dao/metadata/sync_metadata_model.ts",
@@ -190,7 +349,7 @@
         },
         {
           "file": "packages/fast-sync-mongoose-dao/src/mongoose-dao/metadata/syncalbe_object_model.ts",
-          "hash": "8694978992438903767"
+          "hash": "477956100501137002"
         },
         {
           "file": "packages/fast-sync-mongoose-dao/src/mongoose-dao/service/mongoose_sync_config.ts",
@@ -200,124 +359,7 @@
           "file": "packages/fast-sync-mongoose-dao/tsconfig.json",
           "hash": "1407337225048223310"
         }
-      ],
-      "exemple": [
-        {
-          "file": "packages/exemple/.gitignore",
-          "hash": "4370246014622247520"
-        },
-        {
-          "file": "packages/exemple/README.md",
-          "hash": "15483456538701618272"
-        },
-        {
-          "file": "packages/exemple/package.json",
-          "hash": "496301321544588023",
-          "deps": [
-            "npm:@types/express",
-            "npm:@types/node",
-            "npm:body-parser",
-            "npm:cors",
-            "npm:typedi",
-            "npm:express",
-            "npm:class-transformer",
-            "npm:class-validator",
-            "fast-sync-core",
-            "fast-sync-mongoose-dao",
-            "npm:module-alias",
-            "npm:mongoose",
-            "npm:multer",
-            "npm:reflect-metadata",
-            "npm:routing-controllers",
-            "npm:ts-loader",
-            "npm:ts-node",
-            "npm:tsconfig-paths",
-            "npm:typescript"
-          ]
-        },
-        {
-          "file": "packages/exemple/src/index.ts",
-          "hash": "4646077964227675983"
-        },
-        {
-          "file": "packages/exemple/src/item.ts",
-          "hash": "1389312069033022678"
-        },
-        {
-          "file": "packages/exemple/src/item_datasource.ts",
-          "hash": "10226427003937152508"
-        },
-        {
-          "file": "packages/exemple/src/item_repository.ts",
-          "hash": "11385598494795717824"
-        },
-        {
-          "file": "packages/exemple/src/sync.controller.ts",
-          "hash": "8778776019246645814"
-        },
-        {
-          "file": "packages/exemple/src/utils/base_controller.ts",
-          "hash": "3641015318597490936"
-        },
-        {
-          "file": "packages/exemple/src/utils/sync_payload_exemple.ts",
-          "hash": "4521182649202056058"
-        },
-        {
-          "file": "packages/exemple/tsconfig.json",
-          "hash": "9575720240111896854"
-        }
       ]
-    },
-    "nonProjectFiles": [
-      {
-        "file": ".gitignore",
-        "hash": "8587836968507943632"
-      },
-      {
-        "file": ".nx/cache/d/daemon.log",
-        "hash": "15173932894498117690"
-      },
-      {
-        "file": ".nx/cache/file-map.json",
-        "hash": "517944649556319686"
-      },
-      {
-        "file": ".nx/cache/lockfile.hash",
-        "hash": "402287705734460003"
-      },
-      {
-        "file": ".nx/cache/parsed-lock-file.json",
-        "hash": "11602291074086135044"
-      },
-      {
-        "file": ".nx/cache/project-graph.json",
-        "hash": "17725998740325121023"
-      },
-      {
-        "file": ".vscode/launch.json",
-        "hash": "6968077586256326598"
-      },
-      {
-        "file": "lerna.json",
-        "hash": "2707002024283892729"
-      },
-      {
-        "file": "nx.json",
-        "hash": "5718771193186346223"
-      },
-      {
-        "file": "package-lock.json",
-        "hash": "1291667617476642472"
-      },
-      {
-        "file": "package.json",
-        "hash": "11009755291503978306"
-      },
-      {
-        "file": "tsconfig.json",
-        "hash": "9575720240111896854"
-      }
-    ]
+    }
   }
 }

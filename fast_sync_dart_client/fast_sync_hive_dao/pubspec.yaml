@@ -1,6 +1,6 @@
 name: fast_sync_hive_dao
 description: FastSync dart client to fastly sync your objects, without the need to use tones of apis
-version: 1.0.0
+version: 1.0.2
 homepage: https://github.com/Mahdibenamor/FastSync
 
 environment:

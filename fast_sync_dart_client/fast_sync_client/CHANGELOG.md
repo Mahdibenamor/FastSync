@@ -1,5 +1,10 @@
 # ChangeLog
 
+## [1.0.2]
+
+- Adding documentation
+- remove sync method from the HttpManager
+
 ## [1.0.1]
 
 - Fix setTypeSyncZone for global syncZone

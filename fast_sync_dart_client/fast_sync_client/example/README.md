@@ -3,10 +3,7 @@
 <br/><br/>
 </p>
 
-<a href="https://www.npmjs.com/package/fast-sync-core">TypeScript server</a>
-<a href="https://pub.dev/packages/fast_sync_client">Dart client</a>
-
-<h1>Fast Sync Core</h1>
+<h1>Fast Sync</h1>
 <p >    
 <a href="https://img.shields.io/badge/License-MIT-green"><img     
 align="center" src="https://img.shields.io/badge/License-MIT-green" alt="MIT License"></a>
@@ -17,17 +14,40 @@ align="center" src="https://img.shields.io/npm/v/fast-sync-core.svg?" alt="npm v
 <a href="https://www.buymeacoffee.com/mahdibenamor"target="_blank"><img align="center" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="30px" width= "108px"></a>
 <p>
 
+FastSync is a powerful and streamlined package designed to simplify data synchronization from server side to client application, by consolidating multiple APIs into a single, cohesive interface.
+
+Inspired by Git's approach to version control, FastSync offers a set of functions to provide a robust solution for efficient data synchronization:
+
+- pull()
+- push()
+- sync()
+- hardReset()
+
+FastSync goes beyond traditional synchronization tools by intelligently handling conflicts that may arise due to simultaneous changes on remote ends. Our sophisticated conflict detection mechanism identifies conflicts at the object level, empowering users to provide custom resolution functions.
+
+FastSync supports three distinct conflict resolution strategies to accommodate various use cases:
+
+- LastWriterWins
+- TimestampOrdering
+- PredefinedRules
+
+Note: when you specify it as predefined rules, you need to provide a custom function to resolve conflicts whenever they are detected.
+
 ---
 
-- [Fast Sync Core](#fast-sync-core)
+<a href="https://www.npmjs.com/package/fast-sync-core">TypeScript server pacakge</a>
+<a href="https://pub.dev/packages/fast_sync_client">Dart client package</a>
+
+---
+
+## Fast Sync Core
+
 - [Server installation](#server-installation)
 - [Server setup](#server-setup)
 - [Server syncable object ](#server-syncable-object)
 - [Server syncable object data source ](#server-syncable-object-data-source)
 - [Server syncalbe repository ](#server-syncalbe-repository)
-- [Push and pull apis](#push-and-pull)
-
-## Fast Sync Core
+- [Server Push And Pull](#server-push-and-pull)
 
 ## Server installation
 
@@ -212,6 +232,7 @@ align="center" src="https://img.shields.io/pub/v/fast_sync_client.svg?" alt="pub
 - [Client Syncable Object Data Source ](#client-syncable-object-data-source)
 - [Client Syncalbe Repository ](#client-syncalbe-repository)
 - [Http Manager](#http-manager)
+- [Sync Manager](#sync-manager)
 
 ## Dart client Installation
 
@@ -384,6 +405,62 @@ class HttpManager implements IhttpManager {
 ```
 
 - **SyncOperationMetadata** and **SyncPayload** and 2 object handled internally in the package, don't worry they will be created from the client part. you don't need to do any thing here.
+
+## Sync Manager
+
+- To Push, Pull, sync, hardReset, Just get syncManager instance using **getSyncManager()**, and then have fun playing with your data.
+
+```dart
+import 'package:example/item/item.dart';
+import 'package:fast_sync_client/fast_sync_client.dart';
+import 'package:flutter/material.dart';
+
+class ItemProvider with ChangeNotifier {
+  List<Item> items = [];
+  ISyncableRepository<Item> repository = FastSync.getObjectRepository<Item>();
+  ISyncManager syncManager = FastSync.getSyncManager();
+
+  Future<List<Item>> loadLocalItems() async {
+    List<Item> localItems = await repository.getAll();
+    return localItems;
+  }
+
+  Future<void> pull() async {
+    await syncManager.pull();
+  }
+
+  Future<void> sync() async {
+    await syncManager.sync();
+  }
+
+  Future<void> push() async {
+    await syncManager.push();
+  }
+
+  Future<void> hardReset() async {
+    await syncManager.hardReset();
+  }
+
+  Future<void> resetItemRepo() async {
+    await repository.hardDelete();
+  }
+
+  Future<Item> saveElement(Item item) async {
+    item = await repository.add(item);
+    return item;
+  }
+
+  Future<Item> updateElement(Item item) async {
+    item = await repository.update(item);
+    return item;
+  }
+
+  Future<int> getCount() async {
+    int count = await repository.count();
+    return count;
+  }
+}
+```
 
 <a href="https://github.com/Mahdibenamor/FastSync/tree/main/fast_sync_dart_client/fast_sync_client/example">Full sync client exemple for Hive dao</a>
 

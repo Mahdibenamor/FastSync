@@ -1,3 +1,11 @@
+<p align="center">
+<img src="https://github.com/Mahdibenamor/FastSync/blob/main/images/fastsync.png?raw=true"/>
+<br/><br/>
+</p>
+
+<a href="https://www.npmjs.com/package/fast-sync-core">TypeScript server</a>
+<a href="https://pub.dev/packages/fast_sync_client">Dart client</a>
+
 <h1>Fast Sync Core</h1>
 <p >    
 <a href="https://img.shields.io/badge/License-MIT-green"><img     
@@ -7,9 +15,10 @@ align="center" src="https://img.shields.io/npm/dm/fast-sync-core.svg?" alt="npm 
 <a href="https://www.npmjs.com/package/fast-sync-core"><img     
 align="center" src="https://img.shields.io/npm/v/fast-sync-core.svg?" alt="npm version"></a>
 <a href="https://www.buymeacoffee.com/mahdibenamor"target="_blank"><img align="center" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="30px" width= "108px"></a>
-<p >  
-  
+<p>
+
 ---
+
 - [Fast Sync Core](#fast-sync-core)
 - [Server installation](#server-installation)
 - [Server setup](#server-setup)
@@ -231,11 +240,11 @@ dev_dependencies:
 
 Note: you can set the syncZone string later, but before the you use the pull and push functions, SyncZone string is unique id, to only sync object that belong to that id.
 
-Exemple: when you specify the user.Id as syncZone, all the object for that type, for that user will be syncked for him.
+Exemple: when you specify the **user.Id** as syncZone, all the object for that type, for that user will be syncked for him.
 
-And when you specify the company.id as syncZone all the object for that type will be syncked for all the users that belong to that company.
+And when you specify the **company.id** as syncZone all the object for that type will be syncked for all the users that belong to that company.
 
-you need specify **SyncZone**, so that the package can know to whom the object will be syncked, if is user.id only the user can see and change these objects.
+you need specify **SyncZone**, so that the package can know to whom the object will be syncked, if is **user.id** only the user can see and change these objects.
 
 <br/><br/>
 
@@ -248,7 +257,7 @@ void main() async {
   await initHive();
   FastSync.setSyncConfiguration<HiveSyncConfiguration>(HiveSyncConfiguration());
   FastSync.setTypeSyncZone<Item>(SyncZoneRestrictionEnum.restricted,
-      syncZone: "user2");
+      syncZone: "userId");
   FastSync.setHttpManager(HttpManager());
   ItemRepository repository = ItemRepository(dataSource: ItemDataSource());
   FastSync.setSyncableObject<Item>(

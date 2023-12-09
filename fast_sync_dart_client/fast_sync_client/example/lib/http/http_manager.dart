@@ -29,9 +29,4 @@ class HttpManager implements IhttpManager {
     print(response);
     return throw Exception('push failed');
   }
-
-  @override
-  Future<SyncPayload> sync(SyncOperationMetadata metadata) async {
-    return SyncPayload();
-  }
 }

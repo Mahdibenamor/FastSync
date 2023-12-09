@@ -237,7 +237,10 @@ And when you specify the company.id as syncZone all the object for that type wil
 
 you need specify **SyncZone**, so that the package can know to whom the object will be syncked, if is user.id only the user can see and change these objects.
 
-![alt text](http://url/to/img.png)
+<br/><br/>
+
+<p align="center">
+<img src="https://github.com/Mahdibenamor/FastSync/blob/main/images/syncZone.png?raw=true"/>
 
 ```dart
 void main() async {

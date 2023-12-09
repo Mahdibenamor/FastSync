@@ -1,0 +1,43 @@
+{
+  "run": {
+    "command": "cli run build",
+    "startTime": "2023-12-09T01:31:03.959Z",
+    "endTime": "2023-12-09T01:32:01.960Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "fast-sync-core:build",
+      "target": "build",
+      "projectName": "fast-sync-core",
+      "hash": "14012877456929526671",
+      "startTime": "2023-12-09T01:31:03.976Z",
+      "endTime": "2023-12-09T01:31:23.315Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    },
+    {
+      "taskId": "fast-sync-mongoose-dao:build",
+      "target": "build",
+      "projectName": "fast-sync-mongoose-dao",
+      "hash": "11075756940574947195",
+      "startTime": "2023-12-09T01:31:23.348Z",
+      "endTime": "2023-12-09T01:31:44.906Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    },
+    {
+      "taskId": "exemple:build",
+      "target": "build",
+      "projectName": "exemple",
+      "hash": "18224960266451789027",
+      "startTime": "2023-12-09T01:31:44.917Z",
+      "endTime": "2023-12-09T01:32:01.950Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 0
+    }
+  ]
+}

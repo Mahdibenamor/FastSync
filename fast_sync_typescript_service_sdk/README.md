@@ -1,6 +1,12 @@
 <p align="center">
+<img src="https://github.com/Mahdibenamor/FastSync/blob/main/images/Fast%20Sync.gif?raw=true"/>
+<br/><br/>
+</p>
+
+<p align="center">
 <img src="https://github.com/Mahdibenamor/FastSync/blob/main/images/fastsync.png?raw=true"/>
 <br/><br/>
+
 </p>
 
 <h1>Fast Sync</h1>

@@ -13,6 +13,9 @@ class SyncableObject implements ISyncableObject {
   @override
   bool dirty = false;
 
+  @override
+  late String metadataId;
+
   SyncableObject(
       {required this.id, required this.metadata, required this.deleted});
 

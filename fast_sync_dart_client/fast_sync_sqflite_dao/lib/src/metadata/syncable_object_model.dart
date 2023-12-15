@@ -17,6 +17,7 @@ class SyncableItemModel implements SyncableObject {
   @JsonKey(defaultValue: false)
   bool dirty = false;
 
+  @override
   @JsonKey(readValue: readMetadataId)
   late final String metadataId;
 
@@ -48,7 +49,7 @@ class SyncableItemModel implements SyncableObject {
     ''';
 
     if (extraColumns != null && extraColumns.isNotEmpty) {
-      baseColumns += "${extraColumns.join(", ")}";
+      baseColumns += extraColumns.join(", ");
     }
 
     String command = '''

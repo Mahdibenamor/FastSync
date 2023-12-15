@@ -76,4 +76,8 @@ class FastSync<V extends SyncConfiguration> {
   static String getTypeSyncZone(String type) {
     return _instance!._syncConfiguration!.getTypeSyncZone(type);
   }
+
+  static ISyncableDataSource<ISyncMetadata> getsyncMetadataDataSource() {
+    return FastSync.getSyncVersionManager().syncMetadataDataSource;
+  }
 }

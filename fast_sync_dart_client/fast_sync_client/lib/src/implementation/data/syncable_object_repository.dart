@@ -5,7 +5,7 @@ class SyncalbeRepository<T extends ISyncableObject>
   final ISyncableDataSource<T> dataSource;
 
   ISyncableDataSource<ISyncMetadata> get syncMetadataDataSource {
-    return FastSync.getSyncVersionManager().syncMetadataDataSource;
+    return FastSync.getsyncMetadataDataSource();
   }
 
   SyncalbeRepository({required this.dataSource});
@@ -16,19 +16,23 @@ class SyncalbeRepository<T extends ISyncableObject>
     entity.metadata.type = T.toString();
     entity.metadata.syncZone = FastSync.getTypeSyncZone(T.toString());
     entity = _dirtyObject(entity);
+    await syncMetadataDataSource.add(entity.metadata);
     return await dataSource.add(entity);
   }
 
   @override
   Future<List<T>> addMany(List<T> entities, ISyncMetadata metadata) async {
     List<T> entitiesToSave = [];
+    List<ISyncMetadata> metadataTosave = [];
     for (var entity in entities) {
       entity.metadata.syncOperation = SyncOperationEnum.add.code;
       entity.metadata.type = T.toString();
       entity.metadata.syncZone = FastSync.getTypeSyncZone(T.toString());
       entity = _dirtyObject(entity);
       entitiesToSave.add(entity);
+      metadataTosave.add(entity.metadata);
     }
+    await syncMetadataDataSource.addMany(metadataTosave);
     return await dataSource.addMany(entitiesToSave);
   }
 
@@ -45,10 +49,13 @@ class SyncalbeRepository<T extends ISyncableObject>
   @override
   Future<T?> findById(String id) async {
     var item = await dataSource.findById(id);
-    if (item != null) {
+    String metadataId = item?.metadataId as String;
+    var metadata = await syncMetadataDataSource.findById(metadataId);
+    if (item != null && metadata != null) {
       if (item.deleted) {
         return null;
       }
+      item.metadata = metadata;
       return item;
     } else {
       return null;

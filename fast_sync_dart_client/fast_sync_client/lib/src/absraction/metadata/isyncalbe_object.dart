@@ -5,6 +5,7 @@ abstract class ISyncableObject extends IWithId {
   final ISyncMetadata metadata;
   bool deleted;
   bool dirty = false;
+  late String metadataId;
 
   ISyncableObject(
       {required String id, required this.metadata, required this.deleted})

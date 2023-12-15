@@ -20,6 +20,9 @@ class SyncableItemModel implements SyncableObject {
   @JsonKey(defaultValue: false)
   bool dirty = false;
 
+  @override
+  late String metadataId;
+
   @HiveField(251)
   @override
   SyncMetadataModel metadata = SyncMetadataModel();

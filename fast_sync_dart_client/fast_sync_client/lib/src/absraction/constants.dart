@@ -12,6 +12,7 @@ class Constants {
   static final String syncManagerName = "'ISyncManager'";
   static final String httpManagerName = "'IhttpManager'";
   static final String syncVersionManagerName = "'SyncVersionManager'";
+  static final String createDataBaseCommand = "'CreateDataBaseCommand'";
   static final String emptyString = "";
 }
 

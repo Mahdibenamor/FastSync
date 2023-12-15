@@ -1,0 +1,22 @@
+name: fast_sync_sqflite_dao
+description: FastSync dart client to fastly sync your objects, without the need to use tones of apis
+version: 1.0.2
+homepage: https://github.com/Mahdibenamor/FastSync
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  json_annotation: ^4.8.1
+  path: ^1.8.3
+  sqflite: ^2.3.0
+  uuid: ^4.2.1
+  fast_sync_client:
+    path: ../fast_sync_client
+
+dev_dependencies:
+  build_runner: ^2.4.6
+  json_serializable: ^6.7.1
+  lints: ^2.1.1

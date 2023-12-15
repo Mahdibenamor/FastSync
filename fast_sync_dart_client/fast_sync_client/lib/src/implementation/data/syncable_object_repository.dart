@@ -4,6 +4,10 @@ class SyncalbeRepository<T extends ISyncableObject>
     implements ISyncableRepository<T> {
   final ISyncableDataSource<T> dataSource;
 
+  ISyncableDataSource<ISyncMetadata> get syncMetadataDataSource {
+    return FastSync.getSyncVersionManager().syncMetadataDataSource;
+  }
+
   SyncalbeRepository({required this.dataSource});
 
   @override

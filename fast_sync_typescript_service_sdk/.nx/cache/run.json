@@ -1,8 +1,8 @@
 {
   "run": {
     "command": "cli run build",
-    "startTime": "2023-12-09T01:31:03.959Z",
-    "endTime": "2023-12-09T01:32:01.960Z",
+    "startTime": "2023-12-17T19:47:45.676Z",
+    "endTime": "2023-12-17T19:48:19.671Z",
     "inner": false
   },
   "tasks": [
@@ -10,9 +10,9 @@
       "taskId": "fast-sync-core:build",
       "target": "build",
       "projectName": "fast-sync-core",
-      "hash": "14012877456929526671",
-      "startTime": "2023-12-09T01:31:03.976Z",
-      "endTime": "2023-12-09T01:31:23.315Z",
+      "hash": "9838983270789642185",
+      "startTime": "2023-12-17T19:47:45.690Z",
+      "endTime": "2023-12-17T19:47:53.155Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0
@@ -21,9 +21,9 @@
       "taskId": "fast-sync-mongoose-dao:build",
       "target": "build",
       "projectName": "fast-sync-mongoose-dao",
-      "hash": "11075756940574947195",
-      "startTime": "2023-12-09T01:31:23.348Z",
-      "endTime": "2023-12-09T01:31:44.906Z",
+      "hash": "15619295560715036607",
+      "startTime": "2023-12-17T19:47:53.174Z",
+      "endTime": "2023-12-17T19:48:08.235Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0
@@ -32,9 +32,9 @@
       "taskId": "exemple:build",
       "target": "build",
       "projectName": "exemple",
-      "hash": "18224960266451789027",
-      "startTime": "2023-12-09T01:31:44.917Z",
-      "endTime": "2023-12-09T01:32:01.950Z",
+      "hash": "9226781013633367523",
+      "startTime": "2023-12-17T19:48:08.242Z",
+      "endTime": "2023-12-17T19:48:19.664Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0

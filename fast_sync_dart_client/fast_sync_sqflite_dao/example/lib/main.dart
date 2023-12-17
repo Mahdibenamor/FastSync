@@ -24,7 +24,8 @@ Future<void> initFastSync() async {
   FastSync.setSyncConfiguration<SQfliteSyncConfiguration>(configuration);
 
   // Syncable types
-  FastSync.setTypeSyncZone<Item>(SyncZoneRestrictionEnum.global);
+  FastSync.setTypeSyncZone<Item>(SyncZoneRestrictionEnum.restricted,
+      syncZone: "user1");
   ItemRepository repository = ItemRepository(dataSource: ItemDataSource());
   FastSync.setSyncableObject<Item>(
       fromJson: Item.fromJson, toJson: Item.intoJson, repository: repository);

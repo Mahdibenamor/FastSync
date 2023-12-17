@@ -9,13 +9,15 @@ class SQfliteSyncConfiguration extends SyncConfiguration {
   @override
   Future<void> init() async {
     super.init();
-    await _createMetaDataTable();
     setSyncVersionManager(
         SyncVersionManager(syncMetadataDataSource: SyncMetadataDataSource()));
     setTypeForFromJsonFunction(
         Constants.syncMetadataModelName, SyncMetadataModel.fromJson);
     setTypeForToJsonFunction(
         Constants.syncMetadataModelName, SyncMetadataModel.intoJson);
+    setCreationTypeCommand<SyncMetadataModel>(
+        command: SyncMetadataModel.createTableCommand());
+    await _createMetaDataTable();
   }
 
   Future<void> _createMetaDataTable() async {

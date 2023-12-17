@@ -83,7 +83,7 @@ class SyncConfiguration implements ISyncConfiguration {
   }
 
   Function getTypeForToJsonFunction<T>(String type) {
-    Function toJson = namedInstances[type + Constants.toJsonName];
+    var toJson = namedInstances[type + Constants.toJsonName];
     return toJson;
   }
 

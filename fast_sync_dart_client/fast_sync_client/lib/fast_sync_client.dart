@@ -22,8 +22,6 @@ export "src/absraction/constants.dart";
 
 // export for the implemetation
 export "src/implementation/data/syncable_object_repository.dart";
-export "src/implementation/metadata/syncable_metadata.dart";
-export "src/implementation/metadata/syncable_object.dart";
 export "src/implementation/service/sync_config.dart";
 export "src/implementation/service/sync_manager.dart";
 export "src/implementation/service/sync_version_manger.dart";

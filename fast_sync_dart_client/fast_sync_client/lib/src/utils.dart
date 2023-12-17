@@ -11,3 +11,11 @@ dynamic buildMetadata(typeMetadataJson) {
   var metadata = syncMetadataFromJson.call(typeMetadataJson);
   return metadata;
 }
+
+Map<String, T> createDict<T extends IWithId>(List<T> objects) {
+  Map<String, T> dict = {};
+  for (T obj in objects) {
+    dict[obj.id] = obj;
+  }
+  return dict;
+}

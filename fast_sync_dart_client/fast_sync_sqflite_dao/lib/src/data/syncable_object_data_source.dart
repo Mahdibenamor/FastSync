@@ -11,10 +11,11 @@ class SyncalbeObjectDataSource<T extends IWithId>
     return configuration.db;
   }
 
-  Map<String, Object?> _getEntityMap(T entity) {
+  Map<String, Object?> _createEntityMap(T entity) {
     SyncConfiguration configuration = FastSync.getSyncConfiguration();
     Function toJson = configuration.getTypeForToJsonFunction(T.toString());
-    var json = toJson.call(entity);
+    Map<String, Object?> json = toJson.call(entity);
+    json.removeWhere((key, value) => key == "metadata");
     return json;
   }
 
@@ -27,7 +28,7 @@ class SyncalbeObjectDataSource<T extends IWithId>
 
   @override
   Future<T> add(T entity) async {
-    await _database.insert(T.toString(), _getEntityMap(entity));
+    await _database.insert(T.toString(), _createEntityMap(entity));
     return entity;
   }
 
@@ -35,21 +36,16 @@ class SyncalbeObjectDataSource<T extends IWithId>
   Future<List<T>> addMany(List<T> entities) async {
     var batch = _database.batch();
     for (T entity in entities) {
-      batch.insert(T.toString(), _getEntityMap(entity));
+      batch.insert(T.toString(), _createEntityMap(entity));
     }
     await batch.commit(noResult: true);
     return entities;
   }
 
   @override
-  Future<List<T>> deleteMany(List<T> entities) async {
-    return await this.updateMany(entities);
-  }
-
-  @override
   Future<T> update(String id, T entity) async {
-    Map<String, dynamic> entityMap = _getEntityMap(entity);
-    int id = entityMap['id'];
+    Map<String, dynamic> entityMap = _createEntityMap(entity);
+    String id = entityMap['id'];
     await _database.update(
       T.toString(),
       entityMap,
@@ -62,11 +58,28 @@ class SyncalbeObjectDataSource<T extends IWithId>
   @override
   Future<List<T>> updateMany(List<T> entities) async {
     var batch = _database.batch();
-
     for (T entity in entities) {
-      Map<String, dynamic> entityMap = _getEntityMap(entity);
-      batch.update(T.toString(), entityMap,
-          where: 'id = ?', whereArgs: [entity.id]);
+      Map<String, dynamic> entityMap = _createEntityMap(entity);
+      String sql =
+          'INSERT OR REPLACE INTO ${T.toString()} (${entityMap.keys.join(", ")}) VALUES (${List.filled(entityMap.keys.length, '?').join(", ")})';
+      List<dynamic> args = entityMap.values.toList();
+
+      batch.rawInsert(sql, args);
+    }
+    await batch.commit(noResult: true);
+    return entities;
+  }
+
+  @override
+  Future<List> syncUpdate(List entities) async {
+    var batch = _database.batch();
+    for (T entity in entities) {
+      Map<String, dynamic> entityMap = _createEntityMap(entity);
+      String sql =
+          'INSERT OR REPLACE INTO ${T.toString()} (${entityMap.keys.join(", ")}) VALUES (${List.filled(entityMap.keys.length, '?').join(", ")})';
+      List<dynamic> args = entityMap.values.toList();
+
+      batch.rawInsert(sql, args);
     }
     await batch.commit(noResult: true);
     return entities;
@@ -80,20 +93,9 @@ class SyncalbeObjectDataSource<T extends IWithId>
   }
 
   @override
-  Future<List> syncUpdate(List entities) async {
-    var batch = _database.batch();
-    for (T entity in entities) {
-      Map<String, dynamic> entityMap = _getEntityMap(entity);
-      batch.update(T.toString(), entityMap,
-          where: 'id = ?', whereArgs: [entity.id]);
-    }
-    await batch.commit(noResult: true);
-    return entities;
-  }
-
-  @override
   Future<int> count() async {
-    var res = await _database.rawQuery('SELECT COUNT(*) FROM ${T.toString()}');
+    var res = await _database
+        .rawQuery('SELECT COUNT(*) FROM ${T.toString()} WHERE deleted = 0');
     int? count = Sqflite.firstIntValue(res);
     return count ?? 0;
   }
@@ -108,8 +110,21 @@ class SyncalbeObjectDataSource<T extends IWithId>
     if (maps.isNotEmpty) {
       return _createEntityFromJson(maps.first);
     }
-
     return null;
+  }
+
+  @override
+  Future<List<T>> findByIds(List<String> ids) async {
+    if (ids.isEmpty) {
+      return [];
+    }
+    String placeholders = List.filled(ids.length, '?').join(', ');
+    List<Map<String, dynamic>> maps = await _database.query(
+      T.toString(),
+      where: 'id IN ($placeholders)',
+      whereArgs: ids,
+    );
+    return maps.map((map) => _createEntityFromJson(map)).toList();
   }
 
   @override
@@ -119,12 +134,6 @@ class SyncalbeObjectDataSource<T extends IWithId>
       return List<T>.from(maps.map((map) => _createEntityFromJson(map)));
     }
     return [];
-  }
-
-  @override
-  Future<List<T>> query(bool Function(T) query) async {
-    List<T> allObjects = await this.getAll();
-    return allObjects.where(query).toList();
   }
 
   @override

@@ -34,9 +34,7 @@ class ItemProvider with ChangeNotifier {
   }
 
   Future<Item> saveElement(Item item) async {
-    await getCount();
     item = await repository.add(item);
-    await getCount();
     return item;
   }
 

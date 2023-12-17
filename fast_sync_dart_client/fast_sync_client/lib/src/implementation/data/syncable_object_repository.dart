@@ -16,6 +16,7 @@ class SyncalbeRepository<T extends ISyncableObject>
     entity.metadata.type = T.toString();
     entity.metadata.syncZone = FastSync.getTypeSyncZone(T.toString());
     entity = _dirtyObject(entity);
+    entity = _linkMetadataId(entity, entity.metadata);
     await syncMetadataDataSource.add(entity.metadata);
     return await dataSource.add(entity);
   }
@@ -29,6 +30,7 @@ class SyncalbeRepository<T extends ISyncableObject>
       entity.metadata.type = T.toString();
       entity.metadata.syncZone = FastSync.getTypeSyncZone(T.toString());
       entity = _dirtyObject(entity);
+      entity = _linkMetadataId(entity, entity.metadata);
       entitiesToSave.add(entity);
       metadataTosave.add(entity.metadata);
     }
@@ -65,25 +67,41 @@ class SyncalbeRepository<T extends ISyncableObject>
   @override
   Future<List<T>> getAll() async {
     List<T> items = await dataSource.getAll();
-    return items.where(_undoRemovedEntities).toList();
+    List<T> itemsToReturn = [];
+    items = items.where(_undoRemovedEntities).toList();
+    List<String> metadataIds = items.map((m) => m.metadataId).toList();
+    List<ISyncMetadata> metadatas =
+        await this.syncMetadataDataSource.findByIds(metadataIds);
+    var metadataDict = createDict(metadatas);
+    for (var entity in items) {
+      entity.metadata = (metadataDict[entity.metadataId]) as ISyncMetadata;
+      itemsToReturn.add(entity);
+    }
+    return itemsToReturn;
   }
 
   @override
   Future<List<T>> query(bool Function(T) query) async {
-    return await dataSource.query(query);
+    List<T> items = await this.getAll();
+    List<T> filteredItems = items.where(query).toList();
+    return filteredItems;
   }
 
   @override
   Future<List<T>> removeMany(List<T> entities, ISyncMetadata metadata) async {
     List<T> entitiesToSave = [];
+    List<ISyncMetadata> metadataTosave = [];
     for (var entity in entities) {
       entity.deleted = true;
       entity.metadata.syncOperation = SyncOperationEnum.delete.code;
       entity.metadata.type = T.toString();
       entity = _dirtyObject(entity);
+      entity = _linkMetadataId(entity, entity.metadata);
       entitiesToSave.add(entity);
+      metadataTosave.add(entity.metadata);
     }
-    return await this.dataSource.deleteMany(entitiesToSave);
+    await syncMetadataDataSource.updateMany(metadataTosave);
+    return await this.dataSource.updateMany(entitiesToSave);
   }
 
   @override
@@ -91,29 +109,41 @@ class SyncalbeRepository<T extends ISyncableObject>
     entity.metadata.syncOperation = SyncOperationEnum.update.code;
     entity.metadata.type = T.toString();
     entity = _dirtyObject(entity);
+    entity = _linkMetadataId(entity, entity.metadata);
+    await syncMetadataDataSource.update(entity.metadata.id, entity.metadata);
     return await dataSource.update(entity.id, entity);
   }
 
   @override
   Future<List<T>> updateMany(List<T> entities, ISyncMetadata metadata) async {
     List<T> entitiesToSave = [];
+    List<ISyncMetadata> metadataTosave = [];
+
     for (var entity in entities) {
       entity.metadata.syncOperation = SyncOperationEnum.update.code;
       entity.metadata.type = T.toString();
       entity = _dirtyObject(entity);
+      entity = _linkMetadataId(entity, entity.metadata);
       entitiesToSave.add(entity);
+      metadataTosave.add(entity.metadata);
     }
+    await syncMetadataDataSource.updateMany(metadataTosave);
     return await dataSource.updateMany(entitiesToSave);
   }
 
   @override
   Future<List> undirtyList(List entities) async {
     List entitiesToSave = [];
+    List<ISyncMetadata> metadataTosave = [];
     for (var entity in entities) {
       entity.dirty = false;
+      entity = _linkMetadataId(entity, entity.metadata);
       entitiesToSave.add(entity);
+      metadataTosave.add(entity.metadata);
     }
-    return await dataSource.syncUpdate(entitiesToSave);
+    await dataSource.syncUpdate(entitiesToSave);
+    await syncMetadataDataSource.syncUpdate(metadataTosave);
+    return entitiesToSave;
   }
 
   @override
@@ -132,6 +162,11 @@ class SyncalbeRepository<T extends ISyncableObject>
       object.dirty = true;
       object.metadata.version++;
     }
+    return object;
+  }
+
+  T _linkMetadataId(T object, ISyncMetadata metadata) {
+    object.metadataId = metadata.id;
     return object;
   }
 }

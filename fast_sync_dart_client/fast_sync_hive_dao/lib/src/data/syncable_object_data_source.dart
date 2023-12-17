@@ -26,17 +26,6 @@ class SyncalbeObjectDataSource<T extends IWithId>
   }
 
   @override
-  Future<List<T>> deleteMany(List<T> entities) async {
-    Map<String, T> entitiesMap = {};
-    for (var entity in entities) {
-      entitiesMap[entity.id] = entity;
-    }
-    final Box<T> box = await boxInstance;
-    await box.putAll(entitiesMap);
-    return entities;
-  }
-
-  @override
   Future<T> update(String id, T entity) async {
     final Box<T> box = await boxInstance;
     await box.put(id, entity);
@@ -56,12 +45,6 @@ class SyncalbeObjectDataSource<T extends IWithId>
   }
 
   @override
-  Future<void> hardDelete() async {
-    final Box<T> box = await boxInstance;
-    await box.clear();
-  }
-
-  @override
   Future<List> syncUpdate(List entities) async {
     Map<String, T> entitiesMap = {};
     for (var entity in entities) {
@@ -70,6 +53,12 @@ class SyncalbeObjectDataSource<T extends IWithId>
     final Box<T> box = await boxInstance;
     await box.putAll(entitiesMap);
     return entities;
+  }
+
+  @override
+  Future<void> hardDelete() async {
+    final Box<T> box = await boxInstance;
+    await box.clear();
   }
 
   @override
@@ -91,15 +80,23 @@ class SyncalbeObjectDataSource<T extends IWithId>
   }
 
   @override
-  Future<List<T>> getAll() async {
+  Future<List<T>> findByIds(List<String> ids) async {
     final Box<T> box = await boxInstance;
-    return box.toMap().values.toList();
+    List<T> results = [];
+
+    for (String id in ids) {
+      var item = box.get(id);
+      if (item != null) {
+        results.add(item);
+      }
+    }
+    return results;
   }
 
   @override
-  Future<List<T>> query(bool Function(T) query) async {
+  Future<List<T>> getAll() async {
     final Box<T> box = await boxInstance;
-    return box.toMap().values.where(query).toList();
+    return box.toMap().values.toList();
   }
 
   Future<void> _init() async {

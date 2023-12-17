@@ -6,7 +6,7 @@ part 'sync_metadata_model.g.dart';
 
 @HiveType(typeId: 223, adapterName: "MetaDataAdapter")
 @JsonSerializable(explicitToJson: true)
-class SyncMetadataModel implements SyncMetadata {
+class SyncMetadataModel implements ISyncMetadata {
   @override
   @HiveField(240)
   String id = Uuid().v4();
@@ -36,9 +36,10 @@ class SyncMetadataModel implements SyncMetadata {
   factory SyncMetadataModel.fromJson(Map<String, dynamic> json) =>
       _$SyncMetadataModelFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$SyncMetadataModelToJson(this);
 
-  static Function get intoJson => _$SyncMetadataModelToJson;
+  static const Function intoJson = _$SyncMetadataModelToJson;
 
   @override
   String computeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType) {
@@ -52,5 +53,21 @@ class SyncMetadataModel implements SyncMetadata {
   @override
   String? getSyncZone() {
     return syncZone;
+  }
+}
+
+class MetadataJsonConverter
+    extends JsonConverter<ISyncMetadata, Map<String, dynamic>?> {
+  const MetadataJsonConverter();
+
+  @override
+  ISyncMetadata fromJson(Map<String, dynamic>? json) {
+    if (json != null) return SyncMetadataModel.fromJson(json);
+    return SyncMetadataModel();
+  }
+
+  @override
+  Map<String, dynamic> toJson(ISyncMetadata object) {
+    return object.toJson();
   }
 }

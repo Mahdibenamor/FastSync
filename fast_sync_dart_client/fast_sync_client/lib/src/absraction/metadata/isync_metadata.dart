@@ -1,5 +1,4 @@
-import 'package:fast_sync_client/src/absraction/metadata/iwith_id.dart';
-import 'package:fast_sync_client/src/absraction/models/sync_zone_restriction.dart';
+import 'package:fast_sync_client/fast_sync_client.dart';
 
 abstract class ISyncMetadata extends IWithId {
   String? syncZone;
@@ -17,6 +16,17 @@ abstract class ISyncMetadata extends IWithId {
       required this.syncOperation})
       : super(id: id);
 
-  String? getSyncZone();
-  void computeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType);
+  String? getSyncZone() {
+    return syncZone;
+  }
+
+  Map<String, dynamic> toJson();
+
+  String computeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType) {
+    if (syncZoneRestrictionType == SyncZoneRestrictionEnum.restricted) {
+      return syncZone!;
+    } else {
+      return Constants.globalSyncZoneRestriction;
+    }
+  }
 }

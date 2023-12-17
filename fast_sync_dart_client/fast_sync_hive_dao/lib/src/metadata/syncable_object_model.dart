@@ -6,7 +6,7 @@ import 'package:uuid/uuid.dart';
 part 'syncable_object_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SyncableItemModel implements SyncableObject {
+class SyncableItemModel implements ISyncableObject {
   @HiveField(249)
   @override
   String id = Uuid().v4();
@@ -20,9 +20,13 @@ class SyncableItemModel implements SyncableObject {
   @JsonKey(defaultValue: false)
   bool dirty = false;
 
-  @HiveField(251)
   @override
-  SyncMetadataModel metadata = SyncMetadataModel();
+  String metadataId = Constants.emptyString;
+
+  @HiveField(251)
+  @MetadataJsonConverter()
+  @override
+  ISyncMetadata metadata = SyncMetadataModel();
 
   SyncableItemModel();
 

@@ -1,6 +1,6 @@
 name: fast_sync_client
 description: FastSync dart client to fastly sync your objects, without the need to use tones of apis
-version: 1.0.2
+version: 1.0.3
 homepage: https://github.com/Mahdibenamor/FastSync
 
 environment:

@@ -13409,3 +13409,95 @@ Error: EPERM: operation not permitted, rename 'C:\Users\User\Desktop\FastSync\fa
 [NX Daemon Server] - 2023-12-09T01:41:55.753Z - Time taken for 'hash changed files from watcher' 3451.964299917221ms
 [NX Daemon Server] - 2023-12-09T01:41:55.830Z - [WATCHER]: 2 file(s) created or restored, 1 file(s) modified, 2 file(s) deleted
 [NX Daemon Server] - 2023-12-09T01:41:55.831Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:45.222Z - Started listening on: \\.\pipe\nx\C:\Users\User\AppData\Local\Temp\576b194544f3a5555178\d.sock
+[NX Daemon Server] - 2023-12-17T19:47:45.235Z - [WATCHER]: Subscribed to changes within: C:\Users\User\Desktop\FastSync\fast_sync_typescript_service_sdk (native)
+[NX Daemon Server] - 2023-12-17T19:47:45.240Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2023-12-17T19:47:45.248Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2023-12-17T19:47:45.249Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2023-12-17T19:47:45.253Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2023-12-17T19:47:45.447Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-12-17T19:47:45.448Z - [REQUEST]: 
+[NX Daemon Server] - 2023-12-17T19:47:45.448Z - [REQUEST]: 
+[NX Daemon Server] - 2023-12-17T19:47:45.534Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2023-12-17T19:47:45.537Z - Time taken for 'total for creating and serializing project graph' 280.8115999698639ms
+[NX Daemon Server] - 2023-12-17T19:47:45.538Z - Done responding to the client project-graph
+[NX Daemon Server] - 2023-12-17T19:47:45.538Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 281. Response time: 4.
+[NX Daemon Server] - 2023-12-17T19:47:45.550Z - [REQUEST]: Responding to the client. handleRequestFileData
+[NX Daemon Server] - 2023-12-17T19:47:45.550Z - Done responding to the client handleRequestFileData
+[NX Daemon Server] - 2023-12-17T19:47:45.550Z - Handled REQUEST_FILE_DATA. Handling time: 1. Response time: 0.
+[NX Daemon Server] - 2023-12-17T19:47:45.590Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:45.607Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2023-12-17T19:47:45.608Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2023-12-17T19:47:45.609Z - Time taken for 'total for creating and serializing project graph' 0.8769999742507935ms
+[NX Daemon Server] - 2023-12-17T19:47:45.609Z - Done responding to the client project-graph
+[NX Daemon Server] - 2023-12-17T19:47:45.610Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 1. Response time: 2.
+[NX Daemon Server] - 2023-12-17T19:47:45.672Z - [REQUEST]: Responding to the client. handleHashTasks
+[NX Daemon Server] - 2023-12-17T19:47:45.675Z - Done responding to the client handleHashTasks
+[NX Daemon Server] - 2023-12-17T19:47:45.675Z - Handled HASH_TASKS. Handling time: 39. Response time: 3.
+[NX Daemon Server] - 2023-12-17T19:47:52.370Z - [WATCHER]: 0 file(s) created or restored, 8 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:47:52.380Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:52.431Z - [WATCHER]: 0 file(s) created or restored, 11 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:47:52.433Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:52.476Z - [WATCHER]: 0 file(s) created or restored, 4 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:47:53.014Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-12-17T19:47:53.014Z - [REQUEST]: 
+[NX Daemon Server] - 2023-12-17T19:47:53.014Z - [REQUEST]: 
+[NX Daemon Server] - 2023-12-17T19:47:53.089Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:53.090Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:53.090Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:53.090Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:53.090Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:53.091Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:53.091Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:53.091Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:53.093Z - [WATCHER]: 0 file(s) created or restored, 6 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:47:53.095Z - [WATCHER]: 0 file(s) created or restored, 14 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:47:53.099Z - [WATCHER]: 0 file(s) created or restored, 3 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:47:53.103Z - [WATCHER]: 0 file(s) created or restored, 4 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:47:53.106Z - [WATCHER]: 0 file(s) created or restored, 4 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:47:53.111Z - [WATCHER]: 0 file(s) created or restored, 3 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:47:53.114Z - [WATCHER]: 0 file(s) created or restored, 2 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:47:53.115Z - Time taken for 'hash changed files from watcher' 509.9911000132561ms
+[NX Daemon Server] - 2023-12-17T19:47:53.153Z - [REQUEST]: Responding to the client. recordOutputsHash
+[NX Daemon Server] - 2023-12-17T19:47:53.153Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:47:53.153Z - Done responding to the client recordOutputsHash
+[NX Daemon Server] - 2023-12-17T19:47:53.154Z - Handled RECORD_OUTPUTS_HASH. Handling time: 22. Response time: 1.
+[NX Daemon Server] - 2023-12-17T19:47:53.610Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-12-17T19:47:53.611Z - [REQUEST]: 
+[NX Daemon Server] - 2023-12-17T19:47:53.611Z - [REQUEST]: 
+[NX Daemon Server] - 2023-12-17T19:47:53.690Z - Time taken for 'hash changed files from watcher' 274.9417999982834ms
+[NX Daemon Server] - 2023-12-17T19:47:53.733Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:48:07.948Z - [WATCHER]: packages/fast-sync-mongoose-dao/dist/mongoose-dao/metadata/sync_metadata_model.js was modified
+[NX Daemon Server] - 2023-12-17T19:48:07.949Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:48:08.022Z - [WATCHER]: 0 file(s) created or restored, 2 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:48:08.026Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:48:08.095Z - [WATCHER]: 0 file(s) created or restored, 7 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:48:08.096Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:48:08.133Z - [WATCHER]: 0 file(s) created or restored, 3 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:48:08.148Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:48:08.233Z - [REQUEST]: Responding to the client. recordOutputsHash
+[NX Daemon Server] - 2023-12-17T19:48:08.234Z - Done responding to the client recordOutputsHash
+[NX Daemon Server] - 2023-12-17T19:48:08.234Z - Handled RECORD_OUTPUTS_HASH. Handling time: 13. Response time: 1.
+[NX Daemon Server] - 2023-12-17T19:48:08.280Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:48:08.601Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-12-17T19:48:08.601Z - [REQUEST]: 
+[NX Daemon Server] - 2023-12-17T19:48:08.601Z - [REQUEST]: 
+[NX Daemon Server] - 2023-12-17T19:48:08.679Z - Time taken for 'hash changed files from watcher' 212.45640003681183ms
+[NX Daemon Server] - 2023-12-17T19:48:08.761Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:48:19.469Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:48:19.480Z - [WATCHER]: 0 file(s) created or restored, 3 file(s) modified, 0 file(s) deleted
+[NX Daemon Server] - 2023-12-17T19:48:19.560Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:48:19.561Z - [WATCHER]: packages/exemple/dist/exemple/tsconfig.tsbuildinfo was modified
+[NX Daemon Server] - 2023-12-17T19:48:19.662Z - [REQUEST]: Responding to the client. recordOutputsHash
+[NX Daemon Server] - 2023-12-17T19:48:19.663Z - Done responding to the client recordOutputsHash
+[NX Daemon Server] - 2023-12-17T19:48:19.663Z - Handled RECORD_OUTPUTS_HASH. Handling time: 15. Response time: 1.
+[NX Daemon Server] - 2023-12-17T19:48:19.701Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2023-12-17T19:48:19.702Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-17T19:48:20.451Z - [REQUEST]: Updated file-hasher based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2023-12-17T19:48:20.451Z - [REQUEST]: 
+[NX Daemon Server] - 2023-12-17T19:48:20.451Z - [REQUEST]: 
+[NX Daemon Server] - 2023-12-17T19:48:20.522Z - Time taken for 'hash changed files from watcher' 133.4829000234604ms
+[NX Daemon Server] - 2023-12-17T19:48:20.574Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2023-12-19T22:09:51.970Z - [WATCHER]: Stopping the watcher for C:\Users\User\Desktop\FastSync\fast_sync_typescript_service_sdk (sources)
+[NX Daemon Server] - 2023-12-19T22:09:51.974Z - [WATCHER]: Stopping the watcher for C:\Users\User\Desktop\FastSync\fast_sync_typescript_service_sdk (outputs)
+[NX Daemon Server] - 2023-12-19T22:09:51.974Z - Server stopped because: "10800000ms of inactivity"

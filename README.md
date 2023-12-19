@@ -41,11 +41,11 @@ Note: when you specify it as predefined rules, you need to provide a custom func
 
 ---
 
-<a href="https://www.npmjs.com/package/fast-sync-core">TypeScript server pacakge</a>
-<a href="https://www.npmjs.com/package/fast-sync-mongoose-dao">Mongoose dao server pacakge</a>
-<a href="https://pub.dev/packages/fast_sync_client">Dart client package</a>
-<a href="https://pub.dev/packages/fast_sync_hive_dao">Dart Hive dao package</a>
-<a href="https://pub.dev/packages/fast_sync_sqflite_dao">Dart sqflite dao client package</a>
+- <a href="https://www.npmjs.com/package/fast-sync-core">TypeScript server pacakge</a>
+- <a href="https://www.npmjs.com/package/fast-sync-mongoose-dao">Mongoose dao server pacakge</a>
+- <a href="https://pub.dev/packages/fast_sync_client">Dart client package</a>
+- <a href="https://pub.dev/packages/fast_sync_hive_dao">Dart Hive dao package</a>
+- <a href="https://pub.dev/packages/fast_sync_sqflite_dao">Dart sqflite dao client package</a>
 
 ---
 

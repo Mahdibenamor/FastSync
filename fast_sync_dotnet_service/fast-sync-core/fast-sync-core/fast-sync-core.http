@@ -1,6 +1,0 @@
-@fast_sync_core_HostAddress = http://localhost:5257
-
-GET {{fast_sync_core_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

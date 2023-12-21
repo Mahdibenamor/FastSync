@@ -1,6 +1,9 @@
 ﻿namespace fast_sync_core.abstraction.data
 {
-    public interface ConflictsResolutionStrategyEnum
+    public enum ConflictsResolutionStrategyEnum
     {
+        LastWriterWins,
+        TimestampOrdering,
+        PredefinedRules
     }
 }

@@ -2,5 +2,7 @@
 {
     public interface IConflictsHandler
     {
+        void ResolveConflicts(ISyncableObject oblObject, ISyncableObject newObject);
+        ConflictsResolutionStrategyEnum GetConflictsResolutionStrategy();
     }
 }

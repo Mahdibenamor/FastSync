@@ -1,6 +1,8 @@
 ﻿namespace fast_sync_core.abstraction.data
 {
-    public interface SyncZoneRestrictionEnum
+    public enum SyncZoneRestrictionEnum
     {
+        Global,
+        Restricted
     }
 }

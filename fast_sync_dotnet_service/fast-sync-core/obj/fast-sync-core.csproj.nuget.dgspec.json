@@ -8,7 +8,7 @@
       "version": "1.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\User\\Desktop\\FastSync\\fast_sync_dotnet_service\\fast-sync-core\\fast-sync-core.csproj",
-        "projectName": "fast-sync-core",
+        "projectName": "fast_sync_core",
         "projectPath": "C:\\Users\\User\\Desktop\\FastSync\\fast_sync_dotnet_service\\fast-sync-core\\fast-sync-core.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\User\\Desktop\\FastSync\\fast_sync_dotnet_service\\fast-sync-core\\obj\\",

@@ -89,33 +89,33 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "fast-sync-core/1.0.0": {
+      "fast-sync-entity-framework-dao/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "fast_sync_core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/fast-sync-entity-framework-dao.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/fast-sync-entity-framework-dao.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
+      "fast_sync_core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "Swashbuckle.AspNetCore": "6.4.0"
         },
         "compile": {
-          "bin/placeholder/fast-sync-core.dll": {}
+          "bin/placeholder/fast_sync_core.dll": {}
         },
         "runtime": {
-          "bin/placeholder/fast-sync-core.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
-      },
-      "fast-sync-entity-framework-dao/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
-        "dependencies": {
-          "fast-sync-core": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/fast-sync-entity-framework-dao.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/fast-sync-entity-framework-dao.dll": {}
+          "bin/placeholder/fast_sync_core.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
@@ -453,22 +453,22 @@
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
-    "fast-sync-core/1.0.0": {
-      "type": "project",
-      "path": "../fast-sync-core/fast-sync-core.csproj",
-      "msbuildProject": "../fast-sync-core/fast-sync-core.csproj"
-    },
     "fast-sync-entity-framework-dao/1.0.0": {
       "type": "project",
       "path": "../fast-sync-entity-framework-dao/fast-sync-entity-framework-dao.csproj",
       "msbuildProject": "../fast-sync-entity-framework-dao/fast-sync-entity-framework-dao.csproj"
+    },
+    "fast_sync_core/1.0.0": {
+      "type": "project",
+      "path": "../fast-sync-core/fast-sync-core.csproj",
+      "msbuildProject": "../fast-sync-core/fast-sync-core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Swashbuckle.AspNetCore >= 6.4.0",
-      "fast-sync-core >= 1.0.0",
-      "fast-sync-entity-framework-dao >= 1.0.0"
+      "fast-sync-entity-framework-dao >= 1.0.0",
+      "fast_sync_core >= 1.0.0"
     ]
   },
   "packageFolders": {

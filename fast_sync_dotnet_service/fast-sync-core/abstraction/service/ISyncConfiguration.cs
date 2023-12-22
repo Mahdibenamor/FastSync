@@ -2,7 +2,7 @@
 {
     public interface ISyncConfiguration
     {
-        void SetSyncableObject<T>(string entityType, ISyncableRepository<T> repository, SyncZoneRestrictionEnum? syncZoneRestriction = null, IConflictsHandler? conflictsHandler = null) where T : ISyncableObject;
+        void SetSyncableObject<T>(string entityType, ISyncableRepository<T> repository, SyncZoneRestrictionEnum? syncZoneRestriction, IConflictsHandler? conflictsHandler) where T : ISyncableObject;
         void SetObjectRepository<T>(string entityType, ISyncableRepository<T> repository) where T : ISyncableObject;
         void SetObjectConflictsHandler(string entityType, IConflictsHandler conflictsHandler);
         IConflictsHandler GetObjectConflictsHandler(string type);

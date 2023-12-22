@@ -2,8 +2,7 @@
 {
     public interface ISyncManager
     {
-        void ProcessPush(SyncPayload payload);
+        Task ProcessPush(SyncPayload payload);
         Task<SyncPayload> ProcessPull(SyncOperationMetadata metadata);
-        SyncPayload ProcessSync(SyncOperationMetadata metadata);
     }
 }

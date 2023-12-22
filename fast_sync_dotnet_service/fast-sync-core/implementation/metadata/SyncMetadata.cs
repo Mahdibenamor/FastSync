@@ -1,11 +1,11 @@
 ﻿using fast_sync_core.abstraction;
 using fast_sync_core.abstraction.data;
 
-namespace fast_sync_core.implementation
+namespace fast_sync_core.implementation.metadata
 {
     public class SyncMetadata : ISyncMetadata
     {
-        public string Id{ get; set; }
+        public string Id { get; set; }
 
         public long Timestamp { get; set; }
         public SyncOperationEnum SyncOperation { get; set; }
@@ -32,15 +32,15 @@ namespace fast_sync_core.implementation
             return SyncZone;
         }
 
-        public void ComputeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType)
+        public string ComputeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType)
         {
             if (syncZoneRestrictionType == SyncZoneRestrictionEnum.Restricted)
             {
-                SyncZone = SyncZone;
+                return GetSyncZone();
             }
             else
             {
-                SyncZone = Constants.GlobalSyncZoneRestriction;
+                return Constants.GlobalSyncZoneRestriction;
             }
         }
     }

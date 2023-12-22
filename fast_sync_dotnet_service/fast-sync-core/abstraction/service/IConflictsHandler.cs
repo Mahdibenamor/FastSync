@@ -2,7 +2,7 @@
 {
     public interface IConflictsHandler
     {
-        void ResolveConflicts(ISyncableObject oblObject, ISyncableObject newObject);
+        Task<T> ResolveConflicts<T>(ISyncableObject oblObject, ISyncableObject newObject) where T: ISyncableObject;
         ConflictsResolutionStrategyEnum GetConflictsResolutionStrategy();
     }
 }

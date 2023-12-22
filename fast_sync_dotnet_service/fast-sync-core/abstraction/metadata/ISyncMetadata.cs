@@ -8,6 +8,6 @@
         long Timestamp { get; set; }
         SyncOperationEnum SyncOperation { get; set; }
         string GetSyncZone();
-        void ComputeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType);
+        string ComputeSyncZone(SyncZoneRestrictionEnum syncZoneRestrictionType);
     }
 }

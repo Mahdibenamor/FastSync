@@ -1,4 +1,4 @@
-﻿using fast_sync_core.implementation;
+﻿using fast_sync_core.implementation.metadata;
 
 namespace fast_sync_core.abstraction.data
 {
@@ -43,9 +43,9 @@ namespace fast_sync_core.abstraction.data
             throw new InvalidOperationException("Metadata of each synced type should be specified, please check how you build SyncOperationMetadata");
         }
 
-        public IEnumerable<string> GetSyncedTypes()
+        public List<string> GetSyncedTypes()
         {
-            return Metadata.Keys;
+            return Metadata.Keys.ToList();
         }
     }
 }

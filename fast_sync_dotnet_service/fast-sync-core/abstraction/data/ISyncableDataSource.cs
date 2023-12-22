@@ -6,14 +6,14 @@
     public interface ISyncableDataSource<T>
     {
         Task<T> Add(T entity);
-        Task<T> Update(object query, T entity);
+        Task<T> Update(string id, T entity);
         Task<T> FindById(string id);
-        Task<IEnumerable<T>> GetAll();
-        Task<IEnumerable<T>> Query(object query);
+        Task<List<T>> GetAll();
+        Task<List<T>> Query(object query);
         Task<int> Count();
-        Task<IEnumerable<T>> UpdateMany(IEnumerable<T> entities);
-        Task<IEnumerable<T>> AddMany(IEnumerable<T> entities);
-        Task<IEnumerable<T>> FetchMany(ISyncMetadata syncMetadata);
+        Task<List<T>> UpdateMany(List<T> entities);
+        Task<List<T>> AddMany(List<T> entities);
+        Task<List<T>> FetchMany(ISyncMetadata syncMetadata);
         void Dispose();
     }
 }

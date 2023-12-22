@@ -12,11 +12,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="implementation\data\" />
-    <Folder Include="implementation\metadata\" />
-    <Folder Include="implementation\models\" />
-    <Folder Include="implementation\service\" />
-  </ItemGroup>
-
 </Project>

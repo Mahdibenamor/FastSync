@@ -13,8 +13,8 @@ optionsBuilder.UseSqlServer("YourConnectionString");
 var options = optionsBuilder.Options;
 DataContext dataContext = new DataContext(options: options);
 EntityFrameworkSyncConfiguration conf = new EntityFrameworkSyncConfiguration(dataContext: dataContext);
-
 builder.Services.AddScoped(_ => dataContext);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

@@ -3,36 +3,36 @@ using System.Linq.Expressions;
 
 namespace fast_sync_core.implementation.data
 {
-    public class SyncableMetadataRepository<T> : IBaseRepository<T> where T : IWithId
+    public class SyncableMetadataRepository: IBaseRepository<ISyncMetadata> 
     {
-        public ISyncableDataSource<T> DataSource { get; private set; }
+        public ISyncableDataSource<ISyncMetadata> DataSource { get; private set; }
 
-        public SyncableMetadataRepository(ISyncableDataSource<T> dataSource)
+        public SyncableMetadataRepository(ISyncableDataSource<ISyncMetadata> dataSource)
         {
             DataSource = dataSource;
         }
 
-        public async Task<T> Add(T entity)
+        public async Task<ISyncMetadata> Add(ISyncMetadata entity)
         {
             return await DataSource.Add(entity);
         }
 
-        public async Task<T> Update(string id, T entity)
+        public async Task<ISyncMetadata> Update(string id, ISyncMetadata entity)
         {
             return await DataSource.Update(id, entity);
         }
 
-        public async Task<T?> FindById(string id)
+        public async Task<ISyncMetadata?> FindById(string id)
         {
             return await DataSource.FindById(id);
         }
 
-        public async Task<List<T>> GetAll()
+        public async Task<List<ISyncMetadata>> GetAll()
         {
             return await DataSource.GetAll();
         }
 
-        public async Task<List<T>> Query(Expression<Func<T, bool>> filter)
+        public async Task<List<ISyncMetadata>> Query(Expression<Func<ISyncMetadata, bool>> filter)
         {
             return await DataSource.Query(filter);
         }

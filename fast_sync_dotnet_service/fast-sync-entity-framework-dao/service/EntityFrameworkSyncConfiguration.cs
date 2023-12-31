@@ -17,7 +17,7 @@ namespace fast_sync_entity_framework_dao.service
         protected override void Init()
         {
             base.Init();
-            SyncMetadataDataSource metadataDataSource = new SyncMetadataDataSource(dataContext);
+            SyncMetadataDataSource metadataDataSource =  new SyncMetadataDataSource(dataContext);
             SyncVersionManager = new SyncVersionManager(metadataDataSource);
         }
     }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("fast-sync-entity-framework-dao")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fb13521add054e97c7a0439ddbb1acabe34ffffb")]
 [assembly: System.Reflection.AssemblyProductAttribute("fast-sync-entity-framework-dao")]
 [assembly: System.Reflection.AssemblyTitleAttribute("fast-sync-entity-framework-dao")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,13 @@
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\obj\Debug\net8.0\fast-sync-core.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\obj\Debug\net8.0\fast-sync-core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\obj\Debug\net8.0\fast-sync-core.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\obj\Debug\net8.0\fast-sync-core.AssemblyInfo.cs
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\obj\Debug\net8.0\fast-sync-core.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\obj\Debug\net8.0\fast-sync-core.sourcelink.json
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\bin\Debug\net8.0\fast-sync-core.deps.json
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\bin\Debug\net8.0\fast-sync-core.dll
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\bin\Debug\net8.0\fast-sync-core.pdb
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\obj\Debug\net8.0\fast-sync-core.dll
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\obj\Debug\net8.0\refint\fast-sync-core.dll
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\obj\Debug\net8.0\fast-sync-core.pdb
+C:\Users\User\Desktop\FastSync\fast_sync_dotnet_service\fast-sync-core\obj\Debug\net8.0\ref\fast-sync-core.dll

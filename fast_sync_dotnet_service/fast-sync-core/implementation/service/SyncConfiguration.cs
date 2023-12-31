@@ -23,13 +23,13 @@ namespace fast_sync_core.implementation
 
         public SyncConfiguration()
         {
-            Init();
         }
 
-        protected void Init()
+        protected virtual void Init()
         {
             SetSyncManager(new SyncManager());
         }
+
         public void SetSyncableObject<T>(string entityType, ISyncableRepository<T> repository, SyncZoneRestrictionEnum? syncZoneRestriction, IConflictsHandler? conflictsHandler = null) where T : ISyncableObject
         {
             SetSyncZoneTypeConfiguration(entityType, syncZoneRestriction ?? SyncZoneRestrictionEnum.Global);

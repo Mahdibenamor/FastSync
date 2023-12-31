@@ -18,7 +18,7 @@ namespace fast_sync_core.implementation
 
         public async Task<int> GetLastSyncVersion(string entityType, string syncZone)
         {
-            var syncMetadataList = await _syncMetadataRepository.Query(new { Type = entityType, SyncZone = syncZone });
+            var syncMetadataList = await _syncMetadataRepository.Query((metadata)=> metadata.Type == entityType && metadata.SyncZone == syncZone);
             if (syncMetadataList != null && syncMetadataList.Count != 0)
             {
                 return syncMetadataList[0].Version;
@@ -32,7 +32,7 @@ namespace fast_sync_core.implementation
 
         public async Task<int> IncrementSyncVersion(string entityType, string syncZone)
         {
-            var syncMetadataList = await _syncMetadataRepository.Query(new { Type = entityType, SyncZone = syncZone });
+            var syncMetadataList = await _syncMetadataRepository.Query((metadata) => metadata.Type == entityType && metadata.SyncZone == syncZone);
             SyncMetadata syncMetadata;
             if (syncMetadataList != null && syncMetadataList.Count != 0)
             {
@@ -49,13 +49,14 @@ namespace fast_sync_core.implementation
 
         private async Task<SyncMetadata> InitObjectMetadata(string entityType, string syncZone)
         {
-            var syncMetadataList = await _syncMetadataRepository.Query(new { Type = entityType, SyncZone = syncZone });
+            var syncMetadataList = await _syncMetadataRepository.Query((metadata) => metadata.Type == entityType && metadata.SyncZone == syncZone);
             if (syncMetadataList == null || syncMetadataList.Count == 0)
             {
-                var syncMetadata = new SyncMetadata(entityType, 0, syncZone)
-                {
-                    Timestamp = DateTime.Now.Ticks
-                };
+                var syncMetadata = new SyncMetadata();
+                syncMetadata.SyncZone = syncZone;
+                syncMetadata.Version = 0;
+                syncMetadata.Type = entityType;
+                syncMetadata.Timestamp = DateTime.Now.Ticks;
                 return await _syncMetadataRepository.Add(syncMetadata);
             }
             return syncMetadataList.First();

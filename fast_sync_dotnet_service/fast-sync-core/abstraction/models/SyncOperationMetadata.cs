@@ -17,12 +17,14 @@ namespace fast_sync_core.abstraction.data
             foreach (var keyValuePair in operationMetadata.Metadata)
             {
                 var value = keyValuePair.Value;
-                var syncMetadata = new SyncMetadata(value.Type, value.Version, value.SyncZone)
-                {
-                    Id = value.Id,
-                    SyncOperation = value.SyncOperation,
-                    Timestamp = value.Timestamp
-                };
+
+                SyncMetadata syncMetadata = new SyncMetadata();
+                syncMetadata.Id = value.Id;
+                syncMetadata.SyncZone = value.SyncZone;
+                syncMetadata.Version = value.Version;
+                syncMetadata.Type = value.Type;
+                syncMetadata.SyncOperation = value.SyncOperation;
+                syncMetadata.Timestamp = value.Timestamp;                
                 syncOperationMetadata.SetMetadata(keyValuePair.Key, syncMetadata);
             }
 

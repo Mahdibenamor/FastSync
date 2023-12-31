@@ -1,4 +1,6 @@
 ﻿using fast_sync_core.abstraction.data;
+using System;
+using System.Linq.Expressions;
 
 namespace fast_sync_core.implementation.data
 {
@@ -24,7 +26,7 @@ namespace fast_sync_core.implementation.data
             return await DataSource.Update(id, entity);
         }
 
-        public async Task<T> FindById(string id)
+        public async Task<T?> FindById(string id)
         {
             return await DataSource.FindById(id);
         }
@@ -34,7 +36,7 @@ namespace fast_sync_core.implementation.data
             return await DataSource.GetAll();
         }
 
-        public async Task<List<T>> Query(object filter)
+        public async Task<List<T>> Query(Expression<Func<T, bool>> filter)
         {
             return await DataSource.Query(filter);
         }
@@ -46,14 +48,15 @@ namespace fast_sync_core.implementation.data
 
         private async Task<List<T>> GetObjectsByIds(List<string> ids)
         {
-            return await Query(new { Ids = ids }); // Assuming the query method can handle this format.
+            return await Query((item) => ids.Contains(item.Id) );
         }
 
         public async Task<List<T>> FetchMany(ISyncMetadata metadata)
         {
             var computedSyncZone = metadata.ComputeSyncZone(FastSync.GetInstance().GetSyncZoneConfiguration(metadata.Type));
             metadata.SyncZone = computedSyncZone;
-            return await DataSource.FetchMany(metadata);
+            //return await DataSource.FetchMany(metadata);
+            throw new Exception();
         }
 
         public async Task<List<T>> AddMany(List<T> entities, ISyncMetadata metadata)

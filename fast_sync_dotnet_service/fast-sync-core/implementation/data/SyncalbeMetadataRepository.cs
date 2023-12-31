@@ -1,4 +1,5 @@
 ﻿using fast_sync_core.abstraction.data;
+using System.Linq.Expressions;
 
 namespace fast_sync_core.implementation.data
 {
@@ -21,7 +22,7 @@ namespace fast_sync_core.implementation.data
             return await DataSource.Update(id, entity);
         }
 
-        public async Task<T> FindById(string id)
+        public async Task<T?> FindById(string id)
         {
             return await DataSource.FindById(id);
         }
@@ -31,7 +32,7 @@ namespace fast_sync_core.implementation.data
             return await DataSource.GetAll();
         }
 
-        public async Task<List<T>> Query(object filter)
+        public async Task<List<T>> Query(Expression<Func<T, bool>> filter)
         {
             return await DataSource.Query(filter);
         }

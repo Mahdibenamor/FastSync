@@ -61,10 +61,11 @@ namespace fast_sync_core.abstraction.data
         {
             var objects = GetObjectsForType(type).Cast<ISyncableObject>();
             var newVersion = objects.Max(obj => obj.Metadata.Version);
-            var syncMetadata = new SyncMetadata(type, newVersion, syncZone)
-            {
-                Id = type
-            };
+            SyncMetadata syncMetadata = new SyncMetadata();
+            syncMetadata.Id = type;
+            syncMetadata.SyncZone = syncZone;
+            syncMetadata.Version = newVersion;
+            syncMetadata.Type = type;
             return syncMetadata;
         }
     }

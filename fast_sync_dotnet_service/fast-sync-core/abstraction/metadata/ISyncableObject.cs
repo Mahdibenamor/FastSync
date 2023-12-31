@@ -5,6 +5,6 @@
         ISyncMetadata Metadata { get; set; }
         bool Deleted { get; set; }
         int GetVersion();
-        void SetVersion(int version);
+        int SetVersion(int version);
     }
 }

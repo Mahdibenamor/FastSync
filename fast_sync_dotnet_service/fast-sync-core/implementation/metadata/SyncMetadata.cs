@@ -5,28 +5,18 @@ namespace fast_sync_core.implementation.metadata
 {
     public class SyncMetadata : ISyncMetadata
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        public long Timestamp { get; set; }
+        public long Timestamp { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         public SyncOperationEnum SyncOperation { get; set; }
-        public string Type { get; set; }
-        public int Version { get; set; }
-        public string SyncZone { get; set; }
+        public string Type { get; set; } = string.Empty;
+        public int Version { get; set; } = 0;
+        public string SyncZone { get; set; } = string.Empty;
 
-        public SyncMetadata(string type, int version, string syncZone)
+        public SyncMetadata()
         {
-            Id = Guid.NewGuid().ToString();
-            Timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            Type = type;
-            Version = version;
-            SyncZone = syncZone;
         }
-
-        public static SyncMetadata Create(SyncMetadata metadata)
-        {
-            return new SyncMetadata(metadata.Type, metadata.Version, metadata.SyncZone);
-        }
-
+        
         public string GetSyncZone()
         {
             return SyncZone;

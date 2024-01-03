@@ -1,8 +1,9 @@
 ﻿namespace fast_sync_core.abstraction.data
 {
-    public interface ISyncableObject : IWithId
+    public interface ISyncableObject<T> : IWithId
+        where T : ISyncMetadata
     {
-        ISyncMetadata Metadata { get; set; }
+        T Metadata { get; set; }
         bool Deleted { get; set; }
         int GetVersion();
         int SetVersion(int version);

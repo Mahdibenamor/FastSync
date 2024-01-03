@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace fast_sync_core.implementation.data
 {
-    public class SyncableRepository<T> : ISyncableRepository<T> where T : ISyncableObject
+    public class SyncableRepository<T> : ISyncableRepository<T> where T : ISyncableObject<ISyncMetadata>
     {
         private ISyncVersionManager SyncVersionManager { get; } = FastSync.GetInstance().GetSyncVersionManager();
         public ISyncableDataSource<T> DataSource { get; }

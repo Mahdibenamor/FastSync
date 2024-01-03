@@ -30,14 +30,14 @@ namespace fast_sync_core.implementation
             SetSyncManager(new SyncManager());
         }
 
-        public void SetSyncableObject<T>(string entityType, ISyncableRepository<T> repository, SyncZoneRestrictionEnum? syncZoneRestriction, IConflictsHandler? conflictsHandler = null) where T : ISyncableObject
+        public void SetSyncableObject<T>(string entityType, ISyncableRepository<T> repository, SyncZoneRestrictionEnum? syncZoneRestriction, IConflictsHandler? conflictsHandler = null) where T : ISyncableObject<ISyncMetadata>
         {
             SetSyncZoneTypeConfiguration(entityType, syncZoneRestriction ?? SyncZoneRestrictionEnum.Global);
             SetObjectConflictsHandler(entityType, conflictsHandler);
             SetObjectRepository(entityType, repository);
         }
         
-        public void SetObjectRepository<T>(string entityType, ISyncableRepository<T> repository) where T : ISyncableObject
+        public void SetObjectRepository<T>(string entityType, ISyncableRepository<T> repository) where T : ISyncableObject<ISyncMetadata>
         {
             if (repository != null)
             {
@@ -84,7 +84,7 @@ namespace fast_sync_core.implementation
             throw new InvalidOperationException($"SyncZoneRestriction of the {type} should not be undefined");
         }
 
-        public ISyncableRepository<T> GetObjectRepository<T>(string type) where T : ISyncableObject
+        public ISyncableRepository<T> GetObjectRepository<T>(string type) where T : ISyncableObject<ISyncMetadata>
         {
             if (Container.TryGetValue(type + Constants.RepositoryName, out var repository))
             {

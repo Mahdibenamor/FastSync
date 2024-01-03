@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 
 
 var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-optionsBuilder.UseSqlServer("YourConnectionString"); 
+optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); 
 var options = optionsBuilder.Options;
 DataContext dataContext = new DataContext(options: options);
 EntityFrameworkSyncConfiguration conf = new EntityFrameworkSyncConfiguration(dataContext: dataContext);

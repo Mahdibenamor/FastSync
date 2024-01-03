@@ -45,11 +45,6 @@ namespace exemple.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
-
                     b.Property<int>("SyncOperation")
                         .HasColumnType("int");
 
@@ -69,18 +64,7 @@ namespace exemple.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SyncMetadata");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("SyncMetadata");
-
-                    b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("fast_sync_entity_framework_dao.metadata.SyncMetadataModel", b =>
-                {
-                    b.HasBaseType("fast_sync_core.implementation.metadata.SyncMetadata");
-
-                    b.HasDiscriminator().HasValue("SyncMetadataModel");
+                    b.ToTable("SyncMetadatas");
                 });
 
             modelBuilder.Entity("exemple.Model.Item", b =>

@@ -11,7 +11,7 @@ namespace exemple.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "SyncMetadata",
+                name: "SyncMetadatas",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -19,12 +19,11 @@ namespace exemple.Migrations
                     SyncOperation = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Version = table.Column<int>(type: "int", nullable: false),
-                    SyncZone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false)
+                    SyncZone = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SyncMetadata", x => x.Id);
+                    table.PrimaryKey("PK_SyncMetadatas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -39,9 +38,9 @@ namespace exemple.Migrations
                 {
                     table.PrimaryKey("PK_Items", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Items_SyncMetadata_MetadataId",
+                        name: "FK_Items_SyncMetadatas_MetadataId",
                         column: x => x.MetadataId,
-                        principalTable: "SyncMetadata",
+                        principalTable: "SyncMetadatas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -59,7 +58,7 @@ namespace exemple.Migrations
                 name: "Items");
 
             migrationBuilder.DropTable(
-                name: "SyncMetadata");
+                name: "SyncMetadatas");
         }
     }
 }

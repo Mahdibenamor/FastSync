@@ -2,14 +2,15 @@
 
 namespace fast_sync_core.abstraction.data
 {
+    using IWithMetaData = ISyncableObject<ISyncMetadata>;
     public class SyncPayload
     {
-        public Dictionary<string, List<ISyncableObject<ISyncMetadata>>> Data { get; set; }
+        public Dictionary<string, List<IWithMetaData>> Data { get; set; }
         public SyncOperationMetadata OperationMetadata { get; set; }
 
         public SyncPayload()
         {
-            Data = new Dictionary<string, List<ISyncableObject<ISyncMetadata>>>();
+            Data = new Dictionary<string, List<IWithMetaData>>();
             OperationMetadata = new SyncOperationMetadata();
         }
 
@@ -17,29 +18,29 @@ namespace fast_sync_core.abstraction.data
         {
             var payload = new SyncPayload
             {
-                Data = new Dictionary<string, List<ISyncableObject<ISyncMetadata>>>(syncPayload.Data),
+                Data = new Dictionary<string, List<IWithMetaData>>(syncPayload.Data),
                 OperationMetadata = SyncOperationMetadata.Create(syncPayload.OperationMetadata)
             };
             return payload;
         }
 
-        public  void PushObjects<T>(string type, List<T> entities, string syncZone) where T : ISyncableObject<ISyncMetadata>
+        public  void PushObjects<T>(string type, List<T> entities, string syncZone) where T : IWithMetaData
         {
             if (entities.Count > 0)
             {
                 if (!Data.ContainsKey(type))
                 {
-                    Data[type] = new List<ISyncableObject<ISyncMetadata>>();
+                    Data[type] = new List<IWithMetaData>();
                 }
-                Data[type].AddRange(entities.Cast<ISyncableObject<ISyncMetadata>>());
+                Data[type].AddRange(entities.Cast<IWithMetaData>());
                 var globalSyncVersion =  BuildTypeMetadata(type, syncZone);
                 OperationMetadata.SetMetadata(type, globalSyncVersion);
             }
         }
 
-        public List<ISyncableObject<ISyncMetadata>> GetObjectsForType(string type)
+        public List<IWithMetaData> GetObjectsForType(string type)
         {
-            return Data.ContainsKey(type) ? Data[type] : new List<ISyncableObject<ISyncMetadata>>();
+            return Data.ContainsKey(type) ? Data[type] : new List<IWithMetaData>();
         }
 
         public List<string> GetSyncedTypes()
@@ -59,7 +60,7 @@ namespace fast_sync_core.abstraction.data
 
         private  SyncMetadata BuildTypeMetadata(string type, string syncZone)
         {
-            var objects = GetObjectsForType(type).Cast<ISyncableObject<ISyncMetadata>>();
+            var objects = GetObjectsForType(type).Cast<IWithMetaData>();
             var newVersion = objects.Max(obj => obj.Metadata.Version);
             SyncMetadata syncMetadata = new SyncMetadata();
             syncMetadata.Id = type;

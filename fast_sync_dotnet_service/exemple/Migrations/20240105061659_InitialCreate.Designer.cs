@@ -11,7 +11,7 @@ using fast_sync_entity_framework_dao.data;
 namespace exemple.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240103215535_InitialCreate")]
+    [Migration("20240105061659_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -32,9 +32,17 @@ namespace exemple.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MetadataId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

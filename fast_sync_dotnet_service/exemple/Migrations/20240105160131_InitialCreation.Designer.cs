@@ -11,8 +11,8 @@ using fast_sync_entity_framework_dao.data;
 namespace exemple.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240105061659_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240105160131_InitialCreation")]
+    partial class InitialCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace exemple.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("exemple.Model.Item", b =>
+            modelBuilder.Entity("exemple.Item.Item", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -78,7 +78,7 @@ namespace exemple.Migrations
                     b.ToTable("SyncMetadatas");
                 });
 
-            modelBuilder.Entity("exemple.Model.Item", b =>
+            modelBuilder.Entity("exemple.Item.Item", b =>
                 {
                     b.HasOne("fast_sync_core.implementation.metadata.SyncMetadata", "Metadata")
                         .WithMany()

@@ -26,7 +26,7 @@ namespace fast_sync_core.implementation
             return _instance;
         }
 
-        public SyncVersionManager GetSyncVersionManager()
+        public static SyncVersionManager GetSyncVersionManager()
         {
             return GetSyncConfiguration().SyncVersionManager;
         }
@@ -36,10 +36,10 @@ namespace fast_sync_core.implementation
             _instance._syncConfiguration = syncConfiguration;
         }
 
-        public void SetSyncableObject<T>(string entityType, ISyncableRepository<T> repository, IConflictsHandler? conflictsHandler = null, SyncZoneRestrictionEnum syncZoneRestriction = SyncZoneRestrictionEnum.Global) where T : IWithMetaData
+        public static void SetSyncableObject<T>(ISyncableRepository<T> repository, IConflictsHandler? conflictsHandler = null, SyncZoneRestrictionEnum syncZoneRestriction = SyncZoneRestrictionEnum.Global) where T : IWithMetaData
         {
             var syncConfiguration = GetSyncConfiguration();
-            syncConfiguration.SetSyncableObject(entityType, repository, syncZoneRestriction, conflictsHandler);
+            syncConfiguration.SetSyncableObject(typeof(T).Name, repository, syncZoneRestriction, conflictsHandler);
             SetSyncConfiguration(syncConfiguration);
         }
 
@@ -58,12 +58,12 @@ namespace fast_sync_core.implementation
             return GetSyncConfiguration().GetSyncZoneConfiguration(type);
         }
 
-        public ISyncManager GetSyncManager()
+        public static ISyncManager GetSyncManager()
         {
             return GetSyncConfiguration().GetSyncManager();
         }
 
-        public SyncConfiguration GetSyncConfiguration()
+        public static SyncConfiguration GetSyncConfiguration()
         {
             if(_instance._syncConfiguration != null)
             {

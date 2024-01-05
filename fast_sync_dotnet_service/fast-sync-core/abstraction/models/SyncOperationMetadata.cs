@@ -4,11 +4,11 @@ namespace fast_sync_core.abstraction.data
 {
     public class SyncOperationMetadata
     {
-        public Dictionary<string, ISyncMetadata> Metadata { get; private set; }
+        public Dictionary<string, SyncMetadata> Metadata { get; private set; }
 
         public SyncOperationMetadata()
         {
-            Metadata = new Dictionary<string, ISyncMetadata>();
+            Metadata = new Dictionary<string, SyncMetadata>();
         }
 
         public static SyncOperationMetadata Create(SyncOperationMetadata operationMetadata)
@@ -31,12 +31,12 @@ namespace fast_sync_core.abstraction.data
             return syncOperationMetadata;
         }
 
-        public void SetMetadata(string type, ISyncMetadata metadata)
+        public void SetMetadata(string type, SyncMetadata metadata)
         {
             Metadata[type] = metadata;
         }
 
-        public ISyncMetadata GetTypeMetadata(string type)
+        public SyncMetadata GetTypeMetadata(string type)
         {
             if (Metadata.ContainsKey(type) && Metadata[type] != null)
             {

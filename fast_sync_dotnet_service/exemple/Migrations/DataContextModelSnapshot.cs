@@ -21,7 +21,7 @@ namespace exemple.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("exemple.Model.Item", b =>
+            modelBuilder.Entity("exemple.Item.Item", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -75,7 +75,7 @@ namespace exemple.Migrations
                     b.ToTable("SyncMetadatas");
                 });
 
-            modelBuilder.Entity("exemple.Model.Item", b =>
+            modelBuilder.Entity("exemple.Item.Item", b =>
                 {
                     b.HasOne("fast_sync_core.implementation.metadata.SyncMetadata", "Metadata")
                         .WithMany()

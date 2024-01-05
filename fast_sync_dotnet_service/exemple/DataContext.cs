@@ -1,4 +1,4 @@
-﻿using exemple.Model;
+﻿using exemple.Item;
 using Microsoft.EntityFrameworkCore;
 
 namespace fast_sync_entity_framework_dao.data

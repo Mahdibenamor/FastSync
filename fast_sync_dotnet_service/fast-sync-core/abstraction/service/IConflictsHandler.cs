@@ -4,7 +4,7 @@
 
     public interface IConflictsHandler
     {
-        Task<T> ResolveConflicts<T>(IWithMetaData oblObject, IWithMetaData newObject) where T: IWithMetaData;
+        Task<T> ResolveConflicts<T>(T serverObject, T clientObject) where T : IWithMetaData;
         ConflictsResolutionStrategyEnum GetConflictsResolutionStrategy();
     }
 }

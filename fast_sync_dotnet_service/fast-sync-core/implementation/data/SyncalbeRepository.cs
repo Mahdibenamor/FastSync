@@ -1,5 +1,4 @@
 ﻿using fast_sync_core.abstraction.data;
-using System;
 using System.Linq.Expressions;
 
 namespace fast_sync_core.implementation.data
@@ -8,14 +7,12 @@ namespace fast_sync_core.implementation.data
 
     public class SyncableRepository<T> : ISyncableRepository<T> where T : IWithMetaData
     {
-        private ISyncVersionManager SyncVersionManager { get; } = FastSync.GetInstance().GetSyncVersionManager();
+        private ISyncVersionManager SyncVersionManager { get; } = FastSync.GetSyncVersionManager();
         public ISyncableDataSource<T> DataSource { get; }
-        private string Type { get; }
 
-        public SyncableRepository(ISyncableDataSource<T> dataSource, string type)
+        public SyncableRepository(ISyncableDataSource<T> dataSource)
         {
             DataSource = dataSource;
-            Type = type;
         }
 
         public async Task<T> Add(T entity)
@@ -64,10 +61,10 @@ namespace fast_sync_core.implementation.data
         public async Task<List<T>> AddMany(List<T> entities, ISyncMetadata metadata)
         {
             var computedSyncZone = metadata.ComputeSyncZone(FastSync.GetInstance().GetSyncZoneConfiguration(metadata.Type));
-            var lastKnownVersion = await SyncVersionManager.GetLastSyncVersion(Type, computedSyncZone);
+            var lastKnownVersion = await SyncVersionManager.GetLastSyncVersion(typeof(T).Name, computedSyncZone);
             var incrementedEntities = IncrementObjectsVersion(entities, ++lastKnownVersion, computedSyncZone);
             incrementedEntities = await DataSource.AddMany(incrementedEntities);
-            await SyncVersionManager.IncrementSyncVersion(Type, computedSyncZone);
+            await SyncVersionManager.IncrementSyncVersion(typeof(T).Name, computedSyncZone);
             return incrementedEntities;
         }
 
@@ -76,17 +73,17 @@ namespace fast_sync_core.implementation.data
             List<T> mergedList = new List<T>();
             var computedSyncZone = metadata.ComputeSyncZone(FastSync.GetInstance().GetSyncZoneConfiguration(metadata.Type));
             mergedList.AddRange(await DoResolveConflictsObject(entities));
-            var lastKnownVersion = await SyncVersionManager.GetLastSyncVersion(Type, computedSyncZone);
+            var lastKnownVersion = await SyncVersionManager.GetLastSyncVersion(typeof(T).Name, computedSyncZone);
             mergedList = IncrementObjectsVersion(mergedList, ++lastKnownVersion, computedSyncZone);
             mergedList = await DataSource.UpdateMany(mergedList);
-            await SyncVersionManager.IncrementSyncVersion(Type, computedSyncZone);
+            await SyncVersionManager.IncrementSyncVersion(typeof(T).Name, computedSyncZone);
             return mergedList;
         }
 
         public async Task<List<T>> RemoveMany(List<T> entities, ISyncMetadata metadata)
         {
             var computedSyncZone = metadata.ComputeSyncZone(FastSync.GetInstance().GetSyncZoneConfiguration(metadata.Type));
-            var lastKnownVersion = await SyncVersionManager.GetLastSyncVersion(Type, computedSyncZone);
+            var lastKnownVersion = await SyncVersionManager.GetLastSyncVersion(typeof(T).Name, computedSyncZone);
             entities = IncrementObjectsVersion(entities, ++lastKnownVersion, computedSyncZone);
             entities = DoMarkObjectsAsDeleted(entities);
             entities = await UpdateMany(entities, metadata);
@@ -122,7 +119,7 @@ namespace fast_sync_core.implementation.data
 
         private async Task<List<T>> ResolveConflicts(List<T> oldList, List<T> newList)
         {
-            var conflictsHandler = FastSync.GetInstance().GetObjectConflictsHandler(Type);
+            var conflictsHandler = FastSync.GetInstance().GetObjectConflictsHandler(typeof(T).Name);
             if (conflictsHandler.GetConflictsResolutionStrategy() == ConflictsResolutionStrategyEnum.LastWriterWins)
             {
                 return newList;

@@ -1,9 +1,11 @@
-﻿using fast_sync_core.abstraction;
-using fast_sync_core.abstraction.data;
+﻿using fast_sync_core.abstraction.data;
+using fast_sync_core.implementation.data;
+using fast_sync_core.implementation.metadata;
 
 namespace fast_sync_core.implementation
 {
     using IWithMetaData = ISyncableObject<ISyncMetadata>;
+    using WithMetaData = SyncableObject<SyncMetadata>;
 
     public class SyncManager : ISyncManager
     {
@@ -16,7 +18,7 @@ namespace fast_sync_core.implementation
             var objectTypes = payload.GetSyncedTypes();
             foreach (var type in objectTypes)
             {
-                var objects = payload.GetObjectsForType(type);
+                List<IWithMetaData> objects = payload.GetObjectsForType(type);
                 var newObjects = objects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Add).ToList();
                 var updatedObjects = objects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Update).ToList();
                 var deletedObjects = objects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Delete).ToList();

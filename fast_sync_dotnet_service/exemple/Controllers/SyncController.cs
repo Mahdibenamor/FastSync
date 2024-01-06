@@ -24,7 +24,7 @@ namespace exemple.Controllers
             try
             {
                 ISyncManager syncManager = FastSync.GetSyncManager();
-                //await syncManager.ProcessPush(syncPayload);
+                await syncManager.ProcessPush(syncPayload);
 
                // return this.success(res, { "result":"push was done with success"});
             }

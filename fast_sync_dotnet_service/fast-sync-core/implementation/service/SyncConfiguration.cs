@@ -1,5 +1,6 @@
 ﻿using fast_sync_core.abstraction;
 using fast_sync_core.abstraction.data;
+using System.Xml.Schema;
 
 namespace fast_sync_core.implementation
 {
@@ -9,6 +10,7 @@ namespace fast_sync_core.implementation
     {
         private SyncVersionManager? _syncVersionManager;
         private Dictionary<string, object> Container = new Dictionary<string, object>();
+        private Dictionary<string, Type> TypesContainer = new Dictionary<string, Type>();
 
         public SyncVersionManager SyncVersionManager
         {
@@ -32,23 +34,34 @@ namespace fast_sync_core.implementation
             SetSyncManager(new SyncManager());
         }
 
-        public void SetSyncableObject<T>(string entityType, ISyncableRepository<T> repository, SyncZoneRestrictionEnum? syncZoneRestriction, IConflictsHandler? conflictsHandler = null) where T : IWithMetaData
+        public void SetSyncableObject<T>(Type entityType, ISyncableRepository<T> repository, SyncZoneRestrictionEnum? syncZoneRestriction, IConflictsHandler? conflictsHandler = null) where T : IWithMetaData
         {
+            SetObjectType(entityType);
             SetSyncZoneTypeConfiguration(entityType, syncZoneRestriction ?? SyncZoneRestrictionEnum.Global);
             SetObjectConflictsHandler(entityType, conflictsHandler);
             SetObjectRepository(entityType, repository);
         }
         
-        public void SetObjectRepository<T>(string entityType, ISyncableRepository<T> repository) where T : IWithMetaData
+        public void SetObjectRepository<T>(Type entityType, ISyncableRepository<T> repository) where T : IWithMetaData
         {
             if (repository != null)
             {
                 Container[entityType + Constants.RepositoryName] = repository;
             }
             else
-            {
+            {   
                 throw new InvalidOperationException($"Repository of the {entityType} is not configured well, please check the configuration");
             }
+        }
+
+        public void SetObjectType(Type entityType)
+        {
+            TypesContainer[entityType.Name.ToString()] = entityType;
+        }
+
+        public Type getObjectType(string entityType)
+        {
+           return TypesContainer[entityType];
         }
 
         public IConflictsHandler GetObjectConflictsHandler(string type)
@@ -60,7 +73,7 @@ namespace fast_sync_core.implementation
             throw new InvalidOperationException($"ConflictsHandler of the {type} is not configured well, please check the configuration");
         }
 
-        public void SetObjectConflictsHandler(string entityType, IConflictsHandler? conflictsHandler)
+        public void SetObjectConflictsHandler(Type entityType, IConflictsHandler? conflictsHandler)
         {
             if (conflictsHandler != null)
             {
@@ -72,7 +85,7 @@ namespace fast_sync_core.implementation
             }
         }
 
-        public void SetSyncZoneTypeConfiguration(string entityType, SyncZoneRestrictionEnum syncZoneRestriction)
+        public void SetSyncZoneTypeConfiguration(Type entityType, SyncZoneRestrictionEnum syncZoneRestriction)
         {
             Container[entityType + Constants.SyncZoneRestriction] = syncZoneRestriction;
         }

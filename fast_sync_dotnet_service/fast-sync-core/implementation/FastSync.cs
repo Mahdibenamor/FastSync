@@ -39,8 +39,13 @@ namespace fast_sync_core.implementation
         public static void SetSyncableObject<T>(ISyncableRepository<T> repository, IConflictsHandler? conflictsHandler = null, SyncZoneRestrictionEnum syncZoneRestriction = SyncZoneRestrictionEnum.Global) where T : IWithMetaData
         {
             var syncConfiguration = GetSyncConfiguration();
-            syncConfiguration.SetSyncableObject(typeof(T).Name, repository, syncZoneRestriction, conflictsHandler);
+            syncConfiguration.SetSyncableObject(typeof(T), repository, syncZoneRestriction, conflictsHandler);
             SetSyncConfiguration(syncConfiguration);
+        }
+
+        public static Type getObjectType(string entityType)
+        {
+            return GetSyncConfiguration().getObjectType(entityType);
         }
 
         public IConflictsHandler GetObjectConflictsHandler(string type)

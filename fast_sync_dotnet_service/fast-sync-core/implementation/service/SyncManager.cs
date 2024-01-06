@@ -1,6 +1,7 @@
 ﻿using fast_sync_core.abstraction.data;
 using fast_sync_core.implementation.data;
 using fast_sync_core.implementation.metadata;
+using System.Text.Json;
 
 namespace fast_sync_core.implementation
 {
@@ -18,17 +19,34 @@ namespace fast_sync_core.implementation
             var objectTypes = payload.GetSyncedTypes();
             foreach (var type in objectTypes)
             {
-                List<IWithMetaData> objects = payload.GetObjectsForType(type);
-                var newObjects = objects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Add).ToList();
-                var updatedObjects = objects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Update).ToList();
-                var deletedObjects = objects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Delete).ToList();
-                var objectRepository = FastSync.GetInstance().GetObjectRepository<IWithMetaData>(type);
-                if (newObjects.Any())
-                    await objectRepository.AddMany(newObjects, payload.GetTypeMetadata(type));
-                if (updatedObjects.Any())
-                    await objectRepository.UpdateMany(updatedObjects, payload.GetTypeMetadata(type));
-                if (deletedObjects.Any())
-                    await objectRepository.RemoveMany(deletedObjects, payload.GetTypeMetadata(type));
+                List<object> objects = payload.GetObjectsForType(type);
+                List<WithMetaData> castedObjects = new List<WithMetaData>();
+                foreach (var obj in objects)
+                {
+                    Type objectType = FastSync.getObjectType(type);
+                    JsonElement jsonElement = (JsonElement)obj;
+                    var instance = Activator.CreateInstance(FastSync.getObjectType(type));
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    object instanceCreated = JsonSerializer.Deserialize(jsonElement.GetRawText(), objectType, options);
+                    var test = instanceCreated.GetType();
+                    var test2 = instanceCreated.GetType().ToString();
+                    FastSync.getObjectType(type);
+
+                }
+                //List<Item> objects = new List<Item>() { new Item() { Name = "name", Description = "description" } };
+                var newObjects = castedObjects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Add).ToList();
+                var updatedObjects = castedObjects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Update).ToList();
+                var deletedObjects = castedObjects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Delete).ToList();
+                //var objectRepository = FastSync.GetInstance().GetObjectRepository<Item>(type);
+                //if (newObjects.Any())
+                //    await objectRepository.AddMany(newObjects, payload.GetTypeMetadata(type));
+                //if (updatedObjects.Any())
+                //    await objectRepository.UpdateMany(updatedObjects, payload.GetTypeMetadata(type));
+                //if (deletedObjects.Any())
+                //    await objectRepository.RemoveMany(deletedObjects, payload.GetTypeMetadata(type));
             }
         }
 

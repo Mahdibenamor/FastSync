@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "fast-sync-entity-framework-dao": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:60491;http://localhost:60492"
+    }
+  }
+}

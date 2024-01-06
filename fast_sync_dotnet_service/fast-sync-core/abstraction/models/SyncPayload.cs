@@ -1,7 +1,7 @@
-﻿using fast_sync_core.implementation.data;
+﻿using fast_sync_core.implementation;
+using fast_sync_core.implementation.data;
 using fast_sync_core.implementation.metadata;
-using System.Collections.Generic;
-using System.Linq;
+using System.Text.Json;
 
 namespace fast_sync_core.abstraction.data
 {
@@ -43,19 +43,28 @@ namespace fast_sync_core.abstraction.data
             }
         }
 
-        public List<object> GetObjectsForType(string type)
+        public List<IWithMetaData> GetObjectsForType(string type)
         {
-            //List<T> data = new List<T>();
-            //foreach (WithMetaData obj in Data[type])
-            //{
-            //    T Iobj = obj as IWithMetaData;
-            //    data.Add(Iobj);
-
-            //}
-            //return data;
-            List<object> data = Data[type];
+            List<IWithMetaData> data = new List<IWithMetaData>();
+            foreach (var obj in Data[type])
+            {
+                JsonElement jsonElement = (JsonElement)obj;
+                JsonSerializerOptions options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                object? instanceCreated = null;
+                if (jsonElement.ValueKind != JsonValueKind.Undefined)
+                {
+                    Type elementType = FastSync.getObjectType(type);
+                    instanceCreated = JsonSerializer.Deserialize(jsonElement.GetRawText(), elementType, options);
+                }
+                if (instanceCreated != null)
+                {
+                    data.Add((IWithMetaData)instanceCreated);
+                }
+            }
             return data;
-            //return Data.ContainsKey(type) ? Data[type] as List<T> : new List<T>();
 
         }   
 
@@ -76,7 +85,7 @@ namespace fast_sync_core.abstraction.data
 
         private SyncMetadata BuildTypeMetadata<T>(string type, string syncZone) where T : IWithMetaData
         {
-            List<object> objects = GetObjectsForType(type);
+            List<IWithMetaData> objects = GetObjectsForType(type);
             List<WithMetaData> castedObjects = new List<WithMetaData>();
             foreach (var obj in objects)
             {

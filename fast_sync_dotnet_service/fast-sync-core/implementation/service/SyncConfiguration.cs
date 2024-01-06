@@ -61,7 +61,11 @@ namespace fast_sync_core.implementation
 
         public Type getObjectType(string entityType)
         {
-           return TypesContainer[entityType];
+            if (TypesContainer.TryGetValue(entityType, out Type? type))
+            {
+                return type;
+            }
+            throw new InvalidOperationException($"{type} is not configured well, please check the configuration");
         }
 
         public IConflictsHandler GetObjectConflictsHandler(string type)

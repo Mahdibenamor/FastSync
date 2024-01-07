@@ -9,7 +9,7 @@ namespace fast_sync_core.implementation
     {
         private SyncableMetadataRepository _syncMetadataRepository;
 
-        public SyncVersionManager(ISyncableDataSource<ISyncMetadata> syncMetadataDataSource)
+        public SyncVersionManager(ISyncableDataSource<SyncMetadata> syncMetadataDataSource)
         {
             _syncMetadataRepository = new SyncableMetadataRepository(syncMetadataDataSource);
 
@@ -33,8 +33,8 @@ namespace fast_sync_core.implementation
 
         public async Task<int> IncrementSyncVersion(string entityType, string syncZone)
         {
-            List<ISyncMetadata> syncMetadataList = await _syncMetadataRepository.Query((metadata) => metadata.Type == entityType && metadata.SyncZone == syncZone);
-            ISyncMetadata syncMetadata;
+            List<SyncMetadata> syncMetadataList = await _syncMetadataRepository.Query((metadata) => metadata.Type == entityType && metadata.SyncZone == syncZone);
+            SyncMetadata syncMetadata;
             if (syncMetadataList != null && syncMetadataList.Count != 0)
             {
                 syncMetadata = syncMetadataList[0];
@@ -48,7 +48,7 @@ namespace fast_sync_core.implementation
             return syncMetadata.Version;
         }
 
-        private async Task<ISyncMetadata> InitObjectMetadata(string entityType, string syncZone)
+        private async Task<SyncMetadata> InitObjectMetadata(string entityType, string syncZone)
         {
             var syncMetadataList = await _syncMetadataRepository.Query((metadata) => metadata.Type == entityType && metadata.SyncZone == syncZone);
             if (syncMetadataList == null || syncMetadataList.Count == 0)

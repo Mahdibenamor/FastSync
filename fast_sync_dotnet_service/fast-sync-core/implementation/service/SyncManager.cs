@@ -25,7 +25,7 @@ namespace fast_sync_core.implementation
                 var updatedObjects = objects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Update).ToList();
                 var deletedObjects = objects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Delete).ToList();
 
-                var objectRepository = FastSync.GetInstance().GetObjectRepository<IWithMetaData>(type);
+                ISyncableRepository<IWithMetaData> objectRepository = (ISyncableRepository<IWithMetaData>)FastSync.GetObjectRepository<IWithMetaData>(type);
                 if (newObjects.Any())
                     await objectRepository.AddMany(newObjects, payload.GetTypeMetadata(type));
                 if (updatedObjects.Any())
@@ -44,7 +44,7 @@ namespace fast_sync_core.implementation
             var fastSync = FastSync.GetInstance();
             foreach (var type in requestedTypes)
             {
-                var objectRepository = fastSync.GetObjectRepository<IWithMetaData>(type);
+                ISyncableRepository<IWithMetaData> objectRepository = (ISyncableRepository<IWithMetaData>) FastSync.GetObjectRepository<IWithMetaData>(type);
                 var typeMetadata = metadata.GetTypeMetadata(type);
                 List<IWithMetaData> objects = await objectRepository.FetchMany(metadata.GetTypeMetadata(type));
                 syncPayload.PushObjects(type, objects, typeMetadata.ComputeSyncZone(fastSync.GetSyncZoneConfiguration(type)));

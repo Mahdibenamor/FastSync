@@ -36,10 +36,10 @@ namespace fast_sync_core.implementation
             _instance._syncConfiguration = syncConfiguration;
         }
 
-        public static void SetSyncableObject<T>(ISyncableRepository<T> repository, IConflictsHandler? conflictsHandler = null, SyncZoneRestrictionEnum syncZoneRestriction = SyncZoneRestrictionEnum.Global) where T : IWithMetaData
+        public static void SetSyncableObject<T>(Type type, ISyncableRepository<T> repository, IConflictsHandler? conflictsHandler = null, SyncZoneRestrictionEnum syncZoneRestriction = SyncZoneRestrictionEnum.Global) where T : IWithMetaData
         {
             var syncConfiguration = GetSyncConfiguration();
-            syncConfiguration.SetSyncableObject(typeof(T), repository, syncZoneRestriction, conflictsHandler);
+            syncConfiguration.SetSyncableObject(type, repository, syncZoneRestriction, conflictsHandler);
             SetSyncConfiguration(syncConfiguration);
         }
 
@@ -53,7 +53,7 @@ namespace fast_sync_core.implementation
             return GetSyncConfiguration().GetObjectConflictsHandler(type);
         }
 
-        public ISyncableRepository<T> GetObjectRepository<T>(string type) where T : IWithMetaData
+        public static object GetObjectRepository<T>(string type) where T : IWithMetaData
         {
             return GetSyncConfiguration().GetObjectRepository<T>(type);
         }

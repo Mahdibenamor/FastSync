@@ -10,7 +10,7 @@
         public void SetObjectType(Type entityType);
         public Type getObjectType(string entityType);
         IConflictsHandler GetObjectConflictsHandler(string type);
-        ISyncableRepository<T> GetObjectRepository<T>(string type) where T : IWithMetaData;
+        object GetObjectRepository<T>(string type) where T : IWithMetaData;
         ISyncManager GetSyncManager();
     }
 }

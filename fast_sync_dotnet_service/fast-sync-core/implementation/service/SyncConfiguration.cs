@@ -46,7 +46,7 @@ namespace fast_sync_core.implementation
         {
             if (repository != null)
             {
-                Container[entityType + Constants.RepositoryName] = repository;
+                Container[entityType.Name + Constants.RepositoryName] = repository;
             }
             else
             {   
@@ -56,7 +56,7 @@ namespace fast_sync_core.implementation
 
         public void SetObjectType(Type entityType)
         {
-            TypesContainer[entityType.Name.ToString()] = entityType;
+            TypesContainer[entityType.Name] = entityType;
         }
 
         public Type getObjectType(string entityType)
@@ -81,7 +81,7 @@ namespace fast_sync_core.implementation
         {
             if (conflictsHandler != null)
             {
-                Container[entityType + Constants.ConflictsHandlerName] = conflictsHandler;
+                Container[entityType.Name + Constants.ConflictsHandlerName] = conflictsHandler;
             }
             else
             {
@@ -91,7 +91,7 @@ namespace fast_sync_core.implementation
 
         public void SetSyncZoneTypeConfiguration(Type entityType, SyncZoneRestrictionEnum syncZoneRestriction)
         {
-            Container[entityType + Constants.SyncZoneRestriction] = syncZoneRestriction;
+            Container[entityType.Name + Constants.SyncZoneRestriction] = syncZoneRestriction;
         }
 
         public SyncZoneRestrictionEnum GetSyncZoneConfiguration(string type)
@@ -103,11 +103,11 @@ namespace fast_sync_core.implementation
             throw new InvalidOperationException($"SyncZoneRestriction of the {type} should not be undefined");
         }
 
-        public ISyncableRepository<T> GetObjectRepository<T>(string type) where T : IWithMetaData
+        public object GetObjectRepository<T>(string type) where T : IWithMetaData
         {
             if (Container.TryGetValue(type + Constants.RepositoryName, out var repository))
             {
-                return (ISyncableRepository<T>)repository;
+                return repository;
             }
             throw new InvalidOperationException($"Repository of the {type} is not configured well, please check the configuration");
         }

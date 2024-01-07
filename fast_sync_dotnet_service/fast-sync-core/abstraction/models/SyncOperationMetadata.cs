@@ -4,7 +4,7 @@ namespace fast_sync_core.abstraction.data
 {
     public class SyncOperationMetadata
     {
-        public Dictionary<string, SyncMetadata> Metadata { get; private set; }
+        public Dictionary<string, SyncMetadata> Metadata { get; set; }
 
         public SyncOperationMetadata()
         {

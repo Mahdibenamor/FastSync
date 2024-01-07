@@ -2,6 +2,7 @@
 using fast_sync_core.implementation.data;
 using fast_sync_core.implementation.metadata;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace fast_sync_core.abstraction.data
 {
@@ -11,6 +12,7 @@ namespace fast_sync_core.abstraction.data
     public class SyncPayload
     {
         public Dictionary<string, List<object>> Data { get; set; }
+
         public SyncOperationMetadata OperationMetadata { get; set; }
 
         public SyncPayload()

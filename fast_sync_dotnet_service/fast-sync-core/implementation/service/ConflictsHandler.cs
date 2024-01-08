@@ -1,18 +1,16 @@
-﻿using fast_sync_core.abstraction;
-using fast_sync_core.abstraction.data;
+﻿using fast_sync_core.abstraction.data;
+using fast_sync_core.implementation.data;
 
 namespace fast_sync_core.implementation
 {
-    using IWithMetaData = ISyncableObject<ISyncMetadata>;
-
     public class ConflictsHandler : IConflictsHandler
     {
         private readonly ConflictsResolutionStrategyEnum _resolutionStrategy;
-        private readonly Func<IWithMetaData, IWithMetaData, Task<IWithMetaData>> _conflictsResolutionFunction;
+        private readonly Func<SyncableObject, SyncableObject, Task<SyncableObject>> _conflictsResolutionFunction;
 
         public ConflictsHandler(
             ConflictsResolutionStrategyEnum resolutionStrategy = ConflictsResolutionStrategyEnum.LastWriterWins, 
-            Func<IWithMetaData, IWithMetaData, Task<IWithMetaData>> conflictsResolutionFunction = null
+            Func<SyncableObject, SyncableObject, Task<SyncableObject>> conflictsResolutionFunction = null
             )
         {
             _resolutionStrategy = resolutionStrategy;
@@ -29,7 +27,7 @@ namespace fast_sync_core.implementation
             return _resolutionStrategy;
         }
 
-        public async Task<T> ResolveConflicts<T>(T serverObject, T clientObject) where T : IWithMetaData
+        public async Task<T> ResolveConflicts<T>(T serverObject, T clientObject) where T : SyncableObject
         {
             if (_resolutionStrategy == ConflictsResolutionStrategyEnum.LastWriterWins)
             {
@@ -51,7 +49,7 @@ namespace fast_sync_core.implementation
                 int serverVersion = serverObject.Metadata.Version;
                 if (Math.Abs(clientVersion - serverVersion) != 1 && serverVersion >= clientVersion)
                 {
-                    IWithMetaData resolvedObject = await _conflictsResolutionFunction.Invoke(serverObject, clientObject);
+                    SyncableObject resolvedObject = await _conflictsResolutionFunction.Invoke(serverObject, clientObject);
                     resolvedObject.Metadata = clientObject.Metadata;
                     return (T)resolvedObject;
                 } 

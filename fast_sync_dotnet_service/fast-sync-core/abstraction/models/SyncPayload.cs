@@ -1,18 +1,12 @@
-﻿using fast_sync_core.implementation;
-using fast_sync_core.implementation.data;
+﻿using fast_sync_core.implementation.data;
 using fast_sync_core.implementation.metadata;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace fast_sync_core.abstraction.data
 {
-    using WithMetaData = SyncableObject<SyncMetadata>;
-    using IWithMetaData = ISyncableObject<ISyncMetadata>;
-
     public class SyncPayload
     {
         public Dictionary<string, List<object>> Data { get; set; }
-
         public SyncOperationMetadata OperationMetadata { get; set; }
 
         public SyncPayload()
@@ -31,51 +25,55 @@ namespace fast_sync_core.abstraction.data
             return payload;
         }
 
-        public  void PushObjects<T>(string type, List<T> entities, string syncZone) where T : IWithMetaData
+        //public  void PushObjects<T>(string type, List<T> entities, string syncZone) where T : SyncableObject
+        //{
+        //    if (entities.Count > 0)
+        //    {
+        //        if (!Data.ContainsKey(type))
+        //        {
+        //            Data[type] = new List<object>();
+        //        }
+        //        Data[type].AddRange(entities.Cast<SyncableObject>());
+        //        var globalSyncVersion =  BuildTypeMetadata<T>(type: type,syncZone: syncZone,version: GetObjectsForType(type).Max(obj => obj.Metadata.Version));
+        //        OperationMetadata.SetMetadata(type, globalSyncVersion);
+        //    }
+        //}
+
+        public List<object> GetObjectsForType(string type)
         {
-            if (entities.Count > 0)
-            {
-                if (!Data.ContainsKey(type))
-                {
-                    Data[type] = new List<object>();
-                }
-                Data[type].AddRange(entities.Cast<WithMetaData>());
-                var globalSyncVersion =  BuildTypeMetadata<T>(type, syncZone);
-                OperationMetadata.SetMetadata(type, globalSyncVersion);
-            }
+            return Data.ContainsKey(type) ? Data[type] : [];
         }
 
-        public List<IWithMetaData> GetObjectsForType(string type)
-        {
-            List<IWithMetaData> data = new List<IWithMetaData>();
-            foreach (var obj in Data[type])
-            {
-                JsonElement jsonElement = (JsonElement)obj;
-                JsonSerializerOptions options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                object? instanceCreated = null;
-                if (jsonElement.ValueKind != JsonValueKind.Undefined)
-                {
-                    Type elementType = FastSync.getObjectType(type);
-                    instanceCreated = JsonSerializer.Deserialize(jsonElement.GetRawText(), elementType, options);
-                }
-                if (instanceCreated != null)
-                {
-                    data.Add((IWithMetaData)instanceCreated);
-                }
-            }
-            return data;
-
-        }   
+        //public List<SyncableObject> GetObjectsForType(string type)
+        //{
+        //    List<SyncableObject> data = new List<SyncableObject>();
+        //    foreach (var obj in Data[type])
+        //    {
+        //        JsonElement jsonElement = (JsonElement)obj;
+        //        JsonSerializerOptions options = new JsonSerializerOptions
+        //        {
+        //            PropertyNameCaseInsensitive = true
+        //        };
+        //        object? instanceCreated = null;
+        //        if (jsonElement.ValueKind != JsonValueKind.Undefined)
+        //        {
+        //            Type elementType = FastSync.getObjectType(type);
+        //            instanceCreated = JsonSerializer.Deserialize(jsonElement.GetRawText(), elementType, options);
+        //        }
+        //        if (instanceCreated != null)
+        //        {
+        //            data.Add((SyncableObject)instanceCreated);
+        //        }
+        //    }
+        //    return data;
+        //}   
 
         public List<string> GetSyncedTypes()
         {
             return Data.Keys.ToList();
         }
 
-        public ISyncMetadata GetTypeMetadata(string type)
+        public SyncMetadata GetTypeMetadata(string type)
         {
             var metadata = OperationMetadata.GetTypeMetadata(type);
             if (metadata != null)
@@ -85,21 +83,75 @@ namespace fast_sync_core.abstraction.data
             throw new InvalidOperationException("Metadata of each synced type should be specified, please check how you build SyncPayload");
         }
 
-        private SyncMetadata BuildTypeMetadata<T>(string type, string syncZone) where T : IWithMetaData
+        private SyncMetadata BuildTypeMetadata<T>(string type, string syncZone, int version) where T : SyncableObject
         {
-            List<IWithMetaData> objects = GetObjectsForType(type);
-            List<WithMetaData> castedObjects = new List<WithMetaData>();
-            foreach (var obj in objects)
-            {
-                castedObjects.Add((WithMetaData)obj);
-            }
-            var newVersion = castedObjects.Max(obj => obj.Metadata.Version);
             SyncMetadata syncMetadata = new SyncMetadata();
             syncMetadata.Id = type;
             syncMetadata.SyncZone = syncZone;
-            syncMetadata.Version = newVersion;
+            syncMetadata.Version = version;
             syncMetadata.Type = type;
             return syncMetadata;
+        }
+    }
+
+    public class JsonSyncPayloadObjects
+    {
+        public List<object> AddedNew { get; set; }
+        public List<object> Updated { get; set; }
+        public List<object> Deleted { get; set; }
+
+        public JsonSyncPayloadObjects()
+        {
+            AddedNew = new List<object>();
+            Updated = new List<object>();
+            Deleted = new List<object>();
+        }
+
+        private void pushAddedNewObject(object obj)
+        {
+           AddedNew.Add(obj);
+        }
+        private void pushUpdatedObject(object obj)
+        {
+            Updated.Add(obj);
+        }
+        private void pushDeletedObject(object obj)
+        {
+            Deleted.Add(obj);
+        }
+
+        public JsonSyncPayloadObjects BuildJsonSyncPayload(List<object> data)
+        {
+
+            foreach (var obj in data)
+            {
+                JsonElement jsonElement = (JsonElement)obj;
+                if (jsonElement.TryGetProperty("metadata", out JsonElement metaDataJsonElement))
+                {
+                    if (metaDataJsonElement.TryGetProperty("syncOperation", out JsonElement syncOperationJsonElement))
+                    {
+                        if (syncOperationJsonElement.ValueKind == JsonValueKind.Number)
+                        {
+                            if (int.TryParse(syncOperationJsonElement.ToString(), out int syncOperation))
+                            {
+                                if (syncOperation == 0)
+                                {
+                                    pushAddedNewObject(obj);
+                                }
+                                if (syncOperation == 1)
+                                {
+                                    pushUpdatedObject(obj);
+                                }
+                                if (syncOperation == 2)
+                                {
+                                    pushDeletedObject(obj);
+                                }
+                            }
+                        }
+                    }
+                }
+            }           
+            return this;
         }
     }
 }

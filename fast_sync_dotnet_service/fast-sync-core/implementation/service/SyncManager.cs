@@ -1,14 +1,10 @@
 ﻿using fast_sync_core.abstraction.data;
 using fast_sync_core.implementation.data;
-using fast_sync_core.implementation.metadata;
-using System.Collections.Generic;
-using System.Text.Json;
+using System.Reflection;
+
 
 namespace fast_sync_core.implementation
 {
-    using IWithMetaData = ISyncableObject<ISyncMetadata>;
-    using WithMetaData = SyncableObject<SyncMetadata>;
-
     public class SyncManager : ISyncManager
     {
         public SyncManager() { }
@@ -20,19 +16,43 @@ namespace fast_sync_core.implementation
             var objectTypes = payload.GetSyncedTypes();
             foreach (var type in objectTypes)
             {
-                List<IWithMetaData> objects = payload.GetObjectsForType(type);
-                var newObjects = objects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Add).ToList();
-                var updatedObjects = objects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Update).ToList();
-                var deletedObjects = objects.Where(obj => obj?.Metadata?.SyncOperation == SyncOperationEnum.Delete).ToList();
+                List<object> objects = payload.GetObjectsForType(type);
+                object objectRepository = FastSync.GetObjectRepository<SyncableObject>(type);
+                JsonSyncPayloadObjects jsonSyncPayloadObjects = new JsonSyncPayloadObjects().BuildJsonSyncPayload(objects);
 
-                ISyncableRepository<IWithMetaData> objectRepository = (ISyncableRepository<IWithMetaData>)FastSync.GetObjectRepository<IWithMetaData>(type);
-                if (newObjects.Any())
-                    await objectRepository.AddMany(newObjects, payload.GetTypeMetadata(type));
-                if (updatedObjects.Any())
-                    await objectRepository.UpdateMany(updatedObjects, payload.GetTypeMetadata(type));
-                if (deletedObjects.Any())
-                    await objectRepository.RemoveMany(deletedObjects, payload.GetTypeMetadata(type));
+                if (jsonSyncPayloadObjects.AddedNew.Any())
+                {
+                    var result = await _repositoryExecutor(repository: objectRepository, methodName: "AddMany", inputs:[ jsonSyncPayloadObjects.AddedNew, payload.GetTypeMetadata(type) ]);
+                }
+                if (jsonSyncPayloadObjects.Updated.Any())
+                {
+                    var result = await _repositoryExecutor(repository: objectRepository, methodName: "AddMany", inputs: [jsonSyncPayloadObjects.AddedNew, payload.GetTypeMetadata(type)]);
+                }
+                if (jsonSyncPayloadObjects.Deleted.Any())
+                {
+                    var result = await _repositoryExecutor(repository: objectRepository, methodName: "AddMany", inputs: [jsonSyncPayloadObjects.AddedNew, payload.GetTypeMetadata(type)]);
+                }
             }
+        }
+
+        private async Task<object> _repositoryExecutor(object repository, string methodName, object[] inputs)
+        {
+            object? result = null;
+            MethodInfo? addManyInfo = repository.GetType().GetMethod(methodName);
+            if (addManyInfo != null)
+            {
+                Task? addManyTask = addManyInfo.Invoke(repository, inputs) as Task;
+                if (addManyTask != null)
+                {
+                    await addManyTask;
+                    var resultProperty = addManyTask.GetType().GetProperty("Result");
+                    if (resultProperty != null)
+                    {
+                         result = resultProperty.GetValue(addManyTask);
+                    }
+                }
+            }
+            return result;
         }
 
         public async Task<SyncPayload> ProcessPull(SyncOperationMetadata metadata)
@@ -44,10 +64,10 @@ namespace fast_sync_core.implementation
             var fastSync = FastSync.GetInstance();
             foreach (var type in requestedTypes)
             {
-                ISyncableRepository<IWithMetaData> objectRepository = (ISyncableRepository<IWithMetaData>) FastSync.GetObjectRepository<IWithMetaData>(type);
+                object objectRepository =  FastSync.GetObjectRepository<SyncableObject>(type);
                 var typeMetadata = metadata.GetTypeMetadata(type);
-                List<IWithMetaData> objects = await objectRepository.FetchMany(metadata.GetTypeMetadata(type));
-                syncPayload.PushObjects(type, objects, typeMetadata.ComputeSyncZone(fastSync.GetSyncZoneConfiguration(type)));
+                //List<SyncableObject> objects = await objectRepository.FetchMany(metadata.GetTypeMetadata(type));
+                //syncPayload.PushObjects(type, objects, typeMetadata.ComputeSyncZone(fastSync.GetSyncZoneConfiguration(type)));
             }
             return syncPayload;
         }

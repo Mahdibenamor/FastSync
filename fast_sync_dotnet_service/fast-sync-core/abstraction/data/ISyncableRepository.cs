@@ -1,14 +1,13 @@
 ﻿using fast_sync_core.implementation.data;
-using fast_sync_core.implementation.metadata;
 
 namespace fast_sync_core.abstraction.data
 {
-    using IWithMetaData = ISyncableObject<ISyncMetadata>;
-    public interface ISyncableRepository<T> : IBaseRepository<T> where T :  IWithMetaData
+    public interface ISyncableRepository<T> : IBaseRepository<T>
+         where T : SyncableObject
     {
-        Task<List<T>> UpdateMany(List<T> entities, ISyncMetadata metadata);
-        Task<List<T>> AddMany(List<T> entities, ISyncMetadata metadata);
-        Task<List<T>> RemoveMany(List<T> entities, ISyncMetadata metadata);
-        Task<List<T>> FetchMany(ISyncMetadata metadata);
+        Task<List<T>> UpdateMany(List<object> jsonEntities, ISyncMetadata metadata);
+        Task<List<T>> AddMany(List<object> jsonEntities, ISyncMetadata metadata);
+        Task<List<T>> RemoveMany(List<object> jsonEntities, ISyncMetadata metadata);
+        Task<List<T>> FetchMany(ISyncMetadata jsonEntities);
     }
 }

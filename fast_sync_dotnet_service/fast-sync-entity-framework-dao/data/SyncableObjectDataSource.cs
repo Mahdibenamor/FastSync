@@ -1,9 +1,12 @@
 ﻿using fast_sync_core.abstraction.data;
+using fast_sync_core.implementation.data;
+using fast_sync_core.implementation.metadata;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+
 namespace fast_sync_entity_framework_dao.data
 {
-    public class SyncableObjectDataSource<T> : ISyncableDataSource<T> 
+    public class SyncableObjectDataSource<T> : ISyncableDataSource<T>
         where T : class, IWithId
     {
         private readonly DbContext _context;
@@ -13,7 +16,13 @@ namespace fast_sync_entity_framework_dao.data
         {
             _context = dataContext;
             _dbSet = _context.Set<T>();
+        }
 
+        public async Task<T> Add(T entity)
+        {
+            await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<List<T>> AddMany(List<T> entities)
@@ -23,17 +32,17 @@ namespace fast_sync_entity_framework_dao.data
             return entities;
         }
 
-        public async Task<List<T>> Query(Expression<Func<T, bool>> filter)
+        public async Task<int> Count()
         {
-            List<T> filtertedList = await _dbSet.Where(filter).ToListAsync();
-            return filtertedList;
+            return await _dbSet.CountAsync();
         }
-        
-        public async Task<List<T>> UpdateMany(List<T> entities)
+
+        public void Dispose()
         {
-            _context.UpdateRange(entities);
-            await _context.SaveChangesAsync();
-            return entities;
+            if (_context != null)
+            {
+                _context.Dispose();
+            }
         }
 
         public async Task<T?> FindById(string id)
@@ -46,7 +55,11 @@ namespace fast_sync_entity_framework_dao.data
             return await _dbSet.ToListAsync();
         }
 
-        
+        public async Task<List<T>> Query(Expression<Func<T, bool>> filter)
+        {
+            List<T> filtertedList = await _dbSet.Where(filter).ToListAsync();
+            return filtertedList;
+        }
 
         public async Task<T> Update(string id, T entity)
         {
@@ -55,24 +68,11 @@ namespace fast_sync_entity_framework_dao.data
             return entity;
         }
 
-        public async Task<int> Count()
+        public async Task<List<T>> UpdateMany(List<T> entities)
         {
-            return await _dbSet.CountAsync();
-        }
-
-        public async Task<T> Add(T entity)
-        {
-            await _dbSet.AddAsync(entity);
+            _context.UpdateRange(entities);
             await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public void Dispose()
-        {
-            if (_context != null)
-            {
-                _context.Dispose();
-            }
+            return entities;
         }
     }
 }

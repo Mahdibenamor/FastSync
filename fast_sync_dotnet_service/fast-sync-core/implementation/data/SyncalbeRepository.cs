@@ -1,14 +1,17 @@
 ﻿using fast_sync_core.abstraction.data;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Text.Json;
 
 namespace fast_sync_core.implementation.data
 {
-    using IWithMetaData = ISyncableObject<ISyncMetadata>;
 
-    public class SyncableRepository<T> : ISyncableRepository<T> where T : IWithMetaData
+    public class SyncableRepository<T> : ISyncableRepository<T> where T : SyncableObject
     {
         private ISyncVersionManager SyncVersionManager { get; } = FastSync.GetSyncVersionManager();
         public ISyncableDataSource<T> DataSource { get; }
+
+        private JsonObjectSerializable<T> objectSerializable = new JsonObjectSerializable<T>();
 
         public SyncableRepository(ISyncableDataSource<T> dataSource)
         {
@@ -47,7 +50,7 @@ namespace fast_sync_core.implementation.data
 
         private async Task<List<T>> GetObjectsByIds(List<string> ids)
         {
-            return await Query((item) => ids.Contains(item.Id) );
+            return await Query((item) => ids.Contains(item.Id));
         }
 
         public async Task<List<T>> FetchMany(ISyncMetadata metadata)
@@ -58,17 +61,24 @@ namespace fast_sync_core.implementation.data
             throw new Exception();
         }
 
-        public async Task<List<T>> AddMany(List<T> entities, ISyncMetadata metadata)
+        public async Task<List<T>> AddMany(List<object> jsonEntities, ISyncMetadata metadata)
         {
+            List<T> entities = objectSerializable.GetTypedObjects(jsonEntities);
             var computedSyncZone = metadata.ComputeSyncZone(FastSync.GetInstance().GetSyncZoneConfiguration(metadata.Type));
             var lastKnownVersion = await SyncVersionManager.GetLastSyncVersion(typeof(T).Name, computedSyncZone);
             var incrementedEntities = IncrementObjectsVersion(entities, ++lastKnownVersion, computedSyncZone);
-            incrementedEntities = await DataSource.AddMany(incrementedEntities);
-            await SyncVersionManager.IncrementSyncVersion(typeof(T).Name, computedSyncZone);
+            //incrementedEntities = await DataSource.AddMany(incrementedEntities);
+            //await SyncVersionManager.IncrementSyncVersion(typeof(T).Name, computedSyncZone);
             return incrementedEntities;
         }
 
-        public async Task<List<T>> UpdateMany(List<T> entities, ISyncMetadata metadata)
+        public async Task<List<T>> UpdateMany(List<object> jsonEntities, ISyncMetadata metadata)
+        {
+            List<T> entities = objectSerializable.GetTypedObjects(jsonEntities);
+            return await _updateMany(entities: entities, metadata:metadata);
+        }
+
+        private async Task<List<T>> _updateMany(List<T> entities, ISyncMetadata metadata)
         {
             List<T> mergedList = new List<T>();
             var computedSyncZone = metadata.ComputeSyncZone(FastSync.GetInstance().GetSyncZoneConfiguration(metadata.Type));
@@ -80,13 +90,16 @@ namespace fast_sync_core.implementation.data
             return mergedList;
         }
 
-        public async Task<List<T>> RemoveMany(List<T> entities, ISyncMetadata metadata)
+
+
+        public async Task<List<T>> RemoveMany(List<object> jsonEntities, ISyncMetadata metadata)
         {
+            List<T> entities = objectSerializable.GetTypedObjects(jsonEntities);
             var computedSyncZone = metadata.ComputeSyncZone(FastSync.GetInstance().GetSyncZoneConfiguration(metadata.Type));
             var lastKnownVersion = await SyncVersionManager.GetLastSyncVersion(typeof(T).Name, computedSyncZone);
             entities = IncrementObjectsVersion(entities, ++lastKnownVersion, computedSyncZone);
             entities = DoMarkObjectsAsDeleted(entities);
-            entities = await UpdateMany(entities, metadata);
+            entities = await _updateMany(entities, metadata);
             return entities;
         }
 

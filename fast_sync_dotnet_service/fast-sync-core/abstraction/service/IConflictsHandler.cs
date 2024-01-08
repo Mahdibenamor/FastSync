@@ -1,10 +1,10 @@
-﻿namespace fast_sync_core.abstraction.data
+﻿using fast_sync_core.implementation.data;
+namespace fast_sync_core.abstraction.data
 {
-    using IWithMetaData = ISyncableObject<ISyncMetadata>;
 
     public interface IConflictsHandler
     {
-        Task<T> ResolveConflicts<T>(T serverObject, T clientObject) where T : IWithMetaData;
+        Task<T> ResolveConflicts<T>(T serverObject, T clientObject) where T : SyncableObject;
         ConflictsResolutionStrategyEnum GetConflictsResolutionStrategy();
     }
 }

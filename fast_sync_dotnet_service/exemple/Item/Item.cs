@@ -1,13 +1,10 @@
-﻿using fast_sync_core.abstraction.data;
-using fast_sync_entity_framework_dao.metadata;
+﻿using fast_sync_core.implementation.data;
 
 namespace exemple.Item
 {
-    public class Item: SyncableObjectModel, ISyncableObject<ISyncMetadata>
+    public class Item: SyncableObject
     {
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-    }
-
-    
+    }  
 }

@@ -2,12 +2,11 @@ using exemple.Item;
 using fast_sync_core.abstraction.data;
 using fast_sync_core.implementation;
 using fast_sync_core.implementation.data;
+using fast_sync_core.implementation.metadata;
 using fast_sync_entity_framework_dao.data;
 using fast_sync_entity_framework_dao.service;
 using Microsoft.EntityFrameworkCore;
 
-using IWithMetaData = fast_sync_core.abstraction.data.ISyncableObject<fast_sync_core.abstraction.data.ISyncMetadata>;
-using WithMetaData = fast_sync_core.implementation.data.SyncableObject<fast_sync_core.implementation.metadata.SyncMetadata>;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -22,8 +21,8 @@ FastSync.GetInstance(syncConfiguration: configuration);
 
 ConflictsHandler conflictsHandler = new ConflictsHandler();
 ItemDataSource dataSource = new ItemDataSource(dataContext: dataContext);
-ItemRepository repository = new ItemRepository(dataSource:  dataSource);
-FastSync.SetSyncableObject(typeof(Item),repository: repository,conflictsHandler: conflictsHandler);
+ItemRepository repository = new ItemRepository(dataSource: dataSource);
+FastSync.SetSyncableObject(typeof(Item), repository: repository,conflictsHandler: conflictsHandler);
 
 
 builder.Services.AddScoped(_ => dataContext);

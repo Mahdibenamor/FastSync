@@ -3,9 +3,9 @@ using fast_sync_core.implementation.data;
 
 namespace exemple.Item
 {
-    public class ItemRepository : SyncableRepository<ISyncableObject<ISyncMetadata>>, ISyncableRepository<ISyncableObject<ISyncMetadata>>
+    public class ItemRepository : SyncableRepository<Item>
     {
-        public ItemRepository(ISyncableDataSource<ISyncableObject<ISyncMetadata>> dataSource) : base(dataSource)
+        public ItemRepository(ISyncableDataSource<Item> dataSource) : base(dataSource)
         {
         }
     }

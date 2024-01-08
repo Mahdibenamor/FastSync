@@ -1,9 +1,9 @@
 ﻿using fast_sync_core.abstraction.data;
+using fast_sync_core.implementation.data;
+using fast_sync_core.implementation.metadata;
 
 namespace fast_sync_core.implementation
 {
-    using IWithMetaData = ISyncableObject<ISyncMetadata>;
-
     public class FastSync
     {
         private static FastSync _instance = new FastSync();
@@ -36,7 +36,7 @@ namespace fast_sync_core.implementation
             _instance._syncConfiguration = syncConfiguration;
         }
 
-        public static void SetSyncableObject<T>(Type type, ISyncableRepository<T> repository, IConflictsHandler? conflictsHandler = null, SyncZoneRestrictionEnum syncZoneRestriction = SyncZoneRestrictionEnum.Global) where T : IWithMetaData
+        public static void SetSyncableObject<T>(Type type, ISyncableRepository<T> repository, IConflictsHandler? conflictsHandler = null, SyncZoneRestrictionEnum syncZoneRestriction = SyncZoneRestrictionEnum.Global) where T : SyncableObject
         {
             var syncConfiguration = GetSyncConfiguration();
             syncConfiguration.SetSyncableObject(type, repository, syncZoneRestriction, conflictsHandler);
@@ -53,7 +53,7 @@ namespace fast_sync_core.implementation
             return GetSyncConfiguration().GetObjectConflictsHandler(type);
         }
 
-        public static object GetObjectRepository<T>(string type) where T : IWithMetaData
+        public static object GetObjectRepository<T>(string type) where T : SyncableObject
         {
             return GetSyncConfiguration().GetObjectRepository<T>(type);
         }

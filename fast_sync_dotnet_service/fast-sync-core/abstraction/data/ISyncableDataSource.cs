@@ -4,6 +4,7 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
 
+  
     public interface ISyncableDataSource<T>
     {
         Task<T> Add(T entity);
@@ -17,5 +18,3 @@
         void Dispose();
     }
 }
-
-

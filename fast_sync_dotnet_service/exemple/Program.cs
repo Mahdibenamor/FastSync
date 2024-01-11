@@ -13,7 +13,8 @@ builder.Services.AddControllers();
 
 
 var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")); 
+optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+optionsBuilder.EnableSensitiveDataLogging();
 var options = optionsBuilder.Options;
 DataContext dataContext = new DataContext(options: options);
 EntityFrameworkSyncConfiguration configuration = new EntityFrameworkSyncConfiguration(dataContext: dataContext);

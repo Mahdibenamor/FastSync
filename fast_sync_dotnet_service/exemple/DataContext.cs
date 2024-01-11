@@ -7,7 +7,8 @@ namespace fast_sync_entity_framework_dao.data
     {
         public DataContext(DbContextOptions options) : base(options)
         {
-
+            //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            //ChangeTracker.LazyLoadingEnabled = false;
         }
 
         public DbSet<Item> Items { get; set; }

@@ -1,6 +1,4 @@
 ﻿using fast_sync_core.abstraction.data;
-using fast_sync_core.implementation.data;
-using fast_sync_core.implementation.metadata;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -70,7 +68,14 @@ namespace fast_sync_entity_framework_dao.data
 
         public async Task<List<T>> UpdateMany(List<T> entities)
         {
-            _context.UpdateRange(entities);
+            foreach (var entity in entities)
+            {
+                if (_context.Entry(entity).State != EntityState.Detached)
+                {
+                    _context.Entry(entity).State = EntityState.Detached;
+                }
+                _context.Update(entity);
+            }
             await _context.SaveChangesAsync();
             return entities;
         }

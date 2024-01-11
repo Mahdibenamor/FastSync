@@ -1,7 +1,6 @@
 ﻿using fast_sync_core.abstraction.data;
-using System.Collections.Generic;
+using fast_sync_core.implementation.metadata;
 using System.Linq.Expressions;
-using System.Text.Json;
 
 namespace fast_sync_core.implementation.data
 {
@@ -57,8 +56,11 @@ namespace fast_sync_core.implementation.data
         {
             var computedSyncZone = metadata.ComputeSyncZone(FastSync.GetInstance().GetSyncZoneConfiguration(metadata.Type));
             metadata.SyncZone = computedSyncZone;
-            //return await DataSource.FetchMany(metadata);
-            throw new Exception();
+            ISyncableDataSource<SyncMetadata> metadataDataSource = FastSync.GetSyncVersionManager().metadataDataSource;
+            List<SyncMetadata> metadatas = await metadataDataSource.Query((m) => m.Id != typeof(T).Name && m.SyncZone == metadata.GetSyncZone() && m.Version > metadata.Version);
+            List<string> metadataIds = metadatas.Select((e) => e.Id).ToList();
+            List<T> objects = await DataSource.Query((e) => metadataIds.Contains(e.MetadataId));
+            return objects;       
         }
 
         public async Task<List<T>> AddMany(List<object> jsonEntities, ISyncMetadata metadata)
@@ -67,8 +69,8 @@ namespace fast_sync_core.implementation.data
             var computedSyncZone = metadata.ComputeSyncZone(FastSync.GetInstance().GetSyncZoneConfiguration(metadata.Type));
             var lastKnownVersion = await SyncVersionManager.GetLastSyncVersion(typeof(T).Name, computedSyncZone);
             var incrementedEntities = IncrementObjectsVersion(entities, ++lastKnownVersion, computedSyncZone);
-            //incrementedEntities = await DataSource.AddMany(incrementedEntities);
-            //await SyncVersionManager.IncrementSyncVersion(typeof(T).Name, computedSyncZone);
+            incrementedEntities = await DataSource.AddMany(incrementedEntities);
+            await SyncVersionManager.IncrementSyncVersion(typeof(T).Name, computedSyncZone);
             return incrementedEntities;
         }
 

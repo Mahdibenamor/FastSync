@@ -26,16 +26,16 @@ namespace fast_sync_core.implementation
                 }
                 if (jsonSyncPayloadObjects.Updated.Any())
                 {
-                    var result = await _repositoryExecutor(repository: objectRepository, methodName: "AddMany", inputs: [jsonSyncPayloadObjects.AddedNew, payload.GetTypeMetadata(type)]);
+                    var result = await _repositoryExecutor(repository: objectRepository, methodName: "UpdateMany", inputs: [jsonSyncPayloadObjects.Updated, payload.GetTypeMetadata(type)]);
                 }
                 if (jsonSyncPayloadObjects.Deleted.Any())
                 {
-                    var result = await _repositoryExecutor(repository: objectRepository, methodName: "AddMany", inputs: [jsonSyncPayloadObjects.AddedNew, payload.GetTypeMetadata(type)]);
+                    var result = await _repositoryExecutor(repository: objectRepository, methodName: "RemoveMany", inputs: [jsonSyncPayloadObjects.Deleted, payload.GetTypeMetadata(type)]);
                 }
             }
         }
 
-        private async Task<object> _repositoryExecutor(object repository, string methodName, object[] inputs)
+        private async Task<object?> _repositoryExecutor(object repository, string methodName, object[] inputs)
         {
             object? result = null;
             MethodInfo? addManyInfo = repository.GetType().GetMethod(methodName);

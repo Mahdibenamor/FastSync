@@ -33,6 +33,9 @@ namespace fast_sync_core.implementation.data
                 Type elementType = FastSync.getObjectType(typeof(T).Name);
                 instanceCreated = JsonSerializer.Deserialize(jsonElement.GetRawText(), elementType, options) as T;
             }
+            if(instanceCreated != null) {
+                instanceCreated.MetadataId = instanceCreated.Metadata.Id;
+            }
             return instanceCreated;
         }
         

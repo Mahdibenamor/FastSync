@@ -4,18 +4,17 @@ namespace fast_sync_entity_framework_dao.service
 {
     public class EntityFrameworkSyncConfiguration : SyncConfiguration
     {
-        public string connectionString;
-        public Func<FastSyncDataContext> classFactory;
-        public EntityFrameworkSyncConfiguration(Func<FastSyncDataContext> classFactory) :base()
+        public Func<FastSyncDataContext> dbContextFactory;
+        public EntityFrameworkSyncConfiguration(Func<FastSyncDataContext> dbContextFactory) :base()
         {
-            this.classFactory = classFactory;
+            this.dbContextFactory = dbContextFactory;
             Init();
         }
 
         protected override void Init()
         {
             base.Init();
-            SyncMetadataDataSource metadataDataSource =  new SyncMetadataDataSource(classFactory: classFactory);
+            SyncMetadataDataSource metadataDataSource =  new SyncMetadataDataSource();
             SyncVersionManager = new SyncVersionManager(metadataDataSource);
         }
     }

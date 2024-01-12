@@ -4,7 +4,7 @@ namespace exemple.Item
 {
     public class ItemDataSource : SyncableObjectDataSource<Item>
     {
-        public ItemDataSource(Func<FastSyncDataContext> classFactory) : base(classFactory)
+        public ItemDataSource() : base()
         {
         }
     }

@@ -11,10 +11,10 @@ builder.Services.AddControllers();
 
 
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-EntityFrameworkSyncConfiguration configuration = new EntityFrameworkSyncConfiguration(classFactory: () => new DataContext(connectionString));
+EntityFrameworkSyncConfiguration configuration = new EntityFrameworkSyncConfiguration(dbContextFactory: () => new DataContext(connectionString));
 FastSync.GetInstance(syncConfiguration: configuration);
 ConflictsHandler conflictsHandler = new ConflictsHandler();
-ItemDataSource dataSource = new ItemDataSource(classFactory: () => new DataContext(connectionString));
+ItemDataSource dataSource = new ItemDataSource();
 ItemRepository repository = new ItemRepository(dataSource: dataSource);
 FastSync.SetSyncableObject(typeof(Item), repository: repository,conflictsHandler: conflictsHandler);
 

@@ -1,4 +1,6 @@
 ﻿using fast_sync_core.abstraction.data;
+using fast_sync_core.implementation;
+using fast_sync_entity_framework_dao.service;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq.Expressions;
@@ -8,17 +10,16 @@ namespace fast_sync_entity_framework_dao.data
     public class SyncableObjectDataSource<T> : ISyncableDataSource<T>
         where T : class, IWithId
     {
-        private readonly string connectionString;
-        private readonly Func<FastSyncDataContext> classFactory;
+        private Func<FastSyncDataContext> dbContextFactory { get { return ((EntityFrameworkSyncConfiguration)FastSync.GetSyncConfiguration()).dbContextFactory; } }
 
-        public SyncableObjectDataSource(Func<FastSyncDataContext> classFactory)
+        public SyncableObjectDataSource()
         {
-            this.classFactory = classFactory;
         }
-   
+
+
         public async Task<T> Add(T entity)
         {
-            using (FastSyncDataContext dbContext = classFactory())
+            using (FastSyncDataContext dbContext = dbContextFactory())
             {
                 DbSet<T> _dbSet = dbContext.Set<T>();
                 await _dbSet.AddAsync(entity);
@@ -30,7 +31,7 @@ namespace fast_sync_entity_framework_dao.data
 
         public async Task<List<T>> AddMany(List<T> entities)
         {
-            using (FastSyncDataContext dbContext = classFactory())
+            using (FastSyncDataContext dbContext = dbContextFactory())
             {
                 DbSet<T> _dbSet = dbContext.Set<T>();
                 await _dbSet.AddRangeAsync(entities);
@@ -41,7 +42,7 @@ namespace fast_sync_entity_framework_dao.data
 
         public async Task<int> Count()
         {
-            using (FastSyncDataContext dbContext = classFactory())
+            using (FastSyncDataContext dbContext = dbContextFactory())
             {
                 DbSet<T> _dbSet = dbContext.Set<T>();
                 return await _dbSet.CountAsync();
@@ -54,7 +55,7 @@ namespace fast_sync_entity_framework_dao.data
 
         public async Task<T?> FindById(string id)
         {
-            using (FastSyncDataContext dbContext = classFactory())
+            using (FastSyncDataContext dbContext = dbContextFactory())
             {
                 DbSet<T> _dbSet = dbContext.Set<T>();
                 return await _dbSet.FindAsync(id);
@@ -63,7 +64,7 @@ namespace fast_sync_entity_framework_dao.data
 
         public async Task<List<T>> GetAll()
         {
-            using (FastSyncDataContext dbContext = classFactory())
+            using (FastSyncDataContext dbContext = dbContextFactory())
             {
                 DbSet<T> _dbSet = dbContext.Set<T>();
                 return await _dbSet.ToListAsync();
@@ -72,7 +73,7 @@ namespace fast_sync_entity_framework_dao.data
 
         public async Task<List<T>> Query(Expression<Func<T, bool>> filter)
         {
-            using (FastSyncDataContext dbContext = classFactory())
+            using (FastSyncDataContext dbContext = dbContextFactory())
             {
                 DbSet<T> _dbSet = dbContext.Set<T>();
                 List<T> filtertedList = await _dbSet.Where(filter).ToListAsync();
@@ -82,7 +83,7 @@ namespace fast_sync_entity_framework_dao.data
 
         public async Task<T> Update(string id, T entity)
         {
-            using (FastSyncDataContext dbContext = classFactory())
+            using (FastSyncDataContext dbContext = dbContextFactory())
             {
                 DbSet<T> _dbSet = dbContext.Set<T>();
                 _dbSet.Update(entity);
@@ -93,7 +94,7 @@ namespace fast_sync_entity_framework_dao.data
 
         public async Task<List<T>> UpdateMany(List<T> entities)
         {
-            using (FastSyncDataContext dbContext = classFactory())
+            using (FastSyncDataContext dbContext = dbContextFactory())
             {
                 DbSet<T> _dbSet = dbContext.Set<T>();
                 foreach (var entity in entities)

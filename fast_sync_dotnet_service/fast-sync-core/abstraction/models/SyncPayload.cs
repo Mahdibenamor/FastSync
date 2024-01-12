@@ -44,30 +44,6 @@ namespace fast_sync_core.abstraction.data
             return Data.ContainsKey(type) ? Data[type] : [];
         }
 
-        //public List<SyncableObject> GetObjectsForType(string type)
-        //{
-        //    List<SyncableObject> data = new List<SyncableObject>();
-        //    foreach (var obj in Data[type])
-        //    {
-        //        JsonElement jsonElement = (JsonElement)obj;
-        //        JsonSerializerOptions options = new JsonSerializerOptions
-        //        {
-        //            PropertyNameCaseInsensitive = true
-        //        };
-        //        object? instanceCreated = null;
-        //        if (jsonElement.ValueKind != JsonValueKind.Undefined)
-        //        {
-        //            Type elementType = FastSync.getObjectType(type);
-        //            instanceCreated = JsonSerializer.Deserialize(jsonElement.GetRawText(), elementType, options);
-        //        }
-        //        if (instanceCreated != null)
-        //        {
-        //            data.Add((SyncableObject)instanceCreated);
-        //        }
-        //    }
-        //    return data;
-        //}   
-
         public List<string> GetSyncedTypes()
         {
             return Data.Keys.ToList();

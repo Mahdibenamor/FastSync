@@ -30,10 +30,7 @@ namespace exemple.Controllers
             }
             catch (Exception exception)
             {
-                ModelState.AddModelError("key1", "Something went wrong call the push api");
-                ModelState.AddModelError("key2", exception.Message);
-                ModelState.AddModelError("key3", exception.StackTrace);
-                return StatusCode(500, ModelState);
+                return StatusCode(500, exception);
             }
         }
 
@@ -49,10 +46,7 @@ namespace exemple.Controllers
             }
             catch (Exception exception)
             {
-                ModelState.AddModelError("key1", "Something went wrong call the push api");
-                ModelState.AddModelError("key2", exception.Message);
-                ModelState.AddModelError("key3", exception.StackTrace);
-                return StatusCode(500, ModelState);
+                return StatusCode(500, exception);
             }
         }
     }

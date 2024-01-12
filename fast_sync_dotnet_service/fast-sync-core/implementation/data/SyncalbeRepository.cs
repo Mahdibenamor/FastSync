@@ -60,6 +60,7 @@ namespace fast_sync_core.implementation.data
             List<SyncMetadata> metadatas = await metadataDataSource.Query((m) => m.Id != typeof(T).Name && m.SyncZone == metadata.GetSyncZone() && m.Version > metadata.Version);
             List<string> metadataIds = metadatas.Select((e) => e.Id).ToList();
             List<T> objects = await DataSource.Query((e) => metadataIds.Contains(e.MetadataId));
+            objects = setObjectsMetadatas(objects: objects, syncMetadatas: metadatas);
             return objects;       
         }
 
@@ -91,8 +92,6 @@ namespace fast_sync_core.implementation.data
             await SyncVersionManager.IncrementSyncVersion(typeof(T).Name, computedSyncZone);
             return mergedList;
         }
-
-
 
         public async Task<List<T>> RemoveMany(List<object> jsonEntities, ISyncMetadata metadata)
         {
@@ -157,6 +156,22 @@ namespace fast_sync_core.implementation.data
                 }
             }
             return mergingResult;
+        }
+
+        private List<T> setObjectsMetadatas(List<T> objects, List<SyncMetadata> syncMetadatas)
+        {
+            List<T> result = new List<T>();
+            Dictionary<string, SyncMetadata> metadataDictionary = syncMetadatas.ToDictionary(metadata => metadata.Id);
+            foreach (var obj in objects)
+            {
+                if (metadataDictionary.TryGetValue(obj.MetadataId, out SyncMetadata? matchingMetadata))
+                {
+                    obj.Metadata = matchingMetadata;
+                    result.Add(obj);
+                }
+            }
+
+            return result;
         }
 
         public void Dispose()

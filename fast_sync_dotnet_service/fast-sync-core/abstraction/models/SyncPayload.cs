@@ -25,19 +25,19 @@ namespace fast_sync_core.abstraction.data
             return payload;
         }
 
-        //public  void PushObjects<T>(string type, List<T> entities, string syncZone) where T : SyncableObject
-        //{
-        //    if (entities.Count > 0)
-        //    {
-        //        if (!Data.ContainsKey(type))
-        //        {
-        //            Data[type] = new List<object>();
-        //        }
-        //        Data[type].AddRange(entities.Cast<SyncableObject>());
-        //        var globalSyncVersion =  BuildTypeMetadata<T>(type: type,syncZone: syncZone,version: GetObjectsForType(type).Max(obj => obj.Metadata.Version));
-        //        OperationMetadata.SetMetadata(type, globalSyncVersion);
-        //    }
-        //}
+        public  void PushObjects<T>(string type, List<T> entities, string syncZone) where T : SyncableObject
+        {
+            if (entities != null && entities.Count > 0)
+            {
+                if (!Data.ContainsKey(type))
+                {
+                    Data[type] = new List<object>();
+                }
+                Data[type].AddRange(entities.Cast<SyncableObject>());
+                var globalSyncVersion =  BuildTypeMetadata<T>(type: type,syncZone: syncZone,version: entities.Max(obj => obj.Metadata.Version));
+                OperationMetadata.SetMetadata(type, globalSyncVersion);
+            }
+        }
 
         public List<object> GetObjectsForType(string type)
         {

@@ -26,8 +26,7 @@ namespace exemple.Controllers
             {
                 ISyncManager syncManager = FastSync.GetSyncManager();
                 await syncManager.ProcessPush(syncPayload);
-
-               // return this.success(res, { "result":"push was done with success"});
+                return Ok("Successfully created");
             }
             catch (Exception exception)
             {
@@ -36,7 +35,25 @@ namespace exemple.Controllers
                 ModelState.AddModelError("key3", exception.StackTrace);
                 return StatusCode(500, ModelState);
             }
-            return Ok("Successfully created");
+        }
+
+        [HttpPost("/pull")]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> pullAsync([FromBody] SyncOperationMetadata metadata)
+        {
+            try
+            {
+                ISyncManager syncManager = FastSync.GetSyncManager();
+                SyncPayload payload = await syncManager.ProcessPull(metadata);
+                return Ok(payload);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError("key1", "Something went wrong call the push api");
+                ModelState.AddModelError("key2", exception.Message);
+                ModelState.AddModelError("key3", exception.StackTrace);
+                return StatusCode(500, ModelState);
+            }
         }
     }
 }

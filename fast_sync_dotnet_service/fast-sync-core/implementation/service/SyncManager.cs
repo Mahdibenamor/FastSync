@@ -1,5 +1,6 @@
 ﻿using fast_sync_core.abstraction.data;
 using fast_sync_core.implementation.data;
+using Microsoft.Extensions.Logging.Abstractions;
 using System.Reflection;
 
 
@@ -35,6 +36,24 @@ namespace fast_sync_core.implementation
             }
         }
 
+        public async Task<SyncPayload> ProcessPull(SyncOperationMetadata metadata)
+        {
+            metadata = SyncOperationMetadata.Create(metadata);
+            ValidateMetadataSyncZones(metadata);
+            var syncPayload = new SyncPayload();
+            var requestedTypes = metadata.GetSyncedTypes();
+            var fastSync = FastSync.GetInstance();
+            foreach (var type in requestedTypes)
+            {
+                object objectRepository =  FastSync.GetObjectRepository<SyncableObject>(type);
+                var typeMetadata = metadata.GetTypeMetadata(type);
+                object? result = await _repositoryExecutor(repository: objectRepository, methodName: "FetchMany", inputs: [metadata.GetTypeMetadata(type)]);
+                List<SyncableObject> collection = result == null ? new List<SyncableObject>() : new List<SyncableObject>((IEnumerable<SyncableObject>)result);
+                syncPayload.PushObjects(type, collection, typeMetadata.ComputeSyncZone(fastSync.GetSyncZoneConfiguration(type)));
+            }
+            return syncPayload;
+        }
+
         private async Task<object?> _repositoryExecutor(object repository, string methodName, object[] inputs)
         {
             object? result = null;
@@ -48,29 +67,13 @@ namespace fast_sync_core.implementation
                     var resultProperty = addManyTask.GetType().GetProperty("Result");
                     if (resultProperty != null)
                     {
-                         result = resultProperty.GetValue(addManyTask);
+                        result = resultProperty.GetValue(addManyTask);
                     }
                 }
             }
             return result;
         }
 
-        public async Task<SyncPayload> ProcessPull(SyncOperationMetadata metadata)
-        {
-            metadata = SyncOperationMetadata.Create(metadata);
-            ValidateMetadataSyncZones(metadata);
-            var syncPayload = new SyncPayload();
-            var requestedTypes = metadata.GetSyncedTypes();
-            var fastSync = FastSync.GetInstance();
-            foreach (var type in requestedTypes)
-            {
-                object objectRepository =  FastSync.GetObjectRepository<SyncableObject>(type);
-                var typeMetadata = metadata.GetTypeMetadata(type);
-                //List<SyncableObject> objects = await objectRepository.FetchMany(metadata.GetTypeMetadata(type));
-                //syncPayload.PushObjects(type, objects, typeMetadata.ComputeSyncZone(fastSync.GetSyncZoneConfiguration(type)));
-            }
-            return syncPayload;
-        }
 
         private void ValidateMetadataSyncZones(SyncOperationMetadata operationMetadata)
         {

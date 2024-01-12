@@ -32,7 +32,7 @@ namespace fast_sync_core.implementation
             SetSyncManager(new SyncManager());
         }
 
-        public void SetSyncableObject<T>(Type entityType, ISyncableRepository<T> repository, SyncZoneRestrictionEnum? syncZoneRestriction, IConflictsHandler? conflictsHandler = null) where T : SyncableObject
+        public void SetSyncableObject<T>(Type entityType, ISyncableRepository<T> repository, SyncZoneRestrictionEnum? syncZoneRestriction, IConflictsHandler conflictsHandler) where T : SyncableObject
         {
             SetObjectType(entityType);
             SetSyncZoneTypeConfiguration(entityType, syncZoneRestriction ?? SyncZoneRestrictionEnum.Global);

@@ -5,7 +5,7 @@ namespace fast_sync_core.abstraction.data
 
     public interface ISyncConfiguration
     {
-        void SetSyncableObject<T>(Type entityType, ISyncableRepository<T> repository, SyncZoneRestrictionEnum? syncZoneRestriction, IConflictsHandler? conflictsHandler) where T : SyncableObject;
+        public void SetSyncableObject<T>(Type entityType, ISyncableRepository<T> repository, SyncZoneRestrictionEnum? syncZoneRestriction, IConflictsHandler conflictsHandler) where T : SyncableObject;
         void SetObjectRepository<T>(Type entityType, ISyncableRepository<T> repository) where T : SyncableObject;
         void SetObjectConflictsHandler(Type entityType, IConflictsHandler conflictsHandler);
         public void SetObjectType(Type entityType);

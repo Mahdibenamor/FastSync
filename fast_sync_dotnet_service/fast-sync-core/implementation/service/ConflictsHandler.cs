@@ -9,7 +9,7 @@ namespace fast_sync_core.implementation
         private readonly Func<SyncableObject, SyncableObject, Task<SyncableObject>>? _conflictsResolutionFunction;
 
         public ConflictsHandler(
-            Func<SyncableObject, SyncableObject, Task<SyncableObject>> conflictsResolutionFunction,
+            Func<SyncableObject, SyncableObject, Task<SyncableObject>>? conflictsResolutionFunction = null,
             ConflictsResolutionStrategyEnum resolutionStrategy = ConflictsResolutionStrategyEnum.LastWriterWins 
             )
         {

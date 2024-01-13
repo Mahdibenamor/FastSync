@@ -6,9 +6,7 @@ using fast_sync_entity_framework_dao.service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddControllers();
-
 
 
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

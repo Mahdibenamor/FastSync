@@ -1,8 +1,7 @@
 using fast_sync_core.abstraction.data;
 using fast_sync_core.implementation;
-using fast_sync_core.implementation.metadata;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Any;
+
 
 namespace exemple.Controllers
 {
@@ -26,28 +25,42 @@ namespace exemple.Controllers
             {
                 ISyncManager syncManager = FastSync.GetSyncManager();
                 await syncManager.ProcessPush(syncPayload);
-                return Ok("Successfully created");
+                return Ok(new BaseResult(data: "Successfully created", success: true));
+
             }
             catch (Exception exception)
             {
-                return StatusCode(500, exception);
+                return Ok(new BaseResult(data: exception, success: false));
             }
         }
 
         [HttpPost("/pull")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> pullAsync([FromBody] SyncOperationMetadata metadata)
+        public async Task<ActionResult<BaseResult>> pullAsync([FromBody] SyncOperationMetadata metadata)
         {
             try
             {
                 ISyncManager syncManager = FastSync.GetSyncManager();
                 SyncPayload payload = await syncManager.ProcessPull(metadata);
-                return Ok(payload);
+                BaseResult result = new BaseResult(data: payload, success: true);
+                return Ok(result);
             }
             catch (Exception exception)
             {
-                return StatusCode(500, exception);
+                return Ok(new BaseResult(data:exception, success:false));
             }
+        }
+    }
+
+    [Serializable]
+    public class BaseResult
+    {
+        public object Data { get; set; }
+        public bool Success { get; set; }
+        public BaseResult(object data, bool success)
+        {
+            Data = data;
+            Success = success;
         }
     }
 }

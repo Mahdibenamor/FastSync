@@ -1,10 +1,10 @@
 <p align="center">
-<img src="https://github.com/Mahdibenamor/FastSync/blob/main/images/Fast%20Sync.gif?raw=true"/>
+<img src="https://github.com/Mahdibenamor/FastSync/blob/main/images/fast sync gif.gif?raw=true" width="50%" height="50%"/>
 <br/><br/>
 </p>
 
 <p align="center">
-<img src="https://github.com/Mahdibenamor/FastSync/blob/main/images/fastsync.png?raw=true"/>
+<img src="https://github.com/Mahdibenamor/FastSync/blob/main/images/Fast%20Sync.gif?raw=true" width="90%" height="90%"/>
 <br/><br/>
 
 </p>
@@ -42,6 +42,7 @@ Note: when you specify it as predefined rules, you need to provide a custom func
 ---
 
 <a href="https://www.npmjs.com/package/fast-sync-core">TypeScript server pacakge</a>
+<a href="https://www.nuget.org/packages/fast_sync_core">Dotnet core server pacakge</a>
 <a href="https://pub.dev/packages/fast_sync_client">Dart client package</a>
 
 ---
@@ -219,6 +220,184 @@ export class ItemRepository extends SyncalbeRepository<Item> {
 - you can add some middleware for the api if you would like.
 
 <a href="https://github.com/Mahdibenamor/FastSync/tree/main/fast-sync-server-exemple">Full sync server exemple for mongoose dao</a>
+
+---
+
+## Fast Sync Core
+
+- [Server installation](#server-installation)
+- [Server setup](#server-setup)
+- [Server syncable object ](#server-syncable-object)
+- [Server syncable object data source ](#server-syncable-object-data-source)
+- [Server syncalbe repository ](#server-syncalbe-repository)
+- [Server Push And Pull](#server-push-and-pull)
+
+## Server installation
+
+```json
+"dependencies": {
+    ...
+    "fast-sync-core": "*.*.*",
+    "fast-sync-mongoose-dao": "*.*.*",
+    ...
+  }
+```
+
+## Server setup
+
+---
+
+1. In your the entry point of your server, initialize your FastSync package.
+2. Configure your **dao** (Data Access Object), When you initialize FastSync package in this exemple we are using mongoose dao.
+3. Configure the object type to be syncked using **setSyncalbeObject** method.
+4. Configure the conflict handler for the configured object type.
+
+```ts
+async function configureFastSync() {
+  let fastSync: FastSync = FastSync.getInstance(
+    new MongooseSyncConfiguration()
+  );
+  let conflictsHandler: IConflictsHandler = new ConflictsHandler(
+    ConflictsResolutionStrategyEnum.PredefinedRules,
+    conflictsResolutionFunction
+  );
+  let repo = new ItemRepository();
+  await fastSync.setSyncalbeObject(Item.name, repo, conflictsHandler);
+}
+```
+
+4. Call configureFastSync() in your main func after running the App.
+
+```ts
+app.listen(port, async () => {
+  try {
+    await configureFastSync();
+    console.log("Configuration completed successfully");
+  } catch (error) {
+    console.error("Error configuring Fast Sync:", error);
+  }
+});
+```
+
+## Server Syncable Object
+
+---
+
+- Requires **fast-sync-mongoose-dao** package
+
+- you need to extend SyncableObject from **fast-sync-core** and plug the type metadata schema using **plugMetadataSchema**
+
+```ts
+import { SyncableObject } from "fast-sync-core";
+import { SyncableSchemaItemBuilder } from "fast-sync-mongoose-dao";
+import * as mongoose from "mongoose";
+
+export class Item extends SyncableObject {
+  public name: string;
+  public description: string;
+  public id: string;
+  constructor() {
+    super();
+  }
+}
+
+export const ItemSchema = SyncableSchemaItemBuilder.plugMetadataSchema(
+  new mongoose.Schema({
+    name: {
+      type: mongoose.Schema.Types.String,
+    },
+    description: {
+      type: mongoose.Schema.Types.String,
+    },
+  })
+);
+```
+
+## Server Syncable Object Data Source
+
+- Now for each SyncableObject you should have a **DataSource** don't worry every think is setted for you, just create the class.
+
+- Note: if you need further method, can just create it there and use it.
+
+```ts
+import { SyncalbeObjectDataSource } from "fast-sync-mongoose-dao";
+import { Item, ItemSchema } from "./item";
+
+export class ItemDataSource extends SyncalbeObjectDataSource<Item> {
+  constructor() {
+    super(ItemSchema, Item.name);
+  }
+}
+```
+
+## Server Syncalbe Repository
+
+- To interact with the objects, you should only use the repository,
+  you can use the datasource, but like that you break the package.
+- Note: note that you don't need to create new method in the repository, because every think is there use the defined method.
+  In some rare extreme case we can create some new methods.
+
+```ts
+import { SyncalbeRepository } from "fast-sync-core";
+import { Item } from "./item";
+import { ItemDataSource } from "./item_datasource";
+
+export class ItemRepository extends SyncalbeRepository<Item> {
+  constructor() {
+    super(new ItemDataSource(), Item.name);
+  }
+}
+```
+
+## Server Push And Pull
+
+- all what you need is to define your 2 apis, one for the **/push**, the other is the **/pull**
+- we decided to give you aibilty to control your api, and we are taking care of the logic behind.
+
+```ts
+ @Post("/push")
+  async pushUserObjects(
+    @Req() req,
+    @Res() res,
+    @Body() input: SyncPayload
+  ) {
+    try{
+      let syncManager = FastSync.getInstance().getSyncManager()
+      await this.syncManager.processPush(input)
+      return this.success(res, {"result":"push was done with success"});
+    }
+    catch(err){
+      return this.error(res,err);
+    }
+  }
+```
+
+```ts
+  @Post("/pull")
+  async pullUserObjects(
+    @Req() req,
+    @Res() res,
+    @Body() metadata: SyncOperationMetadata
+  ) {
+    try{
+      let result = await this.syncManager.processPull(metadata)
+      return this.success(res, result);
+    }
+    catch(err){
+      return this.error(res,err);
+    }
+  }
+
+
+```
+
+- **SyncOperationMetadata** and **SyncPayload** and 2 object handled internally in the package, don't worry they will be created from the client part. you don't need to do any thing here.
+
+- you can add some middleware for the api if you would like.
+
+<a href="https://github.com/Mahdibenamor/FastSync/tree/main/fast-sync-server-exemple">Full sync server exemple for mongoose dao</a>
+
+---
 
 <h1>Fast Sync Client</h1>
 

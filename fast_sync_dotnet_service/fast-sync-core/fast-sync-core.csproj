@@ -18,7 +18,7 @@ Inspired by Git's approach to version control, FastSync offers a set of function
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Title>Fast Sync Core</Title>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Copyright>MIT</Copyright>
     <PackageIcon>fast sync logo.jpg</PackageIcon>
   </PropertyGroup>
@@ -32,11 +32,6 @@ Inspired by Git's approach to version control, FastSync offers a set of function
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
 </Project>

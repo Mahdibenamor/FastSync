@@ -1,48 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>fast_sync_entity_framework_dao</RootNamespace>
-    <Title>Fast Sync EF dao</Title>
-    <PackageId>fast_sync_EF_dao</PackageId>
-    <Description>FastSync is a powerful and streamlined package designed to simplify data synchronization from server side to client application, by consolidating multiple APIs into a single, cohesive interface.
-Inspired by Git's approach to version control, FastSync offers a set of functions to provide a robust solution for efficient data synchronization:
-- pull()
-- push()
-- sync()
-- hardReset()</Description>
-    <Copyright>MIT</Copyright>
-    <PackageProjectUrl>https://github.com/Mahdibenamor/FastSync</PackageProjectUrl>
-    <PackageIcon>fast sync logo.jpg</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/Mahdibenamor/FastSync</RepositoryUrl>
-    <Version>1.0.0</Version>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>fast_sync_entity_framework_dao</RootNamespace>
+		<Title>Fast Sync EF dao</Title>
+		<PackageId>fast_sync_EF_dao</PackageId>
+		<Description>
+			FastSync is a powerful and streamlined package designed to simplify data synchronization from server side to client application, by consolidating multiple APIs into a single, cohesive interface.
+			Inspired by Git's approach to version control, FastSync offers a set of functions to provide a robust solution for efficient data synchronization:
+			- pull()
+			- push()
+			- sync()
+			- hardReset()
+		</Description>
+		<Copyright>MIT</Copyright>
+		<PackageProjectUrl>https://github.com/Mahdibenamor/FastSync</PackageProjectUrl>
+		<PackageIcon>fast sync logo.jpg</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Mahdibenamor/FastSync</RepositoryUrl>
+		<Version>1.0.3</Version>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\images\fast sync logo.jpg">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\images\fast sync logo.jpg">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
-		<PrivateAssets>all</PrivateAssets>
-		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-	  <ProjectReference Include="..\fast-sync-core\fast-sync-core.csproj" />
-  </ItemGroup>
-
+	<ItemGroup>
+		<PackageReference Include="fast_sync_core" Version="1.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>	
 </Project>

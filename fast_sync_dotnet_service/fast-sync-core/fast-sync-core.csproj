@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+	  <PackageId>fast_sync_core</PackageId>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <RootNamespace>fast_sync_core</RootNamespace>
+    <PackageProjectUrl>https://github.com/Mahdibenamor/FastSync</PackageProjectUrl>
+    <Description>FastSync is a powerful and streamlined package designed to simplify data synchronization from server side to client application, by consolidating multiple APIs into a single, cohesive interface.
+Inspired by Git's approach to version control, FastSync offers a set of functions to provide a robust solution for efficient data synchronization:
+- pull()
+- push()
+- sync()
+- hardReset()</Description>
+    <RepositoryUrl>https://github.com/Mahdibenamor/FastSync</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Title>Fast Sync Core</Title>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.3</Version>
+    <Copyright>MIT</Copyright>
+    <PackageIcon>fast sync logo.jpg</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\images\fast sync logo.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

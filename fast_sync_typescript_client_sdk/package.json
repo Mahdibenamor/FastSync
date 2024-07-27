@@ -1,0 +1,21 @@
+{
+  "name": "fast_sync_typescript_client_sdk",
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/**"
+  ],
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "lerna run build",
+    "start": "node packages/exemple/dist/exemple/src/index.js",
+    "graph": " npx nx graph ",
+    "preBuild": "npm install && npm run build"
+  },
+  "dependencies": {},
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lerna": "^7.4.2"
+  }
+}

@@ -10,40 +10,6 @@
   "pathMappings": {},
   "nxJsonPlugins": [],
   "fileMap": {
-    "nonProjectFiles": [
-      {
-        "file": ".gitignore",
-        "hash": "8327087496257475408"
-      },
-      {
-        "file": ".vscode/launch.json",
-        "hash": "6968077586256326598"
-      },
-      {
-        "file": "README.md",
-        "hash": "14701078512152902846"
-      },
-      {
-        "file": "lerna.json",
-        "hash": "2707002024283892729"
-      },
-      {
-        "file": "nx.json",
-        "hash": "5718771193186346223"
-      },
-      {
-        "file": "package-lock.json",
-        "hash": "13240694841655936500"
-      },
-      {
-        "file": "package.json",
-        "hash": "5407741723294918569"
-      },
-      {
-        "file": "tsconfig.json",
-        "hash": "9575720240111896854"
-      }
-    ],
     "projectFileMap": {
       "fast-sync-mongoose-dao": [
         {
@@ -56,7 +22,7 @@
         },
         {
           "file": "packages/fast-sync-mongoose-dao/README.md",
-          "hash": "14701078512152902846"
+          "hash": "9790378162774906262"
         },
         {
           "file": "packages/fast-sync-mongoose-dao/package.json",
@@ -110,7 +76,7 @@
         },
         {
           "file": "packages/fast-sync-core/README.md",
-          "hash": "14701078512152902846"
+          "hash": "9790378162774906262"
         },
         {
           "file": "packages/fast-sync-core/package.json",
@@ -244,7 +210,7 @@
         },
         {
           "file": "packages/exemple/README.md",
-          "hash": "14701078512152902846"
+          "hash": "9790378162774906262"
         },
         {
           "file": "packages/exemple/package.json",
@@ -304,6 +270,40 @@
           "hash": "9575720240111896854"
         }
       ]
-    }
+    },
+    "nonProjectFiles": [
+      {
+        "file": ".gitignore",
+        "hash": "8327087496257475408"
+      },
+      {
+        "file": ".vscode/launch.json",
+        "hash": "6968077586256326598"
+      },
+      {
+        "file": "README.md",
+        "hash": "9790378162774906262"
+      },
+      {
+        "file": "lerna.json",
+        "hash": "2707002024283892729"
+      },
+      {
+        "file": "nx.json",
+        "hash": "5718771193186346223"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "13240694841655936500"
+      },
+      {
+        "file": "package.json",
+        "hash": "5407741723294918569"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "9575720240111896854"
+      }
+    ]
   }
 }

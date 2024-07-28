@@ -2,9 +2,15 @@
   "name": "fast-sync-typescript-client-sdk",
   "version": "1.0.0",
   "description": "FastSync dart client to fastly sync your objects, without the need to use tones of apis",
+  "workspaces": [
+    "packages/**"
+  ],
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+"scripts": {
+    "build": "lerna run build",
+    "start": "node packages/exemple/dist/exemple/src/index.js",
+    "graph": " npx nx graph ",
+    "preBuild": "npm install && npm run build"
   },
   "repository": {
     "type": "git",
@@ -15,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/Mahdibenamor/FastSync/issues"
   },
-  "homepage": "https://github.com/Mahdibenamor/FastSync#readme"
+  "homepage": "https://github.com/Mahdibenamor/FastSync#readme",
+  "dependencies": {
+    "lerna": "^8.1.7"
+  }
 }

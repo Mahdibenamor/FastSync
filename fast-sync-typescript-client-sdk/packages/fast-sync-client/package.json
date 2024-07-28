@@ -1,0 +1,19 @@
+{
+  "name": "fast-sync-client",
+  "version": "1.0.0",
+  "description": "FastSync dart client to fastly sync your objects, without the need to use tones of apis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mahdibenamor/FastSync.git"
+  },
+  "author": "Mahdi Ben Amor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mahdibenamor/FastSync/issues"
+  },
+  "homepage": "https://github.com/Mahdibenamor/FastSync#readme"
+}

@@ -6,7 +6,7 @@
     "packages/**"
   ],
   "main": "index.js",
-"scripts": {
+  "scripts": {
     "build": "lerna run build",
     "start": "node packages/exemple/dist/exemple/src/index.js",
     "graph": " npx nx graph ",

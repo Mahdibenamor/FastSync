@@ -8,48 +8,41 @@ import { ISyncManager } from "../abstraction/service/isync_manager";
 import { SyncConfiguration } from "./service/sync_config";
 import { SyncVersionManager } from "./service/sync_version_manager";
 
-export class FastSync<V extends SyncConfiguration> {
-  private static _instance: FastSync<any> | null = null;
-  private _syncConfiguration: V | null = null;
+export class FastSync {
+  private static instance: FastSync;
+  private syncConfiguration: SyncConfiguration;
 
   private constructor() {}
 
-  static getInstance<V extends SyncConfiguration>(
-    syncConfiguration?: V
-  ): FastSync<V> {
-    if (!FastSync._instance) {
-      FastSync._instance = new FastSync();
+  public static getInstance(): FastSync;
+  public static getInstance(syncConfiguration: SyncConfiguration): FastSync;
+
+  public static getInstance(syncConfiguration?: SyncConfiguration): FastSync {
+    if (!FastSync.instance) {
+      FastSync.instance = new FastSync();
     }
-    if (
-      FastSync._instance._syncConfiguration === null &&
-      syncConfiguration !== undefined
-    ) {
+    if (syncConfiguration) {
       FastSync.setSyncConfiguration(syncConfiguration);
     }
-    return FastSync._instance as FastSync<V>;
+    return FastSync.instance;
   }
 
-  static setSyncConfiguration<V extends SyncConfiguration>(
-    syncConfiguration: V
-  ): void {
-    if (!FastSync._instance) {
-      FastSync._instance = new FastSync();
-    }
-    FastSync._instance._syncConfiguration = syncConfiguration;
+  private static setSyncConfiguration(syncConfiguration: SyncConfiguration) {
+    FastSync.instance.syncConfiguration = syncConfiguration;
   }
 
-  static getSyncConfiguration<V extends SyncConfiguration>(): V {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+  static getSyncConfiguration(): SyncConfiguration {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
-    return FastSync._instance._syncConfiguration as V;
+    return FastSync.instance.syncConfiguration;
   }
 
   static getSyncableTypes(): string[] {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
-    return FastSync._instance._syncConfiguration.syncableTypes;
+    return FastSync.instance.syncConfiguration.syncableTypes;
   }
 
   static setSyncableObject<T extends ISyncableObject>(
@@ -57,10 +50,10 @@ export class FastSync<V extends SyncConfiguration> {
     repository: ISyncableRepository<T>,
     syncZoneRestriction: SyncZoneRestrictionEnum = SyncZoneRestrictionEnum.global
   ): void {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
-    const syncConfiguration = FastSync._instance._syncConfiguration;
+    const syncConfiguration = FastSync.instance.syncConfiguration;
     syncConfiguration.setSyncableObject(type, repository);
     FastSync.setSyncConfiguration(syncConfiguration);
   }
@@ -68,61 +61,59 @@ export class FastSync<V extends SyncConfiguration> {
   static getObjectRepository<T extends ISyncableObject>(
     type: string
   ): ISyncableRepository<T> {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
     const selectedType = type;
-    return FastSync._instance._syncConfiguration.getObjectRepository(
+    return FastSync.instance.syncConfiguration.getObjectRepository(
       selectedType
     );
   }
 
   static getTypeSyncZoneRestriction(type: string): SyncZoneRestrictionEnum {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
-    return FastSync._instance._syncConfiguration.getTypeSyncZoneRestriction(
-      type
-    );
+    return FastSync.instance.syncConfiguration.getTypeSyncZoneRestriction(type);
   }
 
   static getSyncManager(): ISyncManager {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
-    return FastSync._instance._syncConfiguration.getSyncManager();
+    return FastSync.instance.syncConfiguration.getSyncManager();
   }
 
   static setHttpManager(httpManager: IHttpManager): void {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
-    FastSync._instance._syncConfiguration.setHttpManager(httpManager);
+    FastSync.instance.syncConfiguration.setHttpManager(httpManager);
   }
 
   static getHttpManager(): IHttpManager {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
-    return FastSync._instance._syncConfiguration.getHttpManager();
+    return FastSync.instance.syncConfiguration.getHttpManager();
   }
 
   static getSyncVersionManager(): SyncVersionManager {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
-    return FastSync._instance._syncConfiguration.getSyncVersionManager();
+    return FastSync.instance.syncConfiguration.getSyncVersionManager();
   }
 
-  static setTypeSyncZone<T extends ISyncableObject>(
+  static setTypeSyncZone(
     type: string,
     syncZoneRestriction: SyncZoneRestrictionEnum,
     syncZone?: string
   ): void {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
-    FastSync._instance._syncConfiguration.setTypeSyncZone(
+    FastSync.instance.syncConfiguration.setTypeSyncZone(
       type,
       syncZoneRestriction,
       syncZone
@@ -130,14 +121,14 @@ export class FastSync<V extends SyncConfiguration> {
   }
 
   static getTypeSyncZone(type: string): string {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
-    return FastSync._instance._syncConfiguration.getTypeSyncZone(type);
+    return FastSync.instance.syncConfiguration.getTypeSyncZone(type);
   }
 
   static getsyncMetadataDataSource(): ISyncableDataSource<ISyncMetadata> {
-    if (!FastSync._instance || !FastSync._instance._syncConfiguration) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
       throw new Error("Sync configuration is not set.");
     }
     return FastSync.getSyncVersionManager().syncMetadataDataSource;

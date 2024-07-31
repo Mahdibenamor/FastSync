@@ -9,10 +9,15 @@ export * from "./abstraction/metadata/isync_operation";
 export * from "./abstraction/metadata/isyncable_object";
 export * from "./abstraction/metadata/iwith_id";
 
-// export models folder of abstraction
+// export data folder of abstraction
 export * from "./abstraction/data/base_repository";
 export * from "./abstraction/data/isyncable_data_source";
 export * from "./abstraction/data/isyncable_repository";
+
+// export models folder of abstraction
+export * from "./abstraction/models/sync_operation_metadata";
+export * from "./abstraction/models/sync_payload";
+export * from "./abstraction/models/sync_zone_restriction";
 
 // export service folder of abstraction
 export * from "./abstraction/service/conflicts_resolution_strategie";

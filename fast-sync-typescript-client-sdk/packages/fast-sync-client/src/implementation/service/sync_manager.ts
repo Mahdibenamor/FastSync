@@ -9,9 +9,9 @@ import { FastSync } from "../fast_sync";
 import { SyncVersionManager } from "./sync_version_manager";
 
 export class SyncManager implements ISyncManager {
-  async push(): Promise<SyncPayload<ISyncableObject>> {
+  async push(): Promise<SyncPayload> {
     const httpManager: IHttpManager = FastSync.getHttpManager();
-    const payload: SyncPayload<ISyncableObject> = await this._buildPayload();
+    const payload: SyncPayload = await this._buildPayload();
     let isSucced = false;
 
     if (payload.hasData) {
@@ -23,7 +23,7 @@ export class SyncManager implements ISyncManager {
     return payload;
   }
 
-  async pull(): Promise<SyncPayload<ISyncableObject>> {
+  async pull(): Promise<SyncPayload> {
     const httpManager: IHttpManager = FastSync.getHttpManager();
     const operationMetadata = new SyncOperationMetadata();
     const syncableTypes: string[] = FastSync.getSyncableTypes();
@@ -36,22 +36,20 @@ export class SyncManager implements ISyncManager {
       operationMetadata.setMetadata(type, typeLocalMetadata);
     }
 
-    const payload: SyncPayload<ISyncableObject> = await httpManager.pull(
-      operationMetadata
-    );
+    const payload: SyncPayload = await httpManager.pull(operationMetadata);
     await this._undirtyList(payload);
     await this._processPayloadMetadata(payload);
     return payload;
   }
 
-  async sync(): Promise<SyncPayload<ISyncableObject>> {
+  async sync(): Promise<SyncPayload> {
     await this.push();
     return await this.pull();
   }
 
   async hardReset(
     types?: Array<{ new (): ISyncableObject }>
-  ): Promise<SyncPayload<ISyncableObject>> {
+  ): Promise<SyncPayload> {
     let syncableTypes: string[] = [];
 
     if (types && types.length > 0) {
@@ -73,10 +71,9 @@ export class SyncManager implements ISyncManager {
     return object.dirty;
   }
 
-  private async _buildPayload(): Promise<SyncPayload<ISyncableObject>> {
+  private async _buildPayload(): Promise<SyncPayload> {
     const syncableTypes: string[] = FastSync.getSyncableTypes();
-    const payload: SyncPayload<ISyncableObject> =
-      new SyncPayload<ISyncableObject>();
+    const payload: SyncPayload = new SyncPayload();
 
     for (const type of syncableTypes) {
       const repository: ISyncableRepository<ISyncableObject> =
@@ -90,9 +87,7 @@ export class SyncManager implements ISyncManager {
     return payload;
   }
 
-  private async _undirtyList(
-    payload: SyncPayload<ISyncableObject>
-  ): Promise<void> {
+  private async _undirtyList(payload: SyncPayload): Promise<void> {
     const syncableTypes: string[] = payload.getSyncedTypes();
 
     for (const type of syncableTypes) {
@@ -103,9 +98,7 @@ export class SyncManager implements ISyncManager {
     }
   }
 
-  private async _processPayloadMetadata(
-    payload: SyncPayload<ISyncableObject>
-  ): Promise<void> {
+  private async _processPayloadMetadata(payload: SyncPayload): Promise<void> {
     const syncableTypes: string[] = payload.getSyncedTypes();
     const syncVersionManager: SyncVersionManager =
       FastSync.getSyncVersionManager();

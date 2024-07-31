@@ -1,0 +1,31 @@
+import { FastSync } from "fast-sync-client";
+import { ItemRepository } from "./item/item_repository";
+import { Item } from "./item/item";
+import { SyncZoneRestrictionEnum } from "fast-sync-client/abstraction/models/sync_zone_restriction";
+import { MemorySyncConfiguration } from "fast-sync-memory-dao";
+import { HttpManager } from "./http/http_manager";
+
+async function main() {
+  await configureFastSync();
+
+  let syncManager = FastSync.getSyncManager();
+  syncManager.pull();
+  let repository = FastSync.getObjectRepository<Item>(Item.name);
+  let localItems = await repository.getAll();
+  localItems.forEach((element) => {
+    console.log(element);
+  });
+}
+async function configureFastSync() {
+  FastSync.getInstance(new MemorySyncConfiguration());
+  FastSync.setTypeSyncZone(Item.name, SyncZoneRestrictionEnum.global);
+  FastSync.setHttpManager(new HttpManager());
+  let itemRepository = new ItemRepository();
+  await FastSync.setSyncableObject(
+    Item.name,
+    itemRepository,
+    SyncZoneRestrictionEnum.global
+  );
+}
+
+main().catch((error) => console.error("Error in main function:", error));

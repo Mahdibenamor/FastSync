@@ -1,0 +1,10 @@
+# source
+src
+index.ts
+
+# tests
+/tests
+
+# misc
+package-lock.json
+tsconfig.json

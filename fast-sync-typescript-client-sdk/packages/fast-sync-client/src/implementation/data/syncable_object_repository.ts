@@ -33,7 +33,6 @@ export class SyncalbeRepository<T extends ISyncableObject>
     const entitiesToSave: T[] = [];
     const metadataTosave: ISyncMetadata[] = [];
     const type = "";
-
     for (let entity of entities) {
       entity.metadata.syncOperation = SyncOperationEnum.add;
       entity.metadata.type = type;

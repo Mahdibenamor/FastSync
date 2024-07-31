@@ -1,46 +1,53 @@
 import { FastSync } from "../../implementation/fast_sync";
+import { SyncMetadata } from "../../implementation/metadata/syncable_metadata";
 import { ISyncMetadata } from "../metadata/isync_metadata";
 import { ISyncableObject } from "../metadata/isyncable_object";
 import { SyncOperationMetadata } from "./sync_operation_metadata";
 
-export class SyncPayload<T extends ISyncableObject> {
-  private _data: Map<string, T[]>;
+export class SyncPayload {
+  public data: Map<string, any[]>;
   operationMetadata: SyncOperationMetadata;
   hasData: boolean = false;
 
+  static create(syncPayload: SyncPayload) {
+    let payload = new SyncPayload();
+    payload.data = syncPayload.data;
+    payload.operationMetadata = SyncOperationMetadata.create(
+      syncPayload.operationMetadata
+    );
+    return payload;
+  }
+
   constructor(
-    data?: Map<string, T[]>,
+    data?: Map<string, any[]>,
     operationMetadata?: SyncOperationMetadata
   ) {
-    this._data = data ?? new Map<string, T[]>();
+    this.data = data ?? new Map<string, any[]>();
     this.operationMetadata = operationMetadata ?? new SyncOperationMetadata();
   }
 
-  pushObjects(type: string, entities: T[]): void {
+  pushObjects<T extends ISyncableObject>(type: string, entities: T[]): void {
     if (entities.length > 0) {
-      const typeMetadataJson = {
-        syncZone: FastSync.getTypeSyncZone(type),
-        type: type,
-        id: "id",
-        version: 999,
-        timestamp: 999,
-        syncOperation: 999,
-      };
+      let syncMetadata = new SyncMetadata(
+        type,
+        999,
+        FastSync.getTypeSyncZone(type)
+      );
       this.operationMetadata.setMetadata(
         type,
-        this.buildMetadata(typeMetadataJson)
+        this.buildMetadata(syncMetadata)
       );
-      this._data.set(type, entities);
+      this.data.set(type, entities);
       this.hasData = true;
     }
   }
 
-  getObjectsForType(type: string): T[] {
-    return this._data.get(type) ?? [];
+  getObjectsForType(type: string): any[] {
+    return this.data.get(type) ?? [];
   }
 
   getSyncedTypes(): string[] {
-    return Array.from(this._data.keys());
+    return Array.from(this.data.keys());
   }
 
   getTypeMetadata(type: string): ISyncMetadata {

@@ -71,15 +71,16 @@ export class SyncalbeRepository<T extends ISyncableObject>
   async getAll(): Promise<T[]> {
     let items = await this.dataSource.getAll();
     items = items.filter(this._undoRemovedEntities);
-
+    let entities: T[] = [];
     const metadataIds = items.map((item) => item.metadataId);
     const metadatas = await this.syncMetadataDataSource.findByIds(metadataIds);
     const metadataDict = this.createDict(metadatas);
+    for (let entity of items) {
+      entity.metadata = metadataDict[entity.metadataId];
+      entities.push(entity);
+    }
 
-    return items.map((item) => {
-      item.metadata = metadataDict[item.metadataId];
-      return item;
-    });
+    return entities;
   }
 
   async query(query: (item: T) => boolean): Promise<T[]> {

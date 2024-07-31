@@ -51,7 +51,7 @@ export class SyncableObjectDataSource<T extends IWithId>
   async findByIds(ids: string[]): Promise<T[]> {
     var results = [];
     for (var i = 0; i < ids.length; i++) {
-      var item = this.findById(ids[i]);
+      var item = await this.findById(ids[i]);
       if (item != null) {
         results.push(item);
       }

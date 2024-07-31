@@ -4,6 +4,7 @@
   "description": "FastSync dart client to fastly sync your objects, without the need to use tones of apis",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

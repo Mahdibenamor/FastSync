@@ -1,15 +1,14 @@
-import { FastSync } from "fast-sync-client";
+import { FastSync, SyncZoneRestrictionEnum } from "fast-sync-client";
+import { MemorySyncConfiguration } from "fast-sync-memory-dao";
 import { ItemRepository } from "./item/item_repository";
 import { Item } from "./item/item";
-import { SyncZoneRestrictionEnum } from "fast-sync-client/abstraction/models/sync_zone_restriction";
-import { MemorySyncConfiguration } from "fast-sync-memory-dao";
 import { HttpManager } from "./http/http_manager";
 
 async function main() {
   await configureFastSync();
 
   let syncManager = FastSync.getSyncManager();
-  syncManager.pull();
+  await syncManager.pull();
   let repository = FastSync.getObjectRepository<Item>(Item.name);
   let localItems = await repository.getAll();
   localItems.forEach((element) => {

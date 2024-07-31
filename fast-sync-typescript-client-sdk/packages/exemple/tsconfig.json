@@ -1,20 +1,24 @@
 {
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "tests", "dist", "**/*spec.ts"],
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
     "module": "commonjs",
     "declaration": true,
-    "noImplicitAny": false,
     "removeComments": true,
-    "noLib": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "target": "ES2021",
-    "sourceMap": false,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "rootDir": "../.",
+    "incremental": true,
     "skipLibCheck": true,
+    "strictNullChecks": false,
     "strict": false,
-    "strictPropertyInitialization": false
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
   }
 }

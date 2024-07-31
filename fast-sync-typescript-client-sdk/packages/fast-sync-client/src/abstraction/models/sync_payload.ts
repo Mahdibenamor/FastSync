@@ -1,5 +1,6 @@
 import { FastSync } from "../../implementation/fast_sync";
 import { SyncMetadata } from "../../implementation/metadata/syncable_metadata";
+import { isNullOrUndefined } from "../../implementation/utils/utils";
 import { ISyncMetadata } from "../metadata/isync_metadata";
 import { ISyncableObject } from "../metadata/isyncable_object";
 import { SyncOperationMetadata } from "./sync_operation_metadata";
@@ -43,11 +44,15 @@ export class SyncPayload {
   }
 
   getObjectsForType(type: string): any[] {
-    return this.data.get(type) ?? [];
+    if (this.data.hasOwnProperty(type) && !isNullOrUndefined(this.data[type])) {
+      return this.data[type];
+    } else {
+      return [];
+    }
   }
 
   getSyncedTypes(): string[] {
-    return Array.from(this.data.keys());
+    return Object.keys(this.data);
   }
 
   getTypeMetadata(type: string): ISyncMetadata {

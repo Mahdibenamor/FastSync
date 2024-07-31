@@ -1,7 +1,7 @@
 import { Constants } from "../../abstraction/constants";
 import { ISyncableRepository } from "../../abstraction/data/isyncable_repository";
 import { ISyncableObject } from "../../abstraction/metadata/isyncable_object";
-import { SyncZoneRestrictionEnum } from "../../abstraction/models/Sync_zone_restriction";
+import { SyncZoneRestrictionEnum } from "../../abstraction/models/sync_zone_restriction";
 import { IHttpManager } from "../../abstraction/service/ihttp_manager";
 import { ISyncConfiguration } from "../../abstraction/service/isync_config";
 import { ISyncManager } from "../../abstraction/service/isync_manager";
@@ -17,7 +17,7 @@ export class SyncConfiguration implements ISyncConfiguration {
     this.init();
   }
 
-  init(): void {
+  protected init(): void {
     this.setSyncManager(new SyncManager());
   }
 

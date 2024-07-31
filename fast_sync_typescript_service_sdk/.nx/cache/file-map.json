@@ -10,6 +10,40 @@
   "pathMappings": {},
   "nxJsonPlugins": [],
   "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".gitignore",
+        "hash": "8327087496257475408"
+      },
+      {
+        "file": ".vscode/launch.json",
+        "hash": "6968077586256326598"
+      },
+      {
+        "file": "README.md",
+        "hash": "9790378162774906262"
+      },
+      {
+        "file": "lerna.json",
+        "hash": "2707002024283892729"
+      },
+      {
+        "file": "nx.json",
+        "hash": "5718771193186346223"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "9747980293223392795"
+      },
+      {
+        "file": "package.json",
+        "hash": "5407741723294918569"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "9575720240111896854"
+      }
+    ],
     "projectFileMap": {
       "fast-sync-mongoose-dao": [
         {
@@ -63,6 +97,73 @@
         {
           "file": "packages/fast-sync-mongoose-dao/tsconfig.json",
           "hash": "1407337225048223310"
+        }
+      ],
+      "exemple": [
+        {
+          "file": "packages/exemple/.gitignore",
+          "hash": "4370246014622247520"
+        },
+        {
+          "file": "packages/exemple/README.md",
+          "hash": "9790378162774906262"
+        },
+        {
+          "file": "packages/exemple/package.json",
+          "hash": "496301321544588023",
+          "deps": [
+            "npm:@types/express",
+            "npm:@types/node",
+            "npm:body-parser",
+            "npm:cors",
+            "npm:typedi",
+            "npm:express",
+            "npm:class-transformer",
+            "npm:class-validator",
+            "fast-sync-core",
+            "fast-sync-mongoose-dao",
+            "npm:module-alias",
+            "npm:mongoose",
+            "npm:multer",
+            "npm:reflect-metadata",
+            "npm:routing-controllers",
+            "npm:ts-loader",
+            "npm:ts-node",
+            "npm:tsconfig-paths",
+            "npm:typescript"
+          ]
+        },
+        {
+          "file": "packages/exemple/src/index.ts",
+          "hash": "7510516455140254142"
+        },
+        {
+          "file": "packages/exemple/src/item.ts",
+          "hash": "1389312069033022678"
+        },
+        {
+          "file": "packages/exemple/src/item_datasource.ts",
+          "hash": "10226427003937152508"
+        },
+        {
+          "file": "packages/exemple/src/item_repository.ts",
+          "hash": "11385598494795717824"
+        },
+        {
+          "file": "packages/exemple/src/sync.controller.ts",
+          "hash": "8778776019246645814"
+        },
+        {
+          "file": "packages/exemple/src/utils/base_controller.ts",
+          "hash": "3641015318597490936"
+        },
+        {
+          "file": "packages/exemple/src/utils/sync_payload_exemple.ts",
+          "hash": "4521182649202056058"
+        },
+        {
+          "file": "packages/exemple/tsconfig.json",
+          "hash": "9575720240111896854"
         }
       ],
       "fast-sync-core": [
@@ -128,7 +229,7 @@
         },
         {
           "file": "packages/fast-sync-core/src/core/abstraction/models/Sync_payload.ts",
-          "hash": "7796402754207128905"
+          "hash": "14756457754449572323"
         },
         {
           "file": "packages/fast-sync-core/src/core/abstraction/models/Sync_zone_restriction.ts",
@@ -144,7 +245,7 @@
         },
         {
           "file": "packages/fast-sync-core/src/core/abstraction/service/ISync_manager.ts",
-          "hash": "1507321693399074406"
+          "hash": "6568522435821089054"
         },
         {
           "file": "packages/fast-sync-core/src/core/abstraction/service/ISync_version_manager.ts",
@@ -184,7 +285,7 @@
         },
         {
           "file": "packages/fast-sync-core/src/core/implementation/service/sync_manager.ts",
-          "hash": "15607098724260237660"
+          "hash": "12883075526053038016"
         },
         {
           "file": "packages/fast-sync-core/src/core/implementation/service/sync_version_manager.ts",
@@ -196,114 +297,13 @@
         },
         {
           "file": "packages/fast-sync-core/src/index.ts",
-          "hash": "7961026809995430809"
+          "hash": "3897425833023653935"
         },
         {
           "file": "packages/fast-sync-core/tsconfig.json",
           "hash": "1407337225048223310"
         }
-      ],
-      "exemple": [
-        {
-          "file": "packages/exemple/.gitignore",
-          "hash": "4370246014622247520"
-        },
-        {
-          "file": "packages/exemple/README.md",
-          "hash": "9790378162774906262"
-        },
-        {
-          "file": "packages/exemple/package.json",
-          "hash": "496301321544588023",
-          "deps": [
-            "npm:@types/express",
-            "npm:@types/node",
-            "npm:body-parser",
-            "npm:cors",
-            "npm:typedi",
-            "npm:express",
-            "npm:class-transformer",
-            "npm:class-validator",
-            "fast-sync-core",
-            "fast-sync-mongoose-dao",
-            "npm:module-alias",
-            "npm:mongoose",
-            "npm:multer",
-            "npm:reflect-metadata",
-            "npm:routing-controllers",
-            "npm:ts-loader",
-            "npm:ts-node",
-            "npm:tsconfig-paths",
-            "npm:typescript"
-          ]
-        },
-        {
-          "file": "packages/exemple/src/index.ts",
-          "hash": "16327636083148897610"
-        },
-        {
-          "file": "packages/exemple/src/item.ts",
-          "hash": "1389312069033022678"
-        },
-        {
-          "file": "packages/exemple/src/item_datasource.ts",
-          "hash": "10226427003937152508"
-        },
-        {
-          "file": "packages/exemple/src/item_repository.ts",
-          "hash": "11385598494795717824"
-        },
-        {
-          "file": "packages/exemple/src/sync.controller.ts",
-          "hash": "8778776019246645814"
-        },
-        {
-          "file": "packages/exemple/src/utils/base_controller.ts",
-          "hash": "3641015318597490936"
-        },
-        {
-          "file": "packages/exemple/src/utils/sync_payload_exemple.ts",
-          "hash": "4521182649202056058"
-        },
-        {
-          "file": "packages/exemple/tsconfig.json",
-          "hash": "9575720240111896854"
-        }
       ]
-    },
-    "nonProjectFiles": [
-      {
-        "file": ".gitignore",
-        "hash": "8327087496257475408"
-      },
-      {
-        "file": ".vscode/launch.json",
-        "hash": "6968077586256326598"
-      },
-      {
-        "file": "README.md",
-        "hash": "9790378162774906262"
-      },
-      {
-        "file": "lerna.json",
-        "hash": "2707002024283892729"
-      },
-      {
-        "file": "nx.json",
-        "hash": "5718771193186346223"
-      },
-      {
-        "file": "package-lock.json",
-        "hash": "13240694841655936500"
-      },
-      {
-        "file": "package.json",
-        "hash": "5407741723294918569"
-      },
-      {
-        "file": "tsconfig.json",
-        "hash": "9575720240111896854"
-      }
-    ]
+    }
   }
 }

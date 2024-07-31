@@ -1,7 +1,7 @@
 import { Constants } from "../../abstraction/constants";
-import { ISyncMetadata } from "../../abstraction/metadata/ISync_metadata";
-import { SyncOperationEnum } from "../../abstraction/metadata/ISync_operation";
-import { ISyncableObject } from "../../abstraction/metadata/ISyncable_object";
+import { ISyncMetadata } from "../../abstraction/metadata/isync_metadata";
+import { SyncOperationEnum } from "../../abstraction/metadata/isync_operation";
+import { ISyncableObject } from "../../abstraction/metadata/isyncable_object";
 
 export class SyncableObject implements ISyncableObject {
   public id: string;

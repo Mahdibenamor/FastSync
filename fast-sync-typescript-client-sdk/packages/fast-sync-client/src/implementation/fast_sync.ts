@@ -2,7 +2,7 @@ import { ISyncableDataSource } from "../abstraction/data/isyncable_data_source";
 import { ISyncableRepository } from "../abstraction/data/isyncable_repository";
 import { ISyncMetadata } from "../abstraction/metadata/isync_metadata";
 import { ISyncableObject } from "../abstraction/metadata/isyncable_object";
-import { SyncZoneRestrictionEnum } from "../abstraction/models/Sync_zone_restriction";
+import { SyncZoneRestrictionEnum } from "../abstraction/models/sync_zone_restriction";
 import { IHttpManager } from "../abstraction/service/ihttp_manager";
 import { ISyncManager } from "../abstraction/service/isync_manager";
 import { SyncConfiguration } from "./service/sync_config";

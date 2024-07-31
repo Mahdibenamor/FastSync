@@ -1,8 +1,8 @@
 import { Constants } from "../../abstraction/constants";
-import { ISyncMetadata } from "../../abstraction/metadata/ISync_metadata";
-import { SyncOperationEnum } from "../../abstraction/metadata/ISync_operation";
-import { SyncZoneRestrictionEnum } from "../../abstraction/models/Sync_zone_restriction";
+import { ISyncMetadata } from "../../abstraction/metadata/isync_metadata";
+import { SyncOperationEnum } from "../../abstraction/metadata/isync_operation";
 import { v4 as uuid } from "uuid";
+import { SyncZoneRestrictionEnum } from "../../abstraction/models/sync_zone_restriction";
 
 export class SyncMetadata implements ISyncMetadata {
   id: string;

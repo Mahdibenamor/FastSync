@@ -17,7 +17,7 @@ export class SyncVersionManager {
         type: type,
         id: type,
         version: 0,
-        timestamp: Math.floor(Date.now() / 1000), // Unix timestamp in seconds
+        timestamp: Math.floor(Date.now() / 1000),
         syncOperation: 999,
       };
       metadata = await this.syncMetadataDataSource.add(

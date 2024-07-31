@@ -9,5 +9,5 @@ export interface ISyncableDataSource<T> {
   findById(id: string): Promise<T | null>;
   findByIds(ids: string[]): Promise<T[]>;
   count(): Promise<number>;
-  dispose(): Promise<void>;
+  dispose(): Promise<any>;
 }

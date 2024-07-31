@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Mahdibenamor/FastSync/issues"
   },
+  "dependencies": {
+    "typescript": "5.3.2",
+    "fast-sync-client": "file:../fast-sync-client/src"
+  },
   "homepage": "https://github.com/Mahdibenamor/FastSync#readme"
 }

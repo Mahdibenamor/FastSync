@@ -1,5 +1,5 @@
-import { ISyncMetadata } from "./ISync_metadata";
-import { IWithId } from "./Iwith_id";
+import { ISyncMetadata } from "./isync_metadata";
+import { IWithId } from "./iwith_id";
 
 export interface ISyncableObject extends IWithId {
   id: string;

@@ -1,6 +1,6 @@
-import { SyncZoneRestrictionEnum } from "../models/Sync_zone_restriction";
-import { SyncOperationEnum } from "./ISync_operation";
-import { IWithId } from "./Iwith_id";
+import { SyncZoneRestrictionEnum } from "../models/sync_zone_restriction";
+import { SyncOperationEnum } from "./isync_operation";
+import { IWithId } from "./iwith_id";
 
 export interface ISyncMetadata extends IWithId {
   id: string;

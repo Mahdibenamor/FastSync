@@ -1,4 +1,4 @@
-import { IWithId } from "../../abstraction/metadata/Iwith_id";
+import { IWithId } from "../../abstraction/metadata/iwith_id";
 
 export function createInstance<T>(
   type: { new (...args: any[]): T },
@@ -8,19 +8,19 @@ export function createInstance<T>(
   return Object.assign(instance, args[0]);
 }
 
-
 export function isNullOrUndefined(value: any): boolean {
   return value === null || value === undefined;
 }
 
-
 export function isEmptyString(value: string): boolean {
-  return isNullOrUndefined(value) || value == '';
+  return isNullOrUndefined(value) || value == "";
 }
-export function createDict<T extends IWithId>(objects: T[]): {[id:string]:T}{
-  let dict : {[id: string]: T} = {};
+export function createDict<T extends IWithId>(
+  objects: T[]
+): { [id: string]: T } {
+  let dict: { [id: string]: T } = {};
   for (const obj of objects) {
-    dict[obj.id] =  obj;
+    dict[obj.id] = obj;
   }
   return dict;
 }

@@ -1,3 +1,3 @@
-export abstract class IWithId {
-  public id: string;
+export interface IWithId {
+  id: string;
 }

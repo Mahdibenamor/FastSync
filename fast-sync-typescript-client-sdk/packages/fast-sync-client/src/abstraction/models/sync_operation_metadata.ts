@@ -1,6 +1,6 @@
 import { SyncMetadata } from "../../implementation/metadata/syncable_metadata";
 import { isNullOrUndefined } from "../../implementation/utils/utils";
-import { ISyncMetadata } from "../metadata/ISync_metadata";
+import { ISyncMetadata } from "../metadata/isync_metadata";
 
 export class SyncOperationMetadata {
   metadata: Record<string, ISyncMetadata> = {};

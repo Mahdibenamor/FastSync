@@ -16,17 +16,18 @@ async function main() {
 
   // save and push element
   let itemToSave = new Item();
-  itemToSave.name = "Item2";
-  itemToSave.description = "Item2";
+  itemToSave.name = "Item3";
+  itemToSave.description = "Item3";
   await repository.add(itemToSave);
   payload = await syncManager.push();
+  payload = await syncManager.pull();
 
-  // // pull elements
-  // payload = await syncManager.pull();
-  // localItems = await repository.getAll();
-  // localItems.forEach((element) => {
-  //   console.log(element);
-  // });
+  // pull elements
+  payload = await syncManager.pull();
+  localItems = await repository.getAll();
+  localItems.forEach((element) => {
+    console.log(element);
+  });
 }
 async function configureFastSync() {
   FastSync.getInstance(new MemorySyncConfiguration());

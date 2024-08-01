@@ -54,7 +54,7 @@ async function configureFastSync() {
     Item.name,
     repo,
     conflictsHandler,
-    SyncZoneRestrictionEnum.global
+    SyncZoneRestrictionEnum.restricted
   );
 }
 

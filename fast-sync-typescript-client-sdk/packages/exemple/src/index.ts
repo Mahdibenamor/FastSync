@@ -31,7 +31,11 @@ async function main() {
 }
 async function configureFastSync() {
   FastSync.getInstance(new MemorySyncConfiguration());
-  FastSync.setTypeSyncZone(Item.name, SyncZoneRestrictionEnum.global);
+  FastSync.setTypeSyncZone(
+    Item.name,
+    SyncZoneRestrictionEnum.restricted,
+    "user2"
+  );
   FastSync.setHttpManager(new HttpManager());
   let itemRepository = new ItemRepository();
   await FastSync.setSyncableObject(

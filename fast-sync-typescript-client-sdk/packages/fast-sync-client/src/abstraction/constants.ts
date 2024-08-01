@@ -12,4 +12,5 @@ export class Constants {
   static readonly syncVersionManagerName = "SyncVersionManager";
   static readonly createDataBaseCommand = "CreateDataBaseCommand";
   static readonly emptyString = "";
+  static readonly maxSyncVersion = 999;
 }

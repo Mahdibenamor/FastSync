@@ -6,7 +6,7 @@ import { ISyncableObject } from "../metadata/isyncable_object";
 import { SyncOperationMetadata } from "./sync_operation_metadata";
 
 export class SyncPayload {
-  public data: Map<string, any[]>;
+  public data: Record<string, any[]> = {};
   operationMetadata: SyncOperationMetadata;
   hasData: boolean = false;
 
@@ -20,10 +20,10 @@ export class SyncPayload {
   }
 
   constructor(
-    data?: Map<string, any[]>,
+    data?: Record<string, any[]>,
     operationMetadata?: SyncOperationMetadata
   ) {
-    this.data = data ?? new Map<string, any[]>();
+    this.data = data ?? {};
     this.operationMetadata = operationMetadata ?? new SyncOperationMetadata();
   }
 
@@ -34,11 +34,14 @@ export class SyncPayload {
         999,
         FastSync.getTypeSyncZone(type)
       );
+      if (!(type in this.data)) {
+        this.data[type] = [];
+      }
       this.operationMetadata.setMetadata(
         type,
         this.buildMetadata(syncMetadata)
       );
-      this.data.set(type, entities);
+      this.data[type].push(...entities);
       this.hasData = true;
     }
   }

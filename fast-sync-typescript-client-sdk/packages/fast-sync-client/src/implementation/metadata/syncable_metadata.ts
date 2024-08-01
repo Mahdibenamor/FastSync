@@ -5,8 +5,8 @@ import { v4 as uuid } from "uuid";
 import { SyncZoneRestrictionEnum } from "../../abstraction/models/sync_zone_restriction";
 
 export class SyncMetadata implements ISyncMetadata {
-  id: string;
-  timestamp: number;
+  id: string = uuid();
+  timestamp: number = new Date().getTime() / 1000;
   syncOperation: SyncOperationEnum;
 
   static create(metadata: SyncMetadata) {
@@ -21,10 +21,7 @@ export class SyncMetadata implements ISyncMetadata {
     public type: string,
     public version: number,
     public syncZone: string
-  ) {
-    this.id = uuid();
-    this.timestamp = new Date().getTime() / 1000;
-  }
+  ) {}
 
   getSyncZone() {
     return this.syncZone;

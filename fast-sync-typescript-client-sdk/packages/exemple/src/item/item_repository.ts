@@ -4,6 +4,6 @@ import { ItemDataSource } from "./item_data_source";
 
 export class ItemRepository extends SyncalbeRepository<Item> {
   constructor() {
-    super(new ItemDataSource());
+    super(new ItemDataSource(), Item.name);
   }
 }

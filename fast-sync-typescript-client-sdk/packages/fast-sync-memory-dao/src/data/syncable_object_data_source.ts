@@ -8,20 +8,20 @@ export class SyncableObjectDataSource<T extends IWithId>
   constructor() {}
 
   async add(entity: T): Promise<T> {
-    this.data.set(entity.id, entity);
+    this.data.set(entity.id, entity as T);
     return entity;
   }
 
   async addMany(entities: T[]): Promise<T[]> {
     for (var i = 0; i < entities.length; i++) {
-      this.data.set(entities[i].id, entities[i]);
+      this.data.set(entities[i].id, entities[i] as T);
     }
     return entities;
   }
 
   async update(id: string, entity: T): Promise<T> {
     if (this.data.has(id)) {
-      this.data.set(id, entity);
+      this.data.set(id, entity as T);
     }
     return entity;
   }

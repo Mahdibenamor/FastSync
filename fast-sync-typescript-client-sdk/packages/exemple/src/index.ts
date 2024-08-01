@@ -6,14 +6,27 @@ import { HttpManager } from "./http/http_manager";
 
 async function main() {
   await configureFastSync();
-
   let syncManager = FastSync.getSyncManager();
-  await syncManager.pull();
+  let payload = await syncManager.pull();
   let repository = FastSync.getObjectRepository<Item>(Item.name);
   let localItems = await repository.getAll();
   localItems.forEach((element) => {
     console.log(element);
   });
+
+  // save and push element
+  let itemToSave = new Item();
+  itemToSave.name = "Item2";
+  itemToSave.description = "Item2";
+  await repository.add(itemToSave);
+  payload = await syncManager.push();
+
+  // // pull elements
+  // payload = await syncManager.pull();
+  // localItems = await repository.getAll();
+  // localItems.forEach((element) => {
+  //   console.log(element);
+  // });
 }
 async function configureFastSync() {
   FastSync.getInstance(new MemorySyncConfiguration());

@@ -10,7 +10,7 @@ export class SyncalbeRepository<T extends ISyncableObject>
 {
   private dataSource: ISyncableDataSource<T>;
 
-  constructor(dataSource: ISyncableDataSource<T>) {
+  constructor(dataSource: ISyncableDataSource<T>, private type: string) {
     this.dataSource = dataSource;
   }
 
@@ -19,10 +19,9 @@ export class SyncalbeRepository<T extends ISyncableObject>
   }
 
   async add(entity: T): Promise<T> {
-    const type = "";
     entity.metadata.syncOperation = SyncOperationEnum.add;
-    entity.metadata.type = type;
-    entity.metadata.syncZone = FastSync.getTypeSyncZone(type);
+    entity.metadata.type = this.type;
+    entity.metadata.syncZone = FastSync.getTypeSyncZone(this.type);
     entity = this._dirtyObject(entity);
     entity = this._linkMetadataId(entity, entity.metadata);
     await this.syncMetadataDataSource.add(entity.metadata);
@@ -32,11 +31,10 @@ export class SyncalbeRepository<T extends ISyncableObject>
   async addMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
     const entitiesToSave: T[] = [];
     const metadataTosave: ISyncMetadata[] = [];
-    const type = "";
     for (let entity of entities) {
       entity.metadata.syncOperation = SyncOperationEnum.add;
-      entity.metadata.type = type;
-      entity.metadata.syncZone = FastSync.getTypeSyncZone(type);
+      entity.metadata.type = this.type;
+      entity.metadata.syncZone = FastSync.getTypeSyncZone(this.type);
       entity = this._dirtyObject(entity);
       entity = this._linkMetadataId(entity, entity.metadata);
       entitiesToSave.push(entity);
@@ -91,12 +89,11 @@ export class SyncalbeRepository<T extends ISyncableObject>
   async removeMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
     const entitiesToSave: T[] = [];
     const metadataTosave: ISyncMetadata[] = [];
-    const type = "";
 
     for (let entity of entities) {
       entity.deleted = true;
       entity.metadata.syncOperation = SyncOperationEnum.delete;
-      entity.metadata.type = type;
+      entity.metadata.type = this.type;
       entity = this._dirtyObject(entity);
       entity = this._linkMetadataId(entity, entity.metadata);
       entitiesToSave.push(entity);
@@ -108,9 +105,8 @@ export class SyncalbeRepository<T extends ISyncableObject>
   }
 
   async update(entity: T): Promise<T> {
-    const type = "";
     entity.metadata.syncOperation = SyncOperationEnum.update;
-    entity.metadata.type = type;
+    entity.metadata.type = this.type;
     entity = this._dirtyObject(entity);
     entity = this._linkMetadataId(entity, entity.metadata);
     await this.syncMetadataDataSource.update(
@@ -123,11 +119,10 @@ export class SyncalbeRepository<T extends ISyncableObject>
   async updateMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
     const entitiesToSave: T[] = [];
     const metadataTosave: ISyncMetadata[] = [];
-    const type = "";
 
     for (let entity of entities) {
       entity.metadata.syncOperation = SyncOperationEnum.update;
-      entity.metadata.type = type;
+      entity.metadata.type = this.type;
       entity = this._dirtyObject(entity);
       entity = this._linkMetadataId(entity, entity.metadata);
       entitiesToSave.push(entity);
@@ -155,10 +150,9 @@ export class SyncalbeRepository<T extends ISyncableObject>
   }
 
   async hardDelete(): Promise<void> {
-    const type = "";
     const versionManager = FastSync.getSyncVersionManager();
     await this.dataSource.hardDelete();
-    await versionManager.resetTypeSyncVersion(type);
+    await versionManager.resetTypeSyncVersion(this.type);
   }
 
   private _undoRemovedEntities(entity: T): boolean {

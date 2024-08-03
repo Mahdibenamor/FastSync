@@ -6,10 +6,12 @@
         "request": "launch",
         "name": "Debug ms-locations",
         "program": "${workspaceFolder}\\packages\\exemple\\src\\index.ts",
-        "cwd": "${workspaceFolder}",
-        "sourceMaps": true,
         "runtimeArgs": ["-r","ts-node/register","-r","tsconfig-paths/register"],
-        "trace": true
+        "autoAttachChildProcesses": true,
+        "restart": true,
+        "sourceMaps": true,
+        "stopOnEntry": false,
+        "console": "integratedTerminal",
       },
     ]
 }

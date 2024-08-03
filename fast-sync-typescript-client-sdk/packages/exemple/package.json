@@ -1,0 +1,23 @@
+{
+  "name": "exemple",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "graph": " npx nx graph "
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.2.4",
+    "fast-sync-client": "file:../fast-sync-client/src",
+    "fast-sync-memory-dao": "file:../fast-sync-memory-dao/src"
+  },
+  "devDependencies": {
+    "ts-loader": "^9.4.3",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "5.3.2"
+  }
+}

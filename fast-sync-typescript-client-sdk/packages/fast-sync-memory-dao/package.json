@@ -1,0 +1,39 @@
+{
+  "name": "fast-sync-memory-dao",
+  "version": "1.0.1",
+  "description": "core version of fast sync, synchro service between 2 services distante (backend, mobile/web/service app)  ",
+  "author": "Mahdibenamor <mahdi.benamor@supcom.tn>",
+  "homepage": "https://github.com/Mahdibenamor/FastSync#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "directories": {
+    "lib": "dist"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "sync",
+    "fast",
+    "sync",
+    "database",
+    "mongoose"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mahdibenamor/FastSync.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/Mahdibenamor/FastSync/issues"
+  },
+  "dependencies": {
+    "fast-sync-client": "file:../fast-sync-client/src",
+    "fast-sync-memory-dao": "^1.0.1",
+    "typescript": "5.3.2"
+  }
+}

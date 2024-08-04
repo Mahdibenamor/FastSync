@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { ItemListComponent } from './components/item-list/item-list.component';
 import { AddUpdateItemComponent } from './components/add-update-item/add-update-item.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,14 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     AddUpdateItemComponent,
     WelcomeComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

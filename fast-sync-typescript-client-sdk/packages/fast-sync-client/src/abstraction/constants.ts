@@ -4,6 +4,7 @@ export class Constants {
   static readonly conflictsHandlerName: string = "ConflictsHandler";
   static readonly syncZoneRestriction: string = "SyncZoneConfiguration";
   static readonly globalSyncZoneRestriction: string = "Global";
+  static readonly fromJsonName: string = "fromJsonName";
   static readonly metadataTableName = "SyncMetadataTable";
   static readonly syncDataBaseName = "'sync.db'";
   static readonly syncMetadataModelName = "SyncMetadataModel";

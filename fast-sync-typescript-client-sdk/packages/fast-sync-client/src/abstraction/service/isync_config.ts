@@ -7,6 +7,7 @@ import { ISyncManager } from "./isync_manager";
 export interface ISyncConfiguration {
   setSyncableObject<T extends ISyncableObject>(
     entityType: string,
+    fromJson: (object: any) => T,
     repository: ISyncableRepository<T>
   ): void;
 
@@ -14,6 +15,8 @@ export interface ISyncConfiguration {
     entityType: string,
     repository: ISyncableRepository<T>
   ): void;
+
+  getTypeCreateFunction(type: string);
 
   getObjectRepository<T extends ISyncableObject>(
     type: string

@@ -44,6 +44,7 @@ async function configureFastSync() {
   let itemRepository = new ItemRepository();
   await FastSync.setSyncableObject(
     Item.name,
+    Item.createItem,
     itemRepository,
     SyncZoneRestrictionEnum.global
   );

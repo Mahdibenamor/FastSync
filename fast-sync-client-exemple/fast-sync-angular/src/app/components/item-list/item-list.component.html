@@ -1,0 +1,73 @@
+<div class="container is-max-desktop">
+  <div class="level">
+    <div class="level-left">
+      <h1 class="title is-4">Item List</h1>
+    </div>
+    <div class="level-right" style="padding: 10px;">
+      <button class="button is-small is-primary" (click)="push()" >Push</button>
+      <button class="button is-small is-info" (click)="pull()">Pull</button>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="field is-horizontal">
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <input class="input is-small" type="text" placeholder="Item name" [(ngModel)]="newItem.name" />
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <input class="input is-small" type="text" placeholder="Item description" [(ngModel)]="newItem.description" />
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button class="button is-primary is-small" (click)="addItem()">Add Item</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box">
+    <ul>
+      <li *ngFor="let item of items" class="media">
+        <div class="media-content">
+          <div class="content is-small-content" *ngIf="editItemId !== item.id">
+            <p>
+              <strong>name</strong>: {{ item.name }}
+              <strong>description</strong>: {{ item.description }}
+              <strong>version</strong>: {{ item.metadata.version }}
+            </p>
+            <button class="button is-small is-info is-light" (click)="editItemDetails(item)">Edit</button>
+            <button class="button is-small is-danger is-light" (click)="deleteItem(item)">Delete</button>
+          </div>
+          <div class="content is-small-content" *ngIf="editItemId === item.id">
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input class="input is-small" type="text" [(ngModel)]="editItem.name" />
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="control">
+                    <input class="input is-small" type="text" [(ngModel)]="editItem.description" />
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="control">
+                    <button class="button is-primary is-small" (click)="updateItem()">Update</button>
+                    <button class="button is-light is-small" (click)="cancelEdit()">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+.container {
+    margin-top: 20px;
+    max-width: 800px;
+  }
+  
+  .box {
+    padding: 10px;
+  }
+  
+  .media {
+    border-bottom: 1px solid #eaeaea;
+    padding: 10px 0;
+    font-size: 0.9em;
+  }
+  
+  .media:last-child {
+    border-bottom: none;
+  }
+  
+  .is-small-content {
+    font-size: 0.8em;
+  }
+  
+  .input.is-small, .button.is-small {
+    padding: 5px 10px;
+  }
+  
+  .button.is-small {
+    font-size: 0.8em;
+  }
+  
+  .field.is-horizontal .field-body .field {
+    margin-right: 10px;
+  }
+  
+  .field.is-horizontal .field-body .field:last-child {
+    margin-right: 0;
+  }

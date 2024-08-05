@@ -1,6 +1,6 @@
 {
   "name": "fast-sync-client",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "core version of fast sync, synchro service between 2 services distante (backend, mobile/web/service app)  ",
   "author": "Mahdibenamor <mahdi.benamor@supcom.tn>",
   "homepage": "https://github.com/Mahdibenamor/FastSync#readme",

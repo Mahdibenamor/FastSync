@@ -1,6 +1,6 @@
 {
   "name": "fast-sync-memory-dao",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "core version of fast sync, synchro service between 2 services distante (backend, mobile/web/service app)  ",
   "author": "Mahdibenamor <mahdi.benamor@supcom.tn>",
   "homepage": "https://github.com/Mahdibenamor/FastSync#readme",
@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "fast-sync-client": "file:../fast-sync-client/src",
-    "fast-sync-memory-dao": "^1.0.1",
     "typescript": "5.3.2"
   }
 }

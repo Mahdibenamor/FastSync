@@ -19,22 +19,26 @@ async function main() {
   itemToSave.name = "Item3";
   itemToSave.description = "Item3";
   await repository.add(itemToSave);
+
+  let itemToSave1 = new Item();
+  itemToSave1.name = "Item4";
+  itemToSave1.description = "Item4";
+  await repository.add(itemToSave1);
   payload = await syncManager.push();
   payload = await syncManager.pull();
 
-  // pull elements
-  payload = await syncManager.pull();
   localItems = await repository.getAll();
-  localItems.forEach((element) => {
-    console.log(element);
-  });
+  let elementToRemove = localItems.filter((e) => (e.name = "Item3"))[0];
+  await repository.remove(elementToRemove);
+  await syncManager.push();
+  await syncManager.pull();
 }
 async function configureFastSync() {
   FastSync.getInstance(new MemorySyncConfiguration());
   FastSync.setTypeSyncZone(
     Item.name,
     SyncZoneRestrictionEnum.restricted,
-    "user2"
+    "user"
   );
   FastSync.setHttpManager(new HttpManager());
   let itemRepository = new ItemRepository();

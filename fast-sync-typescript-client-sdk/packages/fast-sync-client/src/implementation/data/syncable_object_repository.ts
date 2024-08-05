@@ -28,7 +28,7 @@ export class SyncalbeRepository<T extends ISyncableObject>
     return await this.dataSource.add(entity);
   }
 
-  async addMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
+  async addMany(entities: T[]): Promise<T[]> {
     const entitiesToSave: T[] = [];
     const metadataTosave: ISyncMetadata[] = [];
     for (let entity of entities) {
@@ -82,11 +82,11 @@ export class SyncalbeRepository<T extends ISyncableObject>
   }
 
   async query(query: (item: T) => boolean): Promise<T[]> {
-    const items = await this.getAll();
+    const items = await this.dataSource.getAll();
     return items.filter(query);
   }
 
-  async removeMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
+  async removeMany(entities: T[]): Promise<T[]> {
     const entitiesToSave: T[] = [];
     const metadataTosave: ISyncMetadata[] = [];
 
@@ -104,6 +104,20 @@ export class SyncalbeRepository<T extends ISyncableObject>
     return await this.dataSource.updateMany(entitiesToSave);
   }
 
+  async remove(entity: T): Promise<T> {
+    entity.deleted = true;
+    entity.metadata.syncOperation = SyncOperationEnum.delete;
+    entity.metadata.type = this.type;
+    entity = this._dirtyObject(entity);
+    entity = this._linkMetadataId(entity, entity.metadata);
+    await this.syncMetadataDataSource.update(
+      entity.metadata.id,
+      entity.metadata
+    );
+    this.dataSource.update(entity.id, entity);
+    return entity;
+  }
+
   async update(entity: T): Promise<T> {
     entity.metadata.syncOperation = SyncOperationEnum.update;
     entity.metadata.type = this.type;
@@ -116,7 +130,7 @@ export class SyncalbeRepository<T extends ISyncableObject>
     return await this.dataSource.update(entity.id, entity);
   }
 
-  async updateMany(entities: T[], metadata: ISyncMetadata): Promise<T[]> {
+  async updateMany(entities: T[]): Promise<T[]> {
     const entitiesToSave: T[] = [];
     const metadataTosave: ISyncMetadata[] = [];
 

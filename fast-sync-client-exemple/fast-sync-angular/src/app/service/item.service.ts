@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Item } from '../item/item';
 import { BehaviorSubject } from 'rxjs';
-import { FastSync, SyncMetadata } from 'fast-sync-client';
+import { FastSync } from 'fast-sync-client';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +31,7 @@ export class ItemService {
   }
 
   async deleteItem(item: Item) {
-    await this.itemRepository.removeMany([item], new SyncMetadata('', 9, ''));
+    await this.itemRepository.remove(item);
     await this.getAllLocal();
   }
 

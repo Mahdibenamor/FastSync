@@ -39,7 +39,8 @@
             <p>
               <strong>name</strong>: {{ item.name }}
               <strong>description</strong>: {{ item.description }}
-              <strong>version</strong>: {{ item.metadata.version }}
+              <strong>version</strong>: {{ item.getVersion() }}
+              <strong>sync Zone</strong>: {{ item.metadata.getSyncZone() }}
             </p>
             <button class="button is-small is-info is-light" (click)="editItemDetails(item)">Edit</button>
             <button class="button is-small is-danger is-light" (click)="deleteItem(item)">Delete</button>

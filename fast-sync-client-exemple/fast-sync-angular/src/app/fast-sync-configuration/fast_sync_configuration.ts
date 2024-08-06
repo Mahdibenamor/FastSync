@@ -16,6 +16,7 @@ export function configureClientFastSync(itemSyncZone: string) {
   );
   FastSync.setSyncableObject(
     Item.name,
+    Item.createItem,
     itemRepository,
     SyncZoneRestrictionEnum.global
   );

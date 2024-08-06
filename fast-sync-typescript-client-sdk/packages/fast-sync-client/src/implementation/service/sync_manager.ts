@@ -94,7 +94,12 @@ export class SyncManager implements ISyncManager {
       const repository: ISyncableRepository<ISyncableObject> =
         FastSync.getObjectRepository(type);
       const pushedItems: ISyncableObject[] = payload.getObjectsForType(type);
-      await repository.undirtyList(pushedItems);
+      const createFunction = FastSync.getTypeCreateFunction(type);
+      let list = pushedItems.map((item) => createFunction(item));
+      // for (var i = 0; i < pushedItems.length; i++) {
+      //   list.push(createFunction(pushedItems[i]));
+      // }
+      await repository.undirtyList(list);
     }
   }
 

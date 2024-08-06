@@ -16,8 +16,17 @@ export class SyncableObject implements ISyncableObject {
   public syncOperation: SyncOperationEnum;
   public metadataId: string = Constants.emptyString;
   public dirty: boolean = false;
-
   constructor() {}
+
+  static create<T extends SyncableObject>(object: T, target?: T): T {
+    target.id = object.id;
+    target.metadata = SyncMetadata.create(object.metadata);
+    target.deleted = object.deleted;
+    target.syncOperation = object.syncOperation;
+    target.metadataId = object.metadataId;
+    target.dirty = object.dirty;
+    return target;
+  }
 
   getVersion() {
     return this.metadata.version;

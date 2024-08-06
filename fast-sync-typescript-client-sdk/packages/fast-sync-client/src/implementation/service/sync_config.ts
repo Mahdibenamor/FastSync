@@ -23,12 +23,23 @@ export class SyncConfiguration implements ISyncConfiguration {
 
   setSyncableObject<T extends ISyncableObject>(
     entityType: string,
+    fromJson: (object: any) => T,
     repository: ISyncableRepository<T>
   ): void {
     this.syncableTypes.push(entityType);
+    this.namedInstances[entityType + Constants.fromJsonName] = fromJson;
     this.setObjectRepository(entityType, repository);
   }
 
+  getTypeCreateFunction(type: string) {
+    const fromJson = this.namedInstances[type + Constants.fromJsonName];
+    if (!fromJson) {
+      throw new Error(
+        `Create Function ${type} is not configured well, please check the documentation to create the syncalbe object`
+      );
+    }
+    return fromJson;
+  }
   setObjectRepository<T extends ISyncableObject>(
     entityType: string,
     repository: ISyncableRepository<T>

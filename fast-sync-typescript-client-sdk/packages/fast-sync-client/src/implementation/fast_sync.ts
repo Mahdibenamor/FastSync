@@ -47,6 +47,7 @@ export class FastSync {
 
   static setSyncableObject<T extends ISyncableObject>(
     type: string,
+    fromJson: (object: any) => T,
     repository: ISyncableRepository<T>,
     syncZoneRestriction: SyncZoneRestrictionEnum = SyncZoneRestrictionEnum.global
   ): void {
@@ -54,8 +55,15 @@ export class FastSync {
       throw new Error("Sync configuration is not set.");
     }
     const syncConfiguration = FastSync.instance.syncConfiguration;
-    syncConfiguration.setSyncableObject(type, repository);
+    syncConfiguration.setSyncableObject(type, fromJson, repository);
     FastSync.setSyncConfiguration(syncConfiguration);
+  }
+
+  static getTypeCreateFunction(type: string) {
+    if (!FastSync.instance || !FastSync.instance.syncConfiguration) {
+      throw new Error("Sync configuration is not set.");
+    }
+    return FastSync.instance.syncConfiguration.getTypeCreateFunction(type);
   }
 
   static getObjectRepository<T extends ISyncableObject>(

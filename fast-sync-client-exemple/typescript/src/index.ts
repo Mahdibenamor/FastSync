@@ -34,12 +34,13 @@ async function configureFastSync() {
   FastSync.setTypeSyncZone(
     Item.name,
     SyncZoneRestrictionEnum.restricted,
-    "user2"
+    "user"
   );
   FastSync.setHttpManager(new HttpManager());
   let itemRepository = new ItemRepository();
   await FastSync.setSyncableObject(
     Item.name,
+    Item.createItem,
     itemRepository,
     SyncZoneRestrictionEnum.global
   );

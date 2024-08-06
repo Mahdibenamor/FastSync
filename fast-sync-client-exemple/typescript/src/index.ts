@@ -21,8 +21,10 @@ async function main() {
   await repository.add(itemToSave);
   payload = await syncManager.push();
   payload = await syncManager.pull();
+  //  await syncManager.sync();
 
   // pull elements
+  payload = await syncManager.hardReset();
   payload = await syncManager.pull();
   localItems = await repository.getAll();
   localItems.forEach((element) => {

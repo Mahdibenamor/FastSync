@@ -46,4 +46,16 @@ export class ItemService {
     await syncManager.push();
     await this.getAllLocal();
   }
+
+  async hardreset() {
+    let syncManager = FastSync.getSyncManager();
+    await syncManager.hardReset([Item]);
+    await this.getAllLocal();
+  }
+
+  async sync() {
+    let syncManager = FastSync.getSyncManager();
+    await syncManager.sync();
+    await this.getAllLocal();
+  }
 }

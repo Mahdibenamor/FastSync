@@ -72,4 +72,12 @@ export class ItemListComponent {
   async push() {
     await this.itemService.push();
   }
+
+  async hardreset() {
+    await this.itemService.hardreset();
+  }
+
+  async sync() {
+    await this.itemService.sync();
+  }
 }
